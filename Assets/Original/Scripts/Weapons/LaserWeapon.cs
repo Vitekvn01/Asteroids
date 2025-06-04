@@ -5,7 +5,7 @@ public class LaserWeapon : StandardWeapon
 {
     private const int RefillAmmo = 1;
     
-    private const float RefillTime = 10f;
+    private readonly float _refillTime;
     
     private int _ammo;
     
@@ -13,11 +13,13 @@ public class LaserWeapon : StandardWeapon
     
     public event Action OnShootEvent;
 
-    public LaserWeapon(int startAmmo, float cooldownTime) : base(cooldownTime)
+    public LaserWeapon(int startAmmo, float cooldownTime, float refillTime, Transform shootPoint,
+        IProjectileFactory projectileFactory) : base(cooldownTime, shootPoint, projectileFactory)
     {
         _ammo = startAmmo;
         _shootTimer = 0;
-        _refillTimer = RefillTime;
+        _refillTime = refillTime;
+        _refillTimer = _refillTime;
     }
     
     public override bool TryShoot()
@@ -30,6 +32,8 @@ public class LaserWeapon : StandardWeapon
             OnShootEvent?.Invoke();
             _shootTimer = _cooldownTime; 
             isCanShoot = true;
+            Debug.Log("ShootLaserWeapon");
+            _isCooldownOver = false;
         }
 
         return isCanShoot;
@@ -39,6 +43,7 @@ public class LaserWeapon : StandardWeapon
     {
         base.Tick();
         UpdateRefillTimer();
+
     }
 
     public void AddAmmo(int count)
@@ -53,7 +58,7 @@ public class LaserWeapon : StandardWeapon
         if (_refillTimer <= 0)
         {
             AddAmmo(RefillAmmo);
-            _refillTimer = RefillTime;
+            _refillTimer = _refillTime;
         }
     }
 

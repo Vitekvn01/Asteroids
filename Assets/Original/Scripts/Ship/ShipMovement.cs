@@ -5,7 +5,6 @@ public class ShipMovement
 {
     private readonly ShipBehaviour _shipBehaviour;
     private readonly CustomPhysics _physics;
-    private readonly ICustomPhysicsFactory _physicsFactory;
     
     private readonly float _moveSpeed;
     private readonly float _rotationSpeed;
@@ -14,11 +13,10 @@ public class ShipMovement
     public ShipMovement(ShipBehaviour shipBehaviour, ICustomPhysicsFactory physicsFactory, float moveSpeed, float rotationSpeed)
     {
         _shipBehaviour = shipBehaviour;
-        _physicsFactory = physicsFactory;
         _moveSpeed = moveSpeed;
         _rotationSpeed = rotationSpeed;
         
-        _physics = _physicsFactory.Create(_shipBehaviour.transform.position);
+        _physics = physicsFactory.Create(_shipBehaviour.transform.position, 0);
     }
     
     public void Move(float moveInput, float rotationInput)

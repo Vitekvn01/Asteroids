@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -17,9 +15,10 @@ public class CustomPhysics : ITickable
     public Vector2 Velocity => _velocity;
     public float Rotation => _rotation;
 
-    public CustomPhysics(Vector2 startPos, PhysicsSettings physicsSettings)
+    public CustomPhysics(Vector2 startPos, float startRot, PhysicsSettings physicsSettings)
     {
         _position = startPos;
+        _rotation = startRot;
         _physicsSettings = physicsSettings;
     }
 

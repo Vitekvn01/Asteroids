@@ -4,5 +4,7 @@ public interface IInput
 
    public float GetAxisY();
 
-   public bool CheckGetButtonDown(string nameInput);
+   public bool CheckPressedFirePrimary();
+
+   public bool CheckPressedFireSecondary();
 }

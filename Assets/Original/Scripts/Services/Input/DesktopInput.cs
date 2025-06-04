@@ -5,6 +5,10 @@ public class DesktopInput : IInput, ITickable
 {
     private const string AxisX = "Horizontal";
     private const string AxisY = "Vertical";
+    
+    private const string FirePrimary = "Fire1";
+    private const string FireSecondary = "Fire2";
+
 
     public float GetAxisX()
     {
@@ -16,9 +20,16 @@ public class DesktopInput : IInput, ITickable
         return Input.GetAxisRaw(AxisY);
     }
 
-    public bool CheckGetButtonDown(string nameInput)
+    public bool CheckPressedFirePrimary()
     {
-        return Input.GetButtonDown(nameInput);
+        Debug.Log( "firePrimary " + Input.GetButton(FirePrimary));
+        return Input.GetButton(FirePrimary);
+    }
+    
+    public bool CheckPressedFireSecondary()
+    {
+        Debug.Log( "firePrimary " + Input.GetButton(FireSecondary));
+        return Input.GetButton(FireSecondary);
     }
 
     public void Tick()

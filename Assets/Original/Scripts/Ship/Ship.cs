@@ -18,10 +18,10 @@ public class Ship
     public event Action OnDeathEvent;
     
     [Inject]
-    public Ship([Inject(Id = "LaserWeapon")] IWeapon laserWeapon, [Inject(Id = "StandardWeapon")] IWeapon standardWeapon)
+    public Ship(ShipBehaviour behaviour, IWeaponFactory weaponFactory)
     {
-        _laserWeapon = laserWeapon;
-        _standardWeapon = standardWeapon;
+        _laserWeapon = weaponFactory.Create(WeaponType.LaserWeapon, behaviour.ShootPoint);
+        _standardWeapon = weaponFactory.Create(WeaponType.StandardWeapon, behaviour.ShootPoint);;
         _health = StartHealth;
     }
 

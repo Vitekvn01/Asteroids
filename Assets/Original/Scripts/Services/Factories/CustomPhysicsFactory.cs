@@ -7,14 +7,14 @@ public class CustomPhysicsFactory : ICustomPhysicsFactory
     private readonly PhysicsSettings _settings;
     
     [Inject]
-    public CustomPhysicsFactory(TickableManager tickableManager, PhysicsSettings _physicsSettings)
+    public CustomPhysicsFactory(TickableManager tickableManager, PhysicsSettings physicsSettings)
     {
         _tickableManager = tickableManager;
-        _settings = _physicsSettings;
+        _settings = physicsSettings;
     }
-    public CustomPhysics Create(Vector2 pos)
+    public CustomPhysics Create(Vector2 pos, float rotation)
     {
-        var created = new CustomPhysics(pos, _settings);
+        var created = new CustomPhysics(pos, rotation, _settings);
         _tickableManager.Add(created);
         return created;
     }

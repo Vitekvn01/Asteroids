@@ -2,9 +2,6 @@ using Zenject;
 
 public class ShipController : ITickable
 {
-    private const string LaserFireButton = "Fire1";
-    private const string BulletFireButton = "Fire2";
-
     private ShipBehaviour _shipBehaviour;
     private Ship _ship;
     private ShipMovement _shipMovement;
@@ -27,12 +24,12 @@ public class ShipController : ITickable
         
         _shipMovement.Move(axisY, axisX);
 
-        if (_input.CheckGetButtonDown(LaserFireButton))
+        if (_input.CheckPressedFireSecondary())
         {
             _ship.LaserWeapon.TryShoot();
         }
 
-        if (_input.CheckGetButtonDown(BulletFireButton))
+        if (_input.CheckPressedFirePrimary())
         {
             _ship.BulletWeapon.TryShoot();
         }
