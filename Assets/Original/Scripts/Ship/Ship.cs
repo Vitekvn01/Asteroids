@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Zenject;
 
 public class Ship
@@ -8,20 +9,22 @@ public class Ship
     
     private int _health;
 
-    private IWeapon _laserWeapon;
-    private IWeapon _standardWeapon;
-
-    public IWeapon LaserWeapon => _laserWeapon;
-    public IWeapon BulletWeapon => _standardWeapon;
+    private IWeapon _primaryWeapon;
+    private IWeapon _secondaryWeapon;
+    
+    private float _timerTest;
+    
+    public IWeapon PrimaryWeapon => _primaryWeapon;
+    public IWeapon SecondaryWeapon => _secondaryWeapon;
 
     public event Action<int> OnHealthChangedEvent;
     public event Action OnDeathEvent;
     
     [Inject]
-    public Ship(ShipBehaviour behaviour, IWeaponFactory weaponFactory)
+    public Ship(ShipBehaviour behaviour, IWeapon primaryWeapon,  IWeapon secondaryWeapon)
     {
-        _laserWeapon = weaponFactory.Create(WeaponType.LaserWeapon, behaviour.ShootPoint);
-        _standardWeapon = weaponFactory.Create(WeaponType.StandardWeapon, behaviour.ShootPoint);;
+        _primaryWeapon = primaryWeapon;
+        _secondaryWeapon = secondaryWeapon;
         _health = StartHealth;
     }
 
@@ -36,5 +39,18 @@ public class Ship
         }
         
         OnHealthChangedEvent?.Invoke(_health);
+    }
+
+    public void Update()
+    {
+        _primaryWeapon.Update();
+        _secondaryWeapon.Update();
+
+        /*_timerTest += Time.deltaTime;
+
+        if (_timerTest >= 5)
+        {
+            OnDeathEvent?.Invoke();
+        }*/
     }
 }

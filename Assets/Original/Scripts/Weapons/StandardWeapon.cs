@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using Zenject;
 
-public class StandardWeapon : IWeapon, ITickable
+public class StandardWeapon : IWeapon
 {
     protected readonly float _cooldownTime;
     
@@ -54,7 +53,7 @@ public class StandardWeapon : IWeapon, ITickable
         }
     }
 
-    public virtual void Tick()
+    public virtual void Update()
     {
         UpdateShootTimer();
     }

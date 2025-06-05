@@ -3,13 +3,14 @@ using Zenject;
 
 public class CustomPhysics : ITickable
 {
+    private readonly PhysicsSettings _physicsSettings;
+    
+    
     private Vector2 _position;
     private Vector2 _velocity;
-    private float _rotation;
-
-    private PhysicsSettings _physicsSettings;
-
     private Vector2 _accumulatedForce;
+    
+    private float _rotation;
     
     public Vector2 Position => _position;
     public Vector2 Velocity => _velocity;

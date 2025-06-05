@@ -10,13 +10,13 @@ public class ShipMovement
     private readonly float _rotationSpeed;
     
     [Inject]
-    public ShipMovement(ShipBehaviour shipBehaviour, ICustomPhysicsFactory physicsFactory, float moveSpeed, float rotationSpeed)
+    public ShipMovement(ShipBehaviour shipBehaviour, CustomPhysics physics, float moveSpeed, float rotationSpeed)
     {
         _shipBehaviour = shipBehaviour;
         _moveSpeed = moveSpeed;
         _rotationSpeed = rotationSpeed;
         
-        _physics = physicsFactory.Create(_shipBehaviour.transform.position, 0);
+        _physics = physics;
     }
     
     public void Move(float moveInput, float rotationInput)

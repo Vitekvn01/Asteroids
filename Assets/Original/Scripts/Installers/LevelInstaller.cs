@@ -1,12 +1,11 @@
 using UnityEngine;
 using Zenject;
 
-public class ShipInstaller : MonoInstaller
+public class LevelInstaller : MonoInstaller
 {
     [SerializeField] private ProjectileBehavior _projectilePrefab;
     [SerializeField] private ShipBehaviour _shipPrefab;
-    [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _rotationSpeed = 180f;
+
 
     public override void InstallBindings()
     {
@@ -14,19 +13,18 @@ public class ShipInstaller : MonoInstaller
         BindSettings();
         BindFactories();
         BindGameLogic();
+        BindShipLogic();
     }
 
     private void BindPrefabs()
     {
         Container.Bind<ShipBehaviour>()
-            .FromComponentInNewPrefab(_shipPrefab)
-            .AsSingle()
-            .NonLazy();
+            .FromInstance(_shipPrefab)
+            .AsSingle();
 
         Container.Bind<ProjectileBehavior>()
             .FromInstance(_projectilePrefab)
-            .AsSingle()
-            .NonLazy();
+            .AsSingle();
     }
 
     private void BindSettings()
@@ -49,11 +47,17 @@ public class ShipInstaller : MonoInstaller
         Container.Bind<IProjectileFactory>()
             .To<ProjectileFactory>()
             .AsSingle();
+
+        Container.Bind<IShipFactory>()
+            .To<ShipFactory>()
+            .AsSingle();
     }
 
     private void BindGameLogic()
     {
-
+        Container.BindInterfacesAndSelfTo<PlayerSpawner>()
+            .AsSingle()
+            .NonLazy();
 
         Container.Bind<IInput>()
             .To<DesktopInput>()
@@ -64,15 +68,14 @@ public class ShipInstaller : MonoInstaller
 
     private void BindShipLogic()
     {
-        Container.Bind<Ship>()
-            .AsSingle();
+        /*Container.Bind<Ship>()
+            .AsTransient();
         
         Container.Bind<ShipMovement>()
-            .AsSingle()
+            .AsTransient()
             .WithArguments(_moveSpeed, _rotationSpeed);
 
         Container.BindInterfacesAndSelfTo<ShipController>()
-            .AsSingle()
-            .NonLazy();
+            .AsTransient();*/
     }
 }

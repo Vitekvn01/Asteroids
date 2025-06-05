@@ -39,9 +39,9 @@ public class LaserWeapon : StandardWeapon
         return isCanShoot;
     }
 
-    public override void Tick()
+    public override void Update()
     {
-        base.Tick();
+        base.Update();
         UpdateRefillTimer();
 
     }

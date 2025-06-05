@@ -4,13 +4,11 @@ using Zenject;
 
 public class WeaponFactory : IWeaponFactory
 {
-    private readonly TickableManager _tickableManager;
     private readonly IProjectileFactory _projectileFactory;
     
     [Inject]
-    public WeaponFactory(TickableManager tickableManager, IProjectileFactory projectileFactory)
+    public WeaponFactory(IProjectileFactory projectileFactory)
     {
-        _tickableManager = tickableManager;
         _projectileFactory = projectileFactory;
     }
     
@@ -30,7 +28,6 @@ public class WeaponFactory : IWeaponFactory
                 throw new ArgumentException("Unknown weapon type", nameof(weaponType));
         }
         
-        _tickableManager.Add((StandardWeapon)created);
         return created;
     }
 }
