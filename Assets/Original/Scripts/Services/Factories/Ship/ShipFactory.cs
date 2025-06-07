@@ -29,7 +29,7 @@ public class ShipFactory : IShipFactory
         IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon, behaviour.ShootPoint);
         IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon, behaviour.ShootPoint);
 
-        CustomPhysics customPhysics = _physicsFactory.Create(pos, rot);
+        CustomPhysics customPhysics = _physicsFactory.Create(pos, rot, behaviour.transform.localScale.x);
         
         var ship = new Ship(behaviour, standardWeapon, laserWeapon);
         var movement = new ShipMovement(behaviour, customPhysics, 10, 100);

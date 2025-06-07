@@ -22,7 +22,7 @@ public class ProjectileFactory : IProjectileFactory
         ProjectileBehavior createdView =
             _diContainer.InstantiatePrefabForComponent<ProjectileBehavior>(_standardProjectilePrefab.gameObject, position, rotation, null);
 
-        CustomPhysics physics = _physicsFactory.Create(createdView.transform.position, createdView.transform.rotation.eulerAngles.z);
+        CustomPhysics physics = _physicsFactory.Create(createdView.transform.position, createdView.transform.rotation.eulerAngles.z, createdView.transform.localScale.x);
 
         Projectile created = new Projectile(createdView, physics);
         _tickableManager.Add(created);

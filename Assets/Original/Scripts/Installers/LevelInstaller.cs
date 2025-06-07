@@ -63,7 +63,8 @@ public class LevelInstaller : MonoInstaller
             .To<DesktopInput>()
             .AsSingle();
 
-
+        Container.Bind<CollisionWord>()
+            .AsSingle();
     }
 
     private void BindShipLogic()
