@@ -17,10 +17,10 @@ public class ProjectileFactory : IProjectileFactory
         _physicsFactory = physicsFactory;
     }
 
-    public Projectile Create(Vector3 position, Quaternion rotation)
+    public Projectile Create(Vector3 position, float rotation = 0, Transform parent = null)
     {
         ProjectileBehavior createdView =
-            _diContainer.InstantiatePrefabForComponent<ProjectileBehavior>(_standardProjectilePrefab.gameObject, position, rotation, null);
+            _diContainer.InstantiatePrefabForComponent<ProjectileBehavior>(_standardProjectilePrefab.gameObject, position, Quaternion.Euler(0, 0, rotation), parent);
 
         CustomPhysics physics = _physicsFactory.Create(createdView.transform.position, createdView.transform.rotation.eulerAngles.z, createdView.transform.localScale.x);
 

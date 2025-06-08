@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class StandardWeapon : IWeapon
 {
@@ -9,35 +10,36 @@ public class StandardWeapon : IWeapon
     
     protected bool _isCooldownOver;
 
-    protected IProjectileFactory _projectileFactory;
-
-    protected Transform _shootPoint;
+    protected IObjectPool<Projectile> _projectilePool;
+    
 
     public float ShootTimer => _shootTimer;
 
     public event Action OnShootEvent;
-
-    public StandardWeapon(float cooldownTime, Transform shootPoint, IProjectileFactory projectileFactory)
+    
+    [Inject]
+    public StandardWeapon(float cooldownTime, IObjectPool<Projectile> projectilePool)
     {
         _cooldownTime = cooldownTime;
-        _shootPoint = shootPoint;
-        _projectileFactory = projectileFactory;
+        _projectilePool = projectilePool;
         
         _shootTimer = 0;
         _isCooldownOver = true;
     }
-    public virtual bool TryShoot()
+    
+
+    public virtual bool TryShoot(Vector2 position, Quaternion rotation)
     {
         bool isCanShoot = false;
 
-        if (_isCooldownOver == true)
+        if (_isCooldownOver)
         {
             OnShootEvent?.Invoke();
             _shootTimer = _cooldownTime;
             isCanShoot = true;
             Debug.Log("ShootStandartWeapon" );
             _isCooldownOver = false;
-            _projectileFactory.Create(_shootPoint.position, _shootPoint.rotation);
+            _projectilePool.Get(position, rotation.eulerAngles.z);
         }
 
         return isCanShoot;

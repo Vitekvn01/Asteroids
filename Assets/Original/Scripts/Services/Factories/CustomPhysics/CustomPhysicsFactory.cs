@@ -17,7 +17,7 @@ public class CustomPhysicsFactory : ICustomPhysicsFactory
     public CustomPhysics Create(Vector2 pos, float rotation, float radius)
     {
         var created = new CustomPhysics(pos, rotation, radius, _settings, _collisionWord);
-        _collisionWord.Register(created);
+        /*_collisionWord.Register(created);*/
         _tickableManager.Add(created);
         return created;
     }

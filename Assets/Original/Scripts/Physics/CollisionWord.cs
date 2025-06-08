@@ -1,52 +1,43 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CollisionWord
 {
-    private readonly List<CustomPhysics> _bodies = new();
+    /*private readonly List<CustomPhysics> _bodies = new();
 
     public void Register(CustomPhysics body) => _bodies.Add(body);
     public void Unregister(CustomPhysics body) => _bodies.Remove(body);
 
-    public bool TryGetCorrection(CustomPhysics self, out Vector2 correction)
+    public void ResolveAll()
     {
-        Debug.Log("TryGetCorrection");
-        
-        foreach (var other in _bodies)
+        for (int i = 0; i < _bodies.Count; i++)
         {
-            if (other == self) continue;
-
-            float dist = Vector2.Distance(self.Position, other.Position);
-            float minDist = self.Radius + other.Radius;
-
-            if (dist < minDist)
+            for (int j = i + 1; j < _bodies.Count; j++)
             {
-                Vector2 dir = (self.Position - other.Position).normalized;
-                correction = dir * (minDist - dist);
-                return true;
+                ResolveCollision(_bodies[i], _bodies[j]);
             }
         }
-        
-
-        correction = Vector2.zero;
-        return false;
     }
-    
-    public void ResolveCollision(CustomPhysics a, CustomPhysics b)
+
+    private void ResolveCollision(CustomPhysics a, CustomPhysics b)
     {
         Vector2 delta = a.Position - b.Position;
         float dist = delta.magnitude;
         float minDist = a.Radius + b.Radius;
 
-        if (dist < minDist)
-        {
-            Vector2 normal = delta.normalized;
-            float penetration = minDist - dist;
-            Vector2 correction = normal * (penetration / 2f);
+        if (dist >= minDist)
+            return;
 
-            a.ApplyCollision(correction, normal);
-            b.ApplyCollision(-correction, -normal);
-        }
-    }
+        Vector2 normal = delta.normalized;
+        float penetration = minDist - dist;
+
+        // Сдвигаем их друг от друга
+        Vector2 correction = normal * (penetration / 2f);
+        a.SetPosition(a.Position + correction);
+        b.SetPosition(b.Position - correction);
+
+        // Отражаем скорость от нормали
+        a.SetVelocity(Vector2.Reflect(a.Velocity, normal) * a.Bounce);
+        b.SetVelocity(Vector2.Reflect(b.Velocity, -normal) * b.Bounce);
+    }*/
 }

@@ -25,14 +25,14 @@ public class ShipFactory : IShipFactory
     public ShipController Create(Vector2 pos, float rot = 0)
     {
         var behaviour = _diContainer.InstantiatePrefabForComponent<ShipBehaviour>(_shipBehaviourPrefab.gameObject, pos, Quaternion.Euler(0,0, rot), null);
-
-        IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon, behaviour.ShootPoint);
-        IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon, behaviour.ShootPoint);
-
-        CustomPhysics customPhysics = _physicsFactory.Create(pos, rot, behaviour.transform.localScale.x);
+        
+        CustomPhysics customPhysics = _physicsFactory.Create(pos, behaviour.transform.rotation.eulerAngles.z, behaviour.transform.localScale.x);
+        
+        IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
+        IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);
         
         var ship = new Ship(behaviour, standardWeapon, laserWeapon);
-        var movement = new ShipMovement(behaviour, customPhysics, 10, 100);
+        var movement = new ShipMovement(behaviour, ship, customPhysics);
         var controller = new ShipController(_input, ship, behaviour, movement);
         
         _tickableManager.Add(controller);

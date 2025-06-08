@@ -20,10 +20,11 @@ public class CustomPhysics : ITickable
 
     public float Radius => _radius;
 
-    public CustomPhysics(Vector2 startPos, float radius, float startRot, PhysicsSettings physicsSettings, CollisionWord collisionWord)
+    public CustomPhysics(Vector2 startPos, float startRot, float radius, PhysicsSettings physicsSettings, CollisionWord collisionWord)
     {
         _position = startPos;
         _rotation = startRot;
+        Debug.Log("Rotation " + _rotation);
         _radius = radius;
         _physicsSettings = physicsSettings;
         _collisionWord = collisionWord;
@@ -48,26 +49,18 @@ public class CustomPhysics : ITickable
         _position += _velocity * deltaTime;
         _accumulatedForce = Vector2.zero;
         
-        if (_collisionWord.TryGetCorrection(this, out Vector2 correction))
-        {
-            HandleCollision(correction);
-            Debug.Log("TryGetCorrection == true");
-        }
     }
     
-    public void ApplyCollision(Vector2 correction, Vector2 normal)
+    public void SetVelocity(Vector2 velocity)
     {
-        _position += correction;
-        _velocity = Vector2.Reflect(_velocity, normal) * _physicsSettings.Bounce;
+        _velocity = velocity;
     }
-
-
     public void SetRotation(float angle)
     {
         _rotation = angle;
     }
     
-    public void SetPostion(Vector2 pos)
+    public void SetPosition(Vector2 pos)
     {
         _position = pos;
     }
@@ -79,14 +72,6 @@ public class CustomPhysics : ITickable
     
     private void HandleCollision(Vector2 correction)
     {
-        Debug.Log("HandleCollision");
-        _position += correction;
 
-        // Отражаем скорость от поверхности столкновения
-        Vector2 normal = correction.normalized;
-        _velocity = Vector2.Reflect(_velocity, normal);
-
-        // Можно также добавить небольшое трение или потерю энергии:
-        // _velocity *= 0.8f;
     }
 }

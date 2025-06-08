@@ -9,8 +9,7 @@ public class PlayerSpawner
    public PlayerSpawner(IShipFactory shipFactory)
    {
       _shipFactory = shipFactory;
-      Spawn(new Vector2(0, 100), 180);
-      Spawn(new Vector2(0, 0), 0);
+      Spawn(new Vector2(0, 0), 100);
    }
 
    public void Spawn(Vector2 pos, float rot = 0)

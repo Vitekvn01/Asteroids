@@ -13,8 +13,8 @@ public class LaserWeapon : StandardWeapon
     
     public event Action OnShootEvent;
 
-    public LaserWeapon(int startAmmo, float cooldownTime, float refillTime, Transform shootPoint,
-        IProjectileFactory projectileFactory) : base(cooldownTime, shootPoint, projectileFactory)
+    public LaserWeapon(int startAmmo, float cooldownTime, float refillTime,
+        IObjectPool<Projectile> projectilePool) : base(cooldownTime, projectilePool)
     {
         _ammo = startAmmo;
         _shootTimer = 0;
@@ -22,7 +22,7 @@ public class LaserWeapon : StandardWeapon
         _refillTimer = _refillTime;
     }
     
-    public override bool TryShoot()
+    public override bool TryShoot(Vector2 position, Quaternion rotation)
     {
         bool isCanShoot = false;
 
@@ -43,10 +43,9 @@ public class LaserWeapon : StandardWeapon
     {
         base.Update();
         UpdateRefillTimer();
-
     }
 
-    public void AddAmmo(int count)
+    private void AddAmmo(int count)
     {
         _ammo += count;
     }

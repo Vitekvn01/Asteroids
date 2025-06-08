@@ -13,7 +13,7 @@ public class LevelInstaller : MonoInstaller
         BindSettings();
         BindFactories();
         BindGameLogic();
-        BindShipLogic();
+        BindPools();
     }
 
     private void BindPrefabs()
@@ -67,16 +67,15 @@ public class LevelInstaller : MonoInstaller
             .AsSingle();
     }
 
+    private void BindPools()
+    {
+        Container.Bind<IObjectPool<Projectile>>()
+            .To<ProjectilePool>()
+            .AsSingle();
+    }
+
     private void BindShipLogic()
     {
-        /*Container.Bind<Ship>()
-            .AsTransient();
-        
-        Container.Bind<ShipMovement>()
-            .AsTransient()
-            .WithArguments(_moveSpeed, _rotationSpeed);
 
-        Container.BindInterfacesAndSelfTo<ShipController>()
-            .AsTransient();*/
     }
 }

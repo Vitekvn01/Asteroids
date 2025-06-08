@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 using Zenject;
 
 public class Ship
@@ -7,12 +6,18 @@ public class Ship
     private const int StartHealth = 3;
     private const int MaxRemoveHealth = 1;
     
+    private readonly float _moveSpeed = 10;
+    private readonly float _rotationSpeed = 100;
+    
     private int _health;
-
+    
+    private float _timerTest;
+    
     private IWeapon _primaryWeapon;
     private IWeapon _secondaryWeapon;
     
-    private float _timerTest;
+    public float MoveSpeed => _moveSpeed;
+    public float RotationSpeed => _rotationSpeed;
     
     public IWeapon PrimaryWeapon => _primaryWeapon;
     public IWeapon SecondaryWeapon => _secondaryWeapon;
@@ -20,8 +25,7 @@ public class Ship
     public event Action<int> OnHealthChangedEvent;
     public event Action OnDeathEvent;
     
-    [Inject]
-    public Ship(ShipBehaviour behaviour, IWeapon primaryWeapon,  IWeapon secondaryWeapon)
+    public Ship(ShipBehaviour behaviour, IWeapon primaryWeapon, IWeapon secondaryWeapon)
     {
         _primaryWeapon = primaryWeapon;
         _secondaryWeapon = secondaryWeapon;
@@ -45,12 +49,5 @@ public class Ship
     {
         _primaryWeapon.Update();
         _secondaryWeapon.Update();
-
-        /*_timerTest += Time.deltaTime;
-
-        if (_timerTest >= 5)
-        {
-            OnDeathEvent?.Invoke();
-        }*/
     }
 }

@@ -11,7 +11,6 @@ public class ShipController : ITickable, IDisposable
 
     private bool _isAlive = false;
     
-    [Inject]
     public ShipController(IInput input, Ship ship, ShipBehaviour behaviour, ShipMovement shipMovement)
     {
         _input = input;
@@ -31,18 +30,18 @@ public class ShipController : ITickable, IDisposable
             float axisX = _input.GetAxisX();
             float axisY = _input.GetAxisY();
         
-            _shipMovement.Move(axisY, axisX);
+            _shipMovement.Move(axisY, -axisX);
         
             _ship.Update();
 
             if (_input.CheckPressedFireSecondary())
             {
-                _ship.PrimaryWeapon.TryShoot();
+                _ship.PrimaryWeapon.TryShoot(_shipBehaviour.ShootPoint.position,_shipBehaviour.ShootPoint.rotation );
             }
 
             if (_input.CheckPressedFirePrimary())
             {
-                _ship.SecondaryWeapon.TryShoot();
+                _ship.SecondaryWeapon.TryShoot(_shipBehaviour.ShootPoint.position,_shipBehaviour.ShootPoint.rotation );
             }
         }
     }
