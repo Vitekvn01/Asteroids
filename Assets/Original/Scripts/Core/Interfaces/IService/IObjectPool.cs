@@ -4,5 +4,5 @@ public interface IObjectPool<T>
 {
     public T AddToPool();
 
-    public T Get(Vector3 pos, float angleZ);
+    public T Get(Vector3 pos, Quaternion rotation);
 }

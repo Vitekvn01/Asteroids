@@ -62,7 +62,7 @@ public class LevelInstaller : MonoInstaller
             .To<DesktopInput>()
             .AsSingle();
 
-        Container.Bind<CollisionWord>()
+        Container.BindInterfacesAndSelfTo<CollisionWord>()
             .AsSingle();
     }
 

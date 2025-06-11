@@ -38,10 +38,10 @@ public class ProjectilePool : IObjectPool<Projectile>
         return instance;
     }
     
-    public Projectile Get(Vector3 pos, float angleZ)
+    public Projectile Get(Vector3 pos, Quaternion rotation)
     {
         var instance = _pool.FirstOrDefault(p => !p.IsActive) ?? AddToPool();
-        instance.Activate(pos, angleZ);
+        instance.Activate(pos, rotation);
         return instance;
     }
 }

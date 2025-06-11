@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using Zenject;
 
 public class ShipController : ITickable, IDisposable
@@ -36,6 +37,7 @@ public class ShipController : ITickable, IDisposable
 
             if (_input.CheckPressedFireSecondary())
             {
+                Debug.DrawRay(_shipView.ShootPoint.position, _shipView.ShootPoint.up);
                 _ship.PrimaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation );
             }
 

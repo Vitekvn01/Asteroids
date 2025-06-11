@@ -20,6 +20,7 @@ public class ShipMovement
         float deltaAngle = rotationInput * _ship.RotationSpeed  * Time.deltaTime;
         _physics.Rotate(deltaAngle);
         
+
         Vector2 forward = _shipView.Transform.up;
         Vector2 force = forward * (moveInput * _ship.MoveSpeed);
         _physics.AddForce(force);

@@ -19,15 +19,19 @@ public class CollisionWord : IFixedTickable
     
     public void FixedTick()
     {
+        Debug.Log("FixedTick");
         ResolveAll();
     }
-    public void ResolveAll()
+    private void ResolveAll()
     {
         for (int i = 0; i < _bodies.Count; i++)
         {
             for (int j = i + 1; j < _bodies.Count; j++)
             {
-                ResolveCollision(_bodies[i], _bodies[j]);
+                if (_bodies[i].IsActive && _bodies[j].IsActive)
+                {
+                    ResolveCollision(_bodies[i], _bodies[j]); 
+                }
             }
         }
     }
@@ -36,7 +40,7 @@ public class CollisionWord : IFixedTickable
     {
         float dist = Vector2.Distance(a.Position, b.Position);
         
-        float minDist = a.Radius + b.Radius;
+        float minDist = a.Collider.Radius + b.Collider.Radius;
         
         if (dist <= minDist)
         {

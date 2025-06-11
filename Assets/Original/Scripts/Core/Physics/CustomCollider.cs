@@ -2,22 +2,29 @@ namespace Original.Scripts.Core.Physics
 {
     public class CustomCollider : ICustomCollider
     {
+        public bool IsActive { get; }
         public bool IsTrigger { get; }
-        public IColliderHandler Owner { get; }
+        public IColliderHandler Handler { get; private set; }
         public float Radius { get; }
         
 
-        public CustomCollider(IColliderHandler owner, float radius, bool isTrigger)
+        public CustomCollider(float radius, bool isTrigger = false, bool isActive = true, IColliderHandler handler = null)
         {
-            Owner = owner;
             Radius = radius;
             IsTrigger = isTrigger;
+            IsActive = isActive;
+            Handler = handler;
+        }
+
+        public void SetHandler(IColliderHandler handler)
+        {
+            Handler = handler;
         }
 
         public void OnTriggerEnter(ICustomCollider other) => 
-            Owner.OnTriggerEnter(other);
+            Handler?.OnTriggerEnter(other);
 
         public void OnCollisionEnter(ICustomCollider other) => 
-            Owner.OnCollisionEnter(other);
+            Handler?.OnCollisionEnter(other);
     }
 }

@@ -3,7 +3,7 @@ using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
 
-public class Projectile : ITickable, ICustomCollider
+public class Projectile : ITickable, IColliderHandler
 {
     private readonly CustomPhysics _physics;
     
@@ -15,19 +15,14 @@ public class Projectile : ITickable, ICustomCollider
     private bool _isActive;
 
     public bool IsActive => _isActive;
-    
-    public float Radius => 1;
-    
-    public object Owner => this;
-    
-    public bool IsTrigger { get; private set; }
 
-    public Projectile(IProjectileView view, CustomPhysics physics, bool isTrigger = true)
+    public Projectile(IProjectileView view, CustomPhysics physics)
     {
         _view = view;
         _physics = physics;
         _timer = 0f;
         _lifetime = 3f;
+
     }
     
     public void Tick()
@@ -48,11 +43,12 @@ public class Projectile : ITickable, ICustomCollider
         }
     }
     
-    public void Activate(Vector3 pos, float angleZ)
+    public void Activate(Vector3 pos, Quaternion rotation)
     {
-        _physics.SetVelocity(new Vector3(0, 0, 0));
         _physics.SetPosition(pos);
-        _physics.SetRotation(angleZ);
+        _physics.SetVelocity(new Vector3(0, 0, 0));
+        _physics.SetRotation(rotation.eulerAngles.z);
+        _physics.SetActive(true);
         _view.SetActive(true);
         _timer = 0;
         _isActive = true;
@@ -60,6 +56,7 @@ public class Projectile : ITickable, ICustomCollider
     public void Deactivate()
     {
         _view.SetActive(false);
+        _physics.SetActive(false);
         _isActive = false;
     }
 
@@ -73,16 +70,12 @@ public class Projectile : ITickable, ICustomCollider
 
     public void OnTriggerEnter(ICustomCollider other)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("projetcile trigger");
     }
 
-    public void OnTriggerStay(ICustomCollider other)
+    public void OnCollisionEnter(ICustomCollider other)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("projetcile collision");
     }
-
-    public void OnTriggerExit(ICustomCollider other)
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }

@@ -15,9 +15,9 @@ public class CustomPhysicsFactory : ICustomPhysicsFactory
         _settings = physicsSettings;
         _collisionWord = collisionWord;
     }
-    public CustomPhysics Create(Vector2 pos, float rotation, float radius, ICustomCollider customCollider)
+    public CustomPhysics Create(Vector2 pos, float rotation, ICustomCollider customCollider)
     {
-        var created = new CustomPhysics(pos, rotation, radius, customCollider, _settings);
+        var created = new CustomPhysics(pos, rotation, customCollider, _settings);
         _collisionWord.Register(created);
         _tickableManager.Add(created);
         return created;

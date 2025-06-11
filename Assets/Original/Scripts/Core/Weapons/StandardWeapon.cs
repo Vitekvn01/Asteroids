@@ -39,7 +39,7 @@ public class StandardWeapon : IWeapon
             isCanShoot = true;
             Debug.Log("ShootStandartWeapon" );
             _isCooldownOver = false;
-            _projectilePool.Get(position, rotation.eulerAngles.z);
+            _projectilePool.Get(position, rotation);
         }
 
         return isCanShoot;

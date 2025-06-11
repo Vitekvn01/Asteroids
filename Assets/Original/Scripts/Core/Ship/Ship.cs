@@ -1,8 +1,9 @@
 using System;
 using Original.Scripts.Core.Physics;
+using UnityEngine;
 using Zenject;
 
-public class Ship
+public class Ship : IColliderHandler
 {
     private const int StartHealth = 3;
     private const int MaxRemoveHealth = 1;
@@ -55,4 +56,13 @@ public class Ship
     }
 
 
+    public void OnTriggerEnter(ICustomCollider other)
+    {
+        Debug.Log("Ship trigger");
+    }
+
+    public void OnCollisionEnter(ICustomCollider other)
+    {
+        Debug.Log("Ship collision");
+    }
 }

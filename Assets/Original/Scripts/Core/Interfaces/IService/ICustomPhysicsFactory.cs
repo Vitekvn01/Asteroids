@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface ICustomPhysicsFactory
 {
-    public CustomPhysics Create(Vector2 pos, float rotation, float radius, ICustomCollider customCollider);
+    public CustomPhysics Create(Vector2 pos, float rotation, ICustomCollider customCollider);
 }

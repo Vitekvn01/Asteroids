@@ -8,8 +8,10 @@ namespace Original.Scripts.Core.Physics
         bool IsTrigger { get; }
         
         float Radius { get; }
-        IColliderHandler Owner { get; }
+        IColliderHandler Handler { get; }
 
+        void SetHandler(IColliderHandler handler);
+        
         void OnTriggerEnter(ICustomCollider other);
 
         void OnCollisionEnter(ICustomCollider other);
