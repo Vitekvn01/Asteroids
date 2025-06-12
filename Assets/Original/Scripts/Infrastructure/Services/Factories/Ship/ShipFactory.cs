@@ -33,7 +33,7 @@ public class ShipFactory : IShipFactory
         bool isActive = true;
         ICustomCollider customCollider = new CustomCollider(behaviour.RadiusCollider, isTrigger, isActive);
         
-        CustomPhysics customPhysics = _physicsFactory.Create(pos, behaviour.transform.rotation.eulerAngles.z,
+        CustomPhysics customPhysics = _physicsFactory.Create(pos, behaviour.transform.rotation.eulerAngles.z, 1f, 5f,
             customCollider);
         
         IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);

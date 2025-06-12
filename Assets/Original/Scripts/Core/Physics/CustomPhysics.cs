@@ -1,3 +1,4 @@
+using Original.Scripts.Core;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
@@ -5,6 +6,7 @@ using Zenject;
 public class CustomPhysics : ITickable
 {
     private readonly PhysicsSettings _physicsSettings;
+    private readonly WorldBounds _worldBounds;
     
     private  ICustomCollider _collider;
 
@@ -14,23 +16,34 @@ public class CustomPhysics : ITickable
     private Vector2 _velocity;
     private Vector2 _accumulatedForce;
     
-    private float _rotation;
+    private float _drag;
 
-    private float _radius;
+    private float _bounce;
+    
+    private float _rotation;
 
     public ICustomCollider Collider => _collider;
 
     public bool IsActive => _isActive; 
     public Vector2 Position => _position;
     public Vector2 Velocity => _velocity;
+    
+    public float Drag => _drag;
+    public float Bounce => _bounce;
     public float Rotation => _rotation;
 
-    public CustomPhysics(Vector2 startPos, float startRot, ICustomCollider customCollider, PhysicsSettings physicsSettings)
+
+    public CustomPhysics(Vector2 startPos, float startRot, float drag, float bounce, ICustomCollider customCollider, PhysicsSettings physicsSettings, WorldBounds worldBounds)
     {
         _position = startPos;
         _rotation = startRot;
+        _drag = drag;
+        _bounce = bounce;
+        
         _collider = customCollider;
         _physicsSettings = physicsSettings;
+        _worldBounds = worldBounds;
+        
         _isActive = true;
     }
 
@@ -42,12 +55,17 @@ public class CustomPhysics : ITickable
         
             _velocity += _accumulatedForce * deltaTime;
         
-            _velocity = Vector2.Lerp(_velocity, Vector2.zero, _physicsSettings.Drag * deltaTime);
-        
-            if (_velocity.magnitude > _physicsSettings.MaxSpeed)
-                _velocity = _velocity.normalized * _physicsSettings.MaxSpeed;
+            _velocity = Vector2.Lerp(_velocity, Vector2.zero, _drag * deltaTime);
+
+            if (_velocity.magnitude > _physicsSettings.GlobalMaxSpeed)
+            {
+                _velocity = _velocity.normalized * _physicsSettings.GlobalMaxSpeed;
+            }
+
+            
 
             _position += _velocity * deltaTime;
+            _position = _worldBounds.WrapPosition(_position);
             _accumulatedForce = Vector2.zero;
         }
     }

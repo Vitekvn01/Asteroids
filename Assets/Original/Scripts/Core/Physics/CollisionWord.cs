@@ -70,8 +70,8 @@ public class CollisionWord : IFixedTickable
                 a.SetPosition(a.Position + correction);
                 b.SetPosition(b.Position - correction);
                 
-                a.SetVelocity(Vector2.Reflect(a.Velocity, normal) * _physicsSettings.Bounce);
-                b.SetVelocity(Vector2.Reflect(b.Velocity, -normal) * _physicsSettings.Bounce);
+                a.SetVelocity(Vector2.Reflect(a.Velocity, normal) * a.Bounce);
+                b.SetVelocity(Vector2.Reflect(b.Velocity, -normal) * b.Bounce);
             }
         }
 

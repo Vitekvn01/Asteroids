@@ -1,13 +1,9 @@
 public class PhysicsSettings
 {
-    public float Drag { get; private set; }
-    public float MaxSpeed { get; private set;}
-
-    public float Bounce { get; private set; } = 0.5f;
+    public float GlobalMaxSpeed { get; private set;}
     
-    public PhysicsSettings(float drag, float maxSpeed)
+    public PhysicsSettings(float globalMaxSpeed)
     {
-        Drag = drag;
-        MaxSpeed = maxSpeed;
+        GlobalMaxSpeed = globalMaxSpeed;
     }
 }

@@ -1,3 +1,4 @@
+using Original.Scripts.Core;
 using UnityEngine;
 using Zenject;
 
@@ -30,7 +31,7 @@ public class LevelInstaller : MonoInstaller
     {
         Container.Bind<PhysicsSettings>()
             .AsSingle()
-            .WithArguments(1f, 10f);
+            .WithArguments( 10f);
     }
 
     private void BindFactories()
@@ -64,6 +65,12 @@ public class LevelInstaller : MonoInstaller
 
         Container.BindInterfacesAndSelfTo<CollisionWord>()
             .AsSingle();
+
+        Camera main = Camera.main;
+        
+        Container.Bind<WorldBounds>()
+            .AsSingle()
+            .WithArguments(main);
     }
 
     private void BindPools()

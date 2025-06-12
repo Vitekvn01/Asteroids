@@ -30,7 +30,7 @@ public class ProjectileFactory : IProjectileFactory
         ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive);
         
         CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
-            createdView.transform.rotation.eulerAngles.z,  customCollider);
+            createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
         Projectile created = new Projectile(createdView, physics);
         
