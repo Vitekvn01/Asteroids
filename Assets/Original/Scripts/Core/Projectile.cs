@@ -29,10 +29,7 @@ public class Projectile : ITickable, IColliderHandler
     {
         if (_isActive)
         {
-            Move(100);
-        
             _view.Transform.position = _physics.Position;
-            _view.Transform.rotation = Quaternion.Euler(0f, 0f, _physics.Rotation);
             
             _timer += Time.deltaTime;
         
@@ -45,11 +42,18 @@ public class Projectile : ITickable, IColliderHandler
     
     public void Activate(Vector3 pos, Quaternion rotation)
     {
+        _view.Transform.position = pos;
+        _view.Transform.rotation = rotation;
+            
         _physics.SetPosition(pos);
-        _physics.SetVelocity(new Vector3(0, 0, 0));
         _physics.SetRotation(rotation.eulerAngles.z);
+        
+        Vector3 direction = _view.Transform.up;
+        _physics.SetVelocity(direction.normalized * 100f);
         _physics.SetActive(true);
+        
         _view.SetActive(true);
+        
         _timer = 0;
         _isActive = true;
     }
