@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface IProjectileFactory
+namespace Original.Scripts.Core.Interfaces.IService
 {
-    public Projectile Create(Vector3 position, float rotation = 0, Transform parent = null);
+    public interface IProjectileFactory
+    {
+        public Projectile Create(Vector3 position, float rotation = 0, Transform parent = null);
+    }
 }

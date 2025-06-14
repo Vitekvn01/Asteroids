@@ -1,0 +1,10 @@
+{
+  "maxHealth": 3,
+  "speed": 
+  
+  "laserCount": 10,
+  
+  "bulletSpeed": 100,
+  
+  "fireRate": 3.5
+}

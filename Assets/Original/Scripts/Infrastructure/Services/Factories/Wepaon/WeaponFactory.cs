@@ -1,5 +1,7 @@
 using System;
-using UnityEngine;
+using Original.Scripts.Core;
+using Original.Scripts.Core.Interfaces.IService;
+using Original.Scripts.Core.Weapons;
 using Zenject;
 
 public class WeaponFactory : IWeaponFactory

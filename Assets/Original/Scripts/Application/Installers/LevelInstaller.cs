@@ -1,11 +1,18 @@
 using Original.Scripts.Core;
+using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Interfaces.IService;
+using Original.Scripts.Core.Physics;
+using Original.Scripts.Infrastructure.ObjectPool;
+using Original.Scripts.Infrastructure.Services.Factories;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class LevelInstaller : MonoInstaller
 {
-    [SerializeField] private ProjectileBehavior _projectilePrefab;
+    [SerializeField] private ProjectileBehaviour _projectilePrefab;
     [SerializeField] private ShipBehaviour _shipPrefab;
+    [SerializeField] private AsteroidBehaviour _asteroidPrefab;
 
     public override void InstallBindings()
     {
@@ -22,8 +29,12 @@ public class LevelInstaller : MonoInstaller
             .FromInstance(_shipPrefab)
             .AsSingle();
 
-        Container.Bind<ProjectileBehavior>()
+        Container.Bind<ProjectileBehaviour>()
             .FromInstance(_projectilePrefab)
+            .AsSingle();
+
+        Container.Bind<AsteroidBehaviour>()
+            .FromInstance(_asteroidPrefab)
             .AsSingle();
     }
 
@@ -51,11 +62,19 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<IShipFactory>()
             .To<ShipFactory>()
             .AsSingle();
+
+        Container.Bind<IEnemyFactory>()
+            .To<EnemyFactory>()
+            .AsSingle();
     }
 
     private void BindGameLogic()
     {
         Container.BindInterfacesAndSelfTo<PlayerSpawner>()
+            .AsSingle()
+            .NonLazy();
+        
+        Container.BindInterfacesAndSelfTo<EnemySpawner>()
             .AsSingle()
             .NonLazy();
 
@@ -78,10 +97,9 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<IObjectPool<Projectile>>()
             .To<ProjectilePool>()
             .AsSingle();
-    }
 
-    private void BindShipLogic()
-    {
-
+        Container.Bind<IEnemyPool>()
+            .To<EnemyPool>()
+            .AsSingle();
     }
 }

@@ -1,6 +1,9 @@
-using UnityEngine;
+using Original.Scripts.Core.Weapons;
 
-public interface IWeaponFactory
+namespace Original.Scripts.Core.Interfaces.IService
 {
-    public IWeapon Create(WeaponType weaponType);
+    public interface IWeaponFactory
+    {
+        public IWeapon Create(WeaponType weaponType);
+    }
 }

@@ -1,6 +1,10 @@
+using Original.Scripts.Core.Ship;
 using UnityEngine;
 
-public interface IShipFactory
+namespace Original.Scripts.Core.Interfaces.IService
 {
-   public ShipController Create(Vector2 pos, float rot = 0);
+   public interface IShipFactory
+   {
+      public ShipController Create(Vector2 pos, float rot = 0);
+   }
 }

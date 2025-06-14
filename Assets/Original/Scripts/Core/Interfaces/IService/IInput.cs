@@ -1,10 +1,13 @@
-public interface IInput
+namespace Original.Scripts.Core.Interfaces.IService
 {
-   public float GetAxisX();
+   public interface IInput
+   {
+      public float GetAxisX();
 
-   public float GetAxisY();
+      public float GetAxisY();
 
-   public bool CheckPressedFirePrimary();
+      public bool CheckPressedFirePrimary();
 
-   public bool CheckPressedFireSecondary();
+      public bool CheckPressedFireSecondary();
+   }
 }

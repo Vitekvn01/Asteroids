@@ -1,9 +1,12 @@
-public class PhysicsSettings
+namespace Original.Scripts.Core.Physics
 {
-    public float GlobalMaxSpeed { get; private set;}
-    
-    public PhysicsSettings(float globalMaxSpeed)
+    public class PhysicsSettings
     {
-        GlobalMaxSpeed = globalMaxSpeed;
+        public float GlobalMaxSpeed { get; private set;}
+    
+        public PhysicsSettings(float globalMaxSpeed)
+        {
+            GlobalMaxSpeed = globalMaxSpeed;
+        }
     }
 }

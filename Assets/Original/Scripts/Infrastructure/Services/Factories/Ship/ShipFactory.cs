@@ -1,4 +1,7 @@
+using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.Ship;
+using Original.Scripts.Core.Weapons;
 using UnityEngine;
 using Zenject;
 

@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public interface IWeapon
+namespace Original.Scripts.Core.Weapons
 {
-   public bool TryShoot(Vector2 position, Quaternion rotation);
+   public interface IWeapon
+   {
+      public bool TryShoot(Vector2 position, Quaternion rotation);
 
-   public void Update();
+      public void Update();
+   }
 }

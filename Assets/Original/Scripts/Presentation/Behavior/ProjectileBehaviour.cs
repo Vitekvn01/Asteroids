@@ -1,7 +1,7 @@
 using Original.Scripts.Core.Interfaces.IView;
 using UnityEngine;
 
-public class ProjectileBehavior : MonoBehaviour, IProjectileView
+public class ProjectileBehaviour : MonoBehaviour, IProjectileView
 {
     [SerializeField] private float _radiusCollider;
     public Transform Transform => gameObject.transform;

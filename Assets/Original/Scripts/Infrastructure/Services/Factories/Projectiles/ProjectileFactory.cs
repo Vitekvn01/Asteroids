@@ -1,4 +1,7 @@
+using Original.Scripts.Core;
+using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.Weapons;
 using UnityEngine;
 using Zenject;
 
@@ -6,12 +9,12 @@ public class ProjectileFactory : IProjectileFactory
 {
     private readonly DiContainer _diContainer;
     private readonly TickableManager _tickableManager;
-    private readonly ProjectileBehavior _standardProjectilePrefab;
+    private readonly ProjectileBehaviour _standardProjectilePrefab;
     private readonly ICustomPhysicsFactory _physicsFactory;
     
     [Inject]
     public ProjectileFactory(DiContainer diContainer, TickableManager tickableManager, 
-        ProjectileBehavior standardProjectilePrefab, ICustomPhysicsFactory physicsFactory)
+        ProjectileBehaviour standardProjectilePrefab, ICustomPhysicsFactory physicsFactory)
     {
         _diContainer = diContainer;
         _tickableManager = tickableManager;
@@ -21,8 +24,8 @@ public class ProjectileFactory : IProjectileFactory
 
     public Projectile Create(Vector3 position, float rotation = 0, Transform parent = null)
     {
-        ProjectileBehavior createdView =
-            _diContainer.InstantiatePrefabForComponent<ProjectileBehavior>(_standardProjectilePrefab.gameObject,
+        ProjectileBehaviour createdView =
+            _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_standardProjectilePrefab.gameObject,
                 position, Quaternion.Euler(0, 0, rotation), parent);
 
         bool isTrigger = true;
@@ -32,7 +35,7 @@ public class ProjectileFactory : IProjectileFactory
         CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
             createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-        Projectile created = new Projectile(createdView, physics);
+        Projectile created = new Projectile(createdView, physics, 100);
         
         customCollider.SetHandler(created);
         

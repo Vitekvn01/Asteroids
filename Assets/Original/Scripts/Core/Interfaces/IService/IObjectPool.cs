@@ -1,8 +1,11 @@
 using UnityEngine;
 
-public interface IObjectPool<T>
+namespace Original.Scripts.Core.Interfaces.IService
 {
-    public T AddToPool();
+    public interface IObjectPool<T>
+    {
+        public T AddToPool();
 
-    public T Get(Vector3 pos, Quaternion rotation);
+        public T Get(Vector3 pos, Quaternion rotation);
+    }
 }

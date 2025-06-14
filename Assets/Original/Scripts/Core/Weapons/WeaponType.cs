@@ -1,5 +1,8 @@
-public enum WeaponType
+namespace Original.Scripts.Core.Weapons
 {
-    StandardWeapon = 1,
-    LaserWeapon = 2,
+    public enum WeaponType
+    {
+        StandardWeapon = 1,
+        LaserWeapon = 2,
+    }
 }
