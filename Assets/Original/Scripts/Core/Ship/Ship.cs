@@ -9,13 +9,11 @@ namespace Original.Scripts.Core.Ship
     {
         private const int StartHealth = 3;
         private const int MaxRemoveHealth = 1;
-    
-        private readonly float _moveSpeed = 10;
-        private readonly float _rotationSpeed = 100;
-    
+        
         private int _health;
-
-        private float _speed;
+        
+        private float _moveSpeed = 10;
+        private float _rotationSpeed = 100;
         
         private float _timerTest;
     
@@ -33,11 +31,14 @@ namespace Original.Scripts.Core.Ship
         public event Action OnDeathEvent;
     
     
-        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon)
+        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed)
         {
             _primaryWeapon = primaryWeapon;
             _secondaryWeapon = secondaryWeapon;
-            _health = StartHealth;
+
+            _health = health;
+            _moveSpeed = moveSpeed;
+            _rotationSpeed = rotationSpeed;
         }
 
         public void ApplyDamage()

@@ -1,3 +1,4 @@
+using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Ship;
@@ -10,21 +11,28 @@ public class ShipFactory : IShipFactory
     private readonly DiContainer _diContainer;
     private readonly TickableManager _tickableManager;
     
+    private readonly IConfigProvider _configLoader;
+
     private readonly ShipBehaviour _shipBehaviourPrefab;
+    
     private readonly IWeaponFactory _weaponFactory;
     private readonly ICustomPhysicsFactory _physicsFactory;
+    
     private readonly IInput _input;
+
     
     [Inject]
-    public ShipFactory(DiContainer diContainer, TickableManager tickableManager, ShipBehaviour shipBehaviourPrefab,
+    public ShipFactory(DiContainer diContainer, TickableManager tickableManager, IConfigProvider configLoader, ShipBehaviour shipBehaviourPrefab,
         IWeaponFactory weaponFactory, ICustomPhysicsFactory physicsFactory, IInput input)
     {
         _tickableManager = tickableManager;
         _diContainer = diContainer;
+        _configLoader = configLoader;
         _shipBehaviourPrefab = shipBehaviourPrefab;
         _weaponFactory = weaponFactory;
         _physicsFactory = physicsFactory;
         _input = input;
+
     }
     
     public ShipController Create(Vector2 pos, float rot = 0)
@@ -42,7 +50,7 @@ public class ShipFactory : IShipFactory
         IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
         IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);
         
-        var ship = new Ship( standardWeapon, laserWeapon);
+        var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health, _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed);
         var movement = new ShipMovement(behaviour, ship, customPhysics);
         var controller = new ShipController(_input, ship, behaviour, movement);
         

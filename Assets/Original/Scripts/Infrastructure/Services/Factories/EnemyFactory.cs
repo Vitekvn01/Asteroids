@@ -36,10 +36,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             {
                 case EnemyType.Asteroid:
                     return CreateAsteroid(position, rotation, speed, parent);
-                    break;
                 case EnemyType.Ufo:
                     throw new ArgumentException("Unknown weapon type", nameof(enemyType));
-                    break;
                 default:
                     throw new ArgumentException("Unknown weapon type", nameof(enemyType));
             }

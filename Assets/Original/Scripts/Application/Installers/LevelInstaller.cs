@@ -1,8 +1,10 @@
 using Original.Scripts.Core;
+using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Infrastructure.ObjectPool;
+using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,6 +18,7 @@ public class LevelInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
+        BindConfigs();
         BindPrefabs();
         BindSettings();
         BindFactories();
@@ -100,6 +103,14 @@ public class LevelInstaller : MonoInstaller
 
         Container.Bind<IEnemyPool>()
             .To<EnemyPool>()
+            .AsSingle();
+    }
+
+
+    private void BindConfigs()
+    {
+        Container.Bind<IConfigProvider>()
+            .To<ConfigLoader>()
             .AsSingle();
     }
 }

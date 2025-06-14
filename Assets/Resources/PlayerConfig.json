@@ -1,10 +1,11 @@
 {
-  "maxHealth": 3,
-  "speed": 
+  "Health": 3,
+  "MoveSpeed": 10,
+  "RotationSpeed": 100,
   
+  "refillTime": 10,
   "laserCount": 10,
-  
   "bulletSpeed": 100,
-  
   "fireRate": 3.5
 }
+
