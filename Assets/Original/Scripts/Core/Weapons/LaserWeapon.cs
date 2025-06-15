@@ -25,7 +25,7 @@ namespace Original.Scripts.Core.Weapons
             _refillTimer = _refillTime;
         }
     
-        public override bool TryShoot(Vector2 position, Quaternion rotation)
+        public override bool TryShoot(Vector2 position, Quaternion rotation, float parentSpeed = 0)
         {
             bool isCanShoot = false;
 

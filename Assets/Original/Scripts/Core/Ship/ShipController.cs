@@ -42,12 +42,12 @@ namespace Original.Scripts.Core.Ship
                 if (_input.CheckPressedFireSecondary())
                 {
                     Debug.DrawRay(_shipView.ShootPoint.position, _shipView.ShootPoint.up);
-                    _ship.PrimaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation );
+                    _ship.PrimaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation, _shipMovement.Physics.Velocity.magnitude);
                 }
 
                 if (_input.CheckPressedFirePrimary())
                 {
-                    _ship.SecondaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation );
+                    _ship.SecondaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation, _shipMovement.Physics.Velocity.magnitude);
                 }
             }
         }

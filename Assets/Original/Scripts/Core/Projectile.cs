@@ -37,8 +37,10 @@ namespace Original.Scripts.Core
         {
             if (_isActive)
             {
+                Debug.DrawRay(_view.Transform.position, _physics.Velocity.normalized * 10, Color.red);
+                Debug.DrawRay(_view.Transform.position, _view.Transform.up * 10, Color.green);
                 _view.Transform.position = _physics.Position;
-            
+                _view.Transform.rotation =  Quaternion.Euler(0, 0, _physics.Rotation);
                 _timer += Time.deltaTime;
         
                 if (_timer > _lifetime)
@@ -56,7 +58,6 @@ namespace Original.Scripts.Core
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.eulerAngles.z);
             
-            _physics.SetVelocity(_view.Transform.up * _speed);
             _physics.SetActive(true);
         
             _view.SetActive(true);
@@ -64,6 +65,13 @@ namespace Original.Scripts.Core
             _timer = 0;
             _isActive = true;
         }
+
+        public void Lunch(float speedParent = 0)
+        {
+            Vector2 direction = Quaternion.Euler(0, 0, _view.Transform.rotation.eulerAngles.z) * Vector2.up;
+            _physics.SetVelocity(direction * (_speed + speedParent));
+        }
+
         public void Deactivate()
         {
             _view.SetActive(false);

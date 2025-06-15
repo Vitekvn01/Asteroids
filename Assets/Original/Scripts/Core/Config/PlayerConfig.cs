@@ -8,5 +8,7 @@ namespace Original.Scripts.Core.Config
         public float MoveSpeed;
 
         public float RotationSpeed;
+
+        public float MaxSpeed;
     }
 }

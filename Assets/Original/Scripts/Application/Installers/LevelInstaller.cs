@@ -45,7 +45,7 @@ public class LevelInstaller : MonoInstaller
     {
         Container.Bind<PhysicsSettings>()
             .AsSingle()
-            .WithArguments( 10f);
+            .WithArguments( 100f);
     }
 
     private void BindFactories()

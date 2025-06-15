@@ -31,7 +31,7 @@ namespace Original.Scripts.Core.Weapons
         }
     
 
-        public virtual bool TryShoot(Vector2 position, Quaternion rotation)
+        public virtual bool TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
         {
             bool isCanShoot = false;
 
@@ -42,7 +42,7 @@ namespace Original.Scripts.Core.Weapons
                 isCanShoot = true;
                 Debug.Log("ShootStandartWeapon" );
                 _isCooldownOver = false;
-                _projectilePool.Get(position, rotation);
+                _projectilePool.Get(position, rotation).Lunch(speedParent);
             }
 
             return isCanShoot;

@@ -1,0 +1,8 @@
+{
+  "StandardCooldown": 0.2,
+  
+  "LaserAmmo": 10,
+  "LaserRefillTime": 10,
+  "LaserCooldown": 0.5
+}
+

@@ -10,6 +10,8 @@ namespace Original.Scripts.Core.Ship
         private readonly IShipView _shipView;
         private readonly Ship _ship;
         private readonly CustomPhysics _physics;
+
+        public CustomPhysics Physics => _physics;
     
         [Inject]
         public ShipMovement(IShipView shipView, Ship ship, CustomPhysics physics)
@@ -31,6 +33,12 @@ namespace Original.Scripts.Core.Ship
         
             _shipView.Transform.position = _physics.Position;
             _shipView.Transform.rotation = Quaternion.Euler(0f, 0f, _physics.Rotation);
+
+            if (_physics.Velocity.magnitude > _ship.MaxSpeed)
+            {
+                Vector2 clampedVelocity = _physics.Velocity.normalized * _ship.MaxSpeed;
+                _physics.SetVelocity(clampedVelocity);
+            }
         }
     }
 }

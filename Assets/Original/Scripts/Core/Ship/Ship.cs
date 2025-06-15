@@ -7,13 +7,13 @@ namespace Original.Scripts.Core.Ship
 {
     public class Ship : IColliderHandler
     {
-        private const int StartHealth = 3;
         private const int MaxRemoveHealth = 1;
         
         private int _health;
         
-        private float _moveSpeed = 10;
-        private float _rotationSpeed = 100;
+        private float _moveSpeed;
+        private float _rotationSpeed;
+        private float _maxSpeed = 100;
         
         private float _timerTest;
     
@@ -22,6 +22,8 @@ namespace Original.Scripts.Core.Ship
     
         public float MoveSpeed => _moveSpeed;
         public float RotationSpeed => _rotationSpeed;
+
+        public float MaxSpeed => _maxSpeed;
     
         public IWeapon PrimaryWeapon => _primaryWeapon;
         public IWeapon SecondaryWeapon => _secondaryWeapon;
@@ -31,7 +33,7 @@ namespace Original.Scripts.Core.Ship
         public event Action OnDeathEvent;
     
     
-        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed)
+        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed, float maxSpeed)
         {
             _primaryWeapon = primaryWeapon;
             _secondaryWeapon = secondaryWeapon;
@@ -39,6 +41,7 @@ namespace Original.Scripts.Core.Ship
             _health = health;
             _moveSpeed = moveSpeed;
             _rotationSpeed = rotationSpeed;
+            _maxSpeed = maxSpeed;
         }
 
         public void ApplyDamage()

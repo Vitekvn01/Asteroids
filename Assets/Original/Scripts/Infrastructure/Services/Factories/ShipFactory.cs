@@ -50,7 +50,7 @@ public class ShipFactory : IShipFactory
         IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
         IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);
         
-        var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health, _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed);
+        var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health, _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed, _configLoader.PlayerConfig.MaxSpeed);
         var movement = new ShipMovement(behaviour, ship, customPhysics);
         var controller = new ShipController(_input, ship, behaviour, movement);
         

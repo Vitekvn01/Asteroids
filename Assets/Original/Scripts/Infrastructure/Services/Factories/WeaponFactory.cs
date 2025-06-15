@@ -7,11 +7,13 @@ using Zenject;
 public class WeaponFactory : IWeaponFactory
 {
     private readonly IObjectPool<Projectile> _projectilePool;
+    private readonly IConfigProvider _configLoader;
     
     [Inject]
-    public WeaponFactory(IObjectPool<Projectile> projectilePool)
+    public WeaponFactory(IObjectPool<Projectile> projectilePool, IConfigProvider configLoader)
     {
         _projectilePool = projectilePool;
+        _configLoader = configLoader;
     }
     
     public IWeapon Create(WeaponType weaponType)
@@ -21,10 +23,10 @@ public class WeaponFactory : IWeaponFactory
         switch (weaponType)
         {
             case WeaponType.StandardWeapon:
-                created = new StandardWeapon(WeaponSettings.StandardCooldown, _projectilePool);
+                created = new StandardWeapon(_configLoader.WeaponConfig.StandardCooldown, _projectilePool);
                 break;
             case WeaponType.LaserWeapon:
-                created = new LaserWeapon(WeaponSettings.LaserAmmo, WeaponSettings.LaserCooldown, WeaponSettings.LaserRefillTime, _projectilePool);
+                created = new LaserWeapon(_configLoader.WeaponConfig.LaserAmmo, _configLoader.WeaponConfig.LaserCooldown, _configLoader.WeaponConfig.LaserRefillTime, _projectilePool);
                 break;
             default:
                 throw new ArgumentException("Unknown weapon type", nameof(weaponType));

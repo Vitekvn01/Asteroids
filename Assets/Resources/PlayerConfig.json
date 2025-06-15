@@ -2,6 +2,7 @@
   "Health": 3,
   "MoveSpeed": 10,
   "RotationSpeed": 100,
+  "MaxSpeed":25,
   
   "refillTime": 10,
   "laserCount": 10,
