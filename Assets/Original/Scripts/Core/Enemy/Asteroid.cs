@@ -21,10 +21,7 @@ namespace Original.Scripts.Core.Enemy
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public void Death()
-        {
-            OnEnemyDeath?.Invoke(this);
-        }
+
 
         public Asteroid(IAsteroidView view, CustomPhysics physics, float speed)
         {
@@ -57,18 +54,25 @@ namespace Original.Scripts.Core.Enemy
             
             _isActive = true;
         }
+        
+        public void Deactivate()
+        {
+            _view.SetActive(false);
+            _physics.SetActive(false);
+            _isActive = false;
+
+        }
 
         public void SetSpeed(float speeed)
         {
             _speed = speeed;
         }
         
-
-        public void Deactivate()
+        public void Death()
         {
-            _view.SetActive(false);
-            _physics.SetActive(false);
-            _isActive = false;
+            OnEnemyDeath?.Invoke(this);
+            Deactivate();
+            Debug.Log("Projectile death");
         }
         
         public void OnTriggerEnter(ICustomCollider other)

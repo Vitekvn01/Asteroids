@@ -1,3 +1,4 @@
+using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
@@ -81,6 +82,12 @@ namespace Original.Scripts.Core
     
         public void OnTriggerEnter(ICustomCollider other)
         {
+            if (other.Handler is IEnemy enemy)
+            {
+                enemy.Death();
+            }
+            
+            Deactivate();
             Debug.Log("projetcile trigger");
         }
 

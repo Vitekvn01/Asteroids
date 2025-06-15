@@ -30,7 +30,9 @@ public class ProjectileFactory : IProjectileFactory
 
         bool isTrigger = true;
         bool isActive = true;
-        ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive);
+        PhysicsLayer layer = PhysicsLayer.Projectile;
+        PhysicsLayer collisionMask = PhysicsLayer.Enemy;
+        ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer);
         
         CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
             createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
