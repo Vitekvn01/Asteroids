@@ -32,7 +32,10 @@ namespace Original.Scripts.Core.Physics
                 {
                     if (_bodies[i].IsActive && _bodies[j].IsActive)
                     {
-                        ResolveCollision(_bodies[i], _bodies[j]); 
+                        if(CanCollide(_bodies[i], _bodies[j]))
+                        {
+                            ResolveCollision(_bodies[i], _bodies[j]); 
+                        }
                     }
                 }
             }
@@ -78,7 +81,18 @@ namespace Original.Scripts.Core.Physics
             }
 
         }
+        
+        private bool CanCollide(CustomPhysics a, CustomPhysics b)
+        {
+            var colA = a.Collider;
+            var colB = b.Collider;
 
+            // Если один объект не хочет сталкиваться с другим по маске — пропускаем
+            bool aWantsB = (colA.CollisionMask & colB.Layer) != 0;
+            bool bWantsA = (colB.CollisionMask & colA.Layer) != 0;
+
+            return aWantsB || bWantsA;
+        }
  
     }
 }

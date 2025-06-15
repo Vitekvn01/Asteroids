@@ -52,7 +52,10 @@ namespace Original.Scripts.Infrastructure.Services.Factories
 
             bool isTrigger = false;
             bool isActive = true;
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive);
+            PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
+            PhysicsLayer collisionMask = PhysicsLayer.Player;
+            
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);

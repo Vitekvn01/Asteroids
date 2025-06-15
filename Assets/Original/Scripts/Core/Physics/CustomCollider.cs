@@ -2,23 +2,40 @@ namespace Original.Scripts.Core.Physics
 {
     public class CustomCollider : ICustomCollider
     {
+        public float Radius { get; }
         public bool IsActive { get; }
         public bool IsTrigger { get; }
+        public PhysicsLayer Layer { get; private set;}
+        
+        public PhysicsLayer CollisionMask { get; private set; }
         public IColliderHandler Handler { get; private set; }
-        public float Radius { get; }
         
 
-        public CustomCollider(float radius, bool isTrigger = false, bool isActive = true, IColliderHandler handler = null)
+        
+        public CustomCollider(float radius, bool isTrigger = false, bool isActive = true, PhysicsLayer layer = PhysicsLayer.Default, PhysicsLayer collisionMask = PhysicsLayer.All, IColliderHandler handler = null )
         {
             Radius = radius;
             IsTrigger = isTrigger;
             IsActive = isActive;
+            Layer = layer;
+            CollisionMask = collisionMask;
+            
             Handler = handler;
         }
 
         public void SetHandler(IColliderHandler handler)
         {
             Handler = handler;
+        }
+
+        public void SetLayer(PhysicsLayer layer)
+        {
+            Layer = layer;
+        }
+
+        public void SetCollisionMask(PhysicsLayer collisionMask)
+        {
+            CollisionMask = collisionMask;
         }
 
         public void OnTriggerEnter(ICustomCollider other) => 
