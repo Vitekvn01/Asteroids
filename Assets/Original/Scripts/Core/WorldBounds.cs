@@ -15,9 +15,16 @@ namespace Original.Scripts.Core
             _height = height;
         }*/
         
-        public WorldBounds(Camera cam)
+        public WorldBounds( float width, Camera cam)
         {
-            CalculateBoundsFromCamera(cam);
+            _width = width;
+  
+            _height = width / cam.aspect;
+            
+            float orthographicSize = _height / 2f; 
+            cam.orthographicSize = orthographicSize;
+            
+            /*CalculateBoundsFromCamera(cam);*/
         }
         
         private void CalculateBoundsFromCamera(Camera cam)

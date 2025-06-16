@@ -1,6 +1,7 @@
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.PlayerShip;
 using UnityEngine;
 using Zenject;
 
@@ -30,7 +31,7 @@ namespace Original.Scripts.Core
             _speed = speed;
             
             _timer = 0f;
-            _lifetime = 3f;
+            _lifetime = 1f;
 
         }
     
@@ -85,6 +86,11 @@ namespace Original.Scripts.Core
             if (other.Handler is IEnemy enemy)
             {
                 enemy.Death();
+            }
+            
+            if (other.Handler is Ship ship)
+            {
+                Debug.Log("projetcile ship trigger");
             }
             
             Deactivate();

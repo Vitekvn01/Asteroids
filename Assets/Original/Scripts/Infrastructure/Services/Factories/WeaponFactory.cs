@@ -4,34 +4,37 @@ using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Weapons;
 using Zenject;
 
-public class WeaponFactory : IWeaponFactory
+namespace Original.Scripts.Infrastructure.Services.Factories
 {
-    private readonly IObjectPool<Projectile> _projectilePool;
-    private readonly IConfigProvider _configLoader;
-    
-    [Inject]
-    public WeaponFactory(IObjectPool<Projectile> projectilePool, IConfigProvider configLoader)
+    public class WeaponFactory : IWeaponFactory
     {
-        _projectilePool = projectilePool;
-        _configLoader = configLoader;
-    }
+        private readonly IObjectPool<Projectile> _projectilePool;
+        private readonly IConfigProvider _configLoader;
     
-    public IWeapon Create(WeaponType weaponType)
-    {
-        IWeapon created;
-        
-        switch (weaponType)
+        [Inject]
+        public WeaponFactory(IObjectPool<Projectile> projectilePool, IConfigProvider configLoader)
         {
-            case WeaponType.StandardWeapon:
-                created = new StandardWeapon(_configLoader.WeaponConfig.StandardCooldown, _projectilePool);
-                break;
-            case WeaponType.LaserWeapon:
-                created = new LaserWeapon(_configLoader.WeaponConfig.LaserAmmo, _configLoader.WeaponConfig.LaserCooldown, _configLoader.WeaponConfig.LaserRefillTime, _projectilePool);
-                break;
-            default:
-                throw new ArgumentException("Unknown weapon type", nameof(weaponType));
+            _projectilePool = projectilePool;
+            _configLoader = configLoader;
         }
+    
+        public IWeapon Create(WeaponType weaponType)
+        {
+            IWeapon created;
         
-        return created;
+            switch (weaponType)
+            {
+                case WeaponType.StandardWeapon:
+                    created = new StandardWeapon(_configLoader.WeaponConfig.StandardCooldown, _projectilePool);
+                    break;
+                case WeaponType.LaserWeapon:
+                    created = new LaserWeapon(_configLoader.WeaponConfig.LaserAmmo, _configLoader.WeaponConfig.LaserCooldown, _configLoader.WeaponConfig.LaserRefillTime, _projectilePool);
+                    break;
+                default:
+                    throw new ArgumentException("Unknown weapon type", nameof(weaponType));
+            }
+        
+            return created;
+        }
     }
 }

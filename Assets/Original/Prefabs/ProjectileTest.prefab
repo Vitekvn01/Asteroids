@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360d946734209b94c875924fe8312962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radiusCollider: 0.43
+  _radiusCollider: 0.3

@@ -33,7 +33,8 @@ namespace Original.Scripts.Core.Physics
         public float Rotation => _rotation;
 
 
-        public CustomPhysics(Vector2 startPos, float startRot, float drag, float bounce, ICustomCollider customCollider, PhysicsSettings physicsSettings, WorldBounds worldBounds)
+        public CustomPhysics(Vector2 startPos, float startRot, float drag, float bounce, ICustomCollider customCollider, 
+            PhysicsSettings physicsSettings, WorldBounds worldBounds)
         {
             _position = startPos;
             _rotation = startRot;
