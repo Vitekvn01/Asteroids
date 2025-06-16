@@ -1,4 +1,5 @@
 using Original.Scripts.Core.Interfaces.IService;
+using Original.Scripts.Core.PlayerShip;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,9 @@ namespace Original.Scripts.Core
    public class PlayerSpawner
    {
       private readonly IShipFactory _shipFactory;
+      private Ship _ship;
+
+      public Ship Ship => _ship;
 
       [Inject]
       public PlayerSpawner(IShipFactory shipFactory)
@@ -17,7 +21,7 @@ namespace Original.Scripts.Core
 
       public void Spawn(Vector2 pos, float rot = 0)
       {
-         _shipFactory.Create(pos, rot);
+         _ship = _shipFactory.Create(pos, rot).Ship;
       }
    }
 }

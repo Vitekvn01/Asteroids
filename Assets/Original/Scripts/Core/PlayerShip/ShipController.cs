@@ -4,7 +4,7 @@ using Original.Scripts.Core.Interfaces.IView;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.Ship
+namespace Original.Scripts.Core.PlayerShip
 {
     public class ShipController : ITickable, IDisposable
     {
@@ -14,7 +14,7 @@ namespace Original.Scripts.Core.Ship
 
         private readonly IInput _input;
 
-        private bool _isAlive = false;
+        public Ship Ship => _ship;
     
         public ShipController(IInput input, Ship ship, IShipView view, ShipMovement shipMovement)
         {
@@ -23,14 +23,12 @@ namespace Original.Scripts.Core.Ship
             _shipView = view;
             _ship = ship;
             _shipMovement = shipMovement;
-
-            _isAlive = true;
         
             _ship.OnDeathEvent += OnDeathEvent;
         }
         public void Tick()
         {
-            if (_isAlive)
+            if (_ship.IsActive)
             {
                 float axisX = _input.GetAxisX();
                 float axisY = _input.GetAxisY();
@@ -54,7 +52,6 @@ namespace Original.Scripts.Core.Ship
 
         private void OnDeathEvent()
         {
-            _isAlive = false;
             _shipView.Death();
         }
     

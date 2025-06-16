@@ -1,13 +1,16 @@
 using System;
+using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Weapons;
 using UnityEngine;
 
-namespace Original.Scripts.Core.Ship
+namespace Original.Scripts.Core.PlayerShip
 {
-    public class Ship : IColliderHandler
+    public class Ship : IColliderHandler, IActivatable
     {
         private const int MaxRemoveHealth = 1;
+        
+        private readonly CustomPhysics _physics;
         
         private int _health;
         
@@ -16,14 +19,20 @@ namespace Original.Scripts.Core.Ship
         private float _maxSpeed = 100;
         
         private float _timerTest;
+
+        private bool _isActive;
     
         private IWeapon _primaryWeapon;
         private IWeapon _secondaryWeapon;
+
+        public CustomPhysics Physics => Physics;
     
         public float MoveSpeed => _moveSpeed;
         public float RotationSpeed => _rotationSpeed;
 
         public float MaxSpeed => _maxSpeed;
+
+        public bool IsActive => _isActive;
     
         public IWeapon PrimaryWeapon => _primaryWeapon;
         public IWeapon SecondaryWeapon => _secondaryWeapon;
@@ -42,6 +51,7 @@ namespace Original.Scripts.Core.Ship
             _moveSpeed = moveSpeed;
             _rotationSpeed = rotationSpeed;
             _maxSpeed = maxSpeed;
+            _isActive = true;
         }
 
         public void ApplyDamage()
@@ -72,6 +82,17 @@ namespace Original.Scripts.Core.Ship
         public void OnCollisionEnter(ICustomCollider other)
         {
             Debug.Log("Ship collision");
+        }
+
+
+        public void Activate(Vector3 pos, Quaternion rotation)
+        {
+            
+        }
+
+        public void Deactivate()
+        {
+            
         }
     }
 }

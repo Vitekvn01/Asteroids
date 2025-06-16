@@ -1,7 +1,7 @@
 using Original.Scripts.Core;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
-using Plugins.Zenject.Source.Runtime;
+
 using UnityEngine;
 using Zenject;
 

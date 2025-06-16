@@ -15,7 +15,7 @@ public class LevelInstaller : MonoInstaller
     [SerializeField] private ProjectileBehaviour _projectilePrefab;
     [SerializeField] private ShipBehaviour _shipPrefab;
     [SerializeField] private AsteroidBehaviour _asteroidPrefab;
-
+    [SerializeField] private UfoBehaviour _ufoBehaviour;
     public override void InstallBindings()
     {
         BindConfigs();
@@ -38,6 +38,10 @@ public class LevelInstaller : MonoInstaller
 
         Container.Bind<AsteroidBehaviour>()
             .FromInstance(_asteroidPrefab)
+            .AsSingle();
+        
+        Container.Bind<UfoBehaviour>()
+            .FromInstance(_ufoBehaviour)
             .AsSingle();
     }
 
@@ -92,7 +96,7 @@ public class LevelInstaller : MonoInstaller
         
         Container.Bind<WorldBounds>()
             .AsSingle()
-            .WithArguments(main);
+            .WithArguments(100f, main);
     }
 
     private void BindPools()

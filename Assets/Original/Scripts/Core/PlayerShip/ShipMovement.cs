@@ -3,7 +3,7 @@ using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.Ship
+namespace Original.Scripts.Core.PlayerShip
 {
     public class ShipMovement
     {

@@ -1,10 +1,8 @@
 using System;
+using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
-using Original.Scripts.Presentation.Behavior;
-using Plugins.Zenject.Source.Main;
-using Plugins.Zenject.Source.Runtime;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -19,16 +17,21 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly DiContainer _diContainer;
         private readonly TickableManager _tickableManager;
         private readonly AsteroidBehaviour _asteroidPrefab;
+        private readonly UfoBehaviour _ufoBehaviour;
         private readonly ICustomPhysicsFactory _physicsFactory;
+        private readonly IObjectPool<Projectile> _projectilePool;
     
         [Inject]
         public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, 
-            AsteroidBehaviour asteroidPrefab, ICustomPhysicsFactory physicsFactory)
+            AsteroidBehaviour asteroidPrefab, ICustomPhysicsFactory physicsFactory, IObjectPool<Projectile> projectilePool, UfoBehaviour ufoBehaviour)
         {
             _diContainer = diContainer;
             _tickableManager = tickableManager;
             _asteroidPrefab = asteroidPrefab;
+            _ufoBehaviour = ufoBehaviour;
             _physicsFactory = physicsFactory;
+            _projectilePool = projectilePool;
+     
         }
 
         public IEnemy Create(EnemyType enemyType, Vector3 position, float rotation = 0, Transform parent = null)
@@ -40,7 +43,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                 case EnemyType.Asteroid:
                     return CreateAsteroid(position, rotation, speed, parent);
                 case EnemyType.Ufo:
-                    throw new ArgumentException("Unknown weapon type", nameof(enemyType));
+                    return CreateUfo(position, rotation, speed, parent);
                 default:
                     throw new ArgumentException("Unknown weapon type", nameof(enemyType));
             }
@@ -64,6 +67,30 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                 createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
         
             Asteroid created = new Asteroid(createdView, physics, speed);
+        
+            customCollider.SetHandler(created);
+        
+            _tickableManager.Add(created);
+            return created;
+        }
+
+        private Ufo CreateUfo(Vector3 position, float rotation, float speed, Transform parent)
+        {
+            UfoBehaviour createdView =
+                _diContainer.InstantiatePrefabForComponent<UfoBehaviour>(_ufoBehaviour.gameObject,
+                    position, Quaternion.Euler(0, 0, rotation), parent);
+
+            bool isTrigger = false;
+            bool isActive = true;
+            PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
+            PhysicsLayer collisionMask = PhysicsLayer.Player;
+            
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
+        
+            CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
+                createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
+        
+            Ufo created = new Ufo(createdView, physics, _projectilePool, speed);
         
             customCollider.SetHandler(created);
         

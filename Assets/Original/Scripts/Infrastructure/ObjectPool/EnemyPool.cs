@@ -30,10 +30,10 @@ namespace Original.Scripts.Infrastructure.ObjectPool
                 AddToPool(EnemyType.Asteroid);
             }
             
-            /*for (int i = 0; i < InitialSize/2; i++)
+            for (int i = 0; i < InitialSize/2; i++)
             {
                 AddToPool(EnemyType.Ufo);
-            }*/
+            }
 
         }
 

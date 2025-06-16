@@ -3,8 +3,10 @@ using System.Linq;
 using UnityEngine;
 using Zenject;
 using Cysharp.Threading.Tasks;
+using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.PlayerShip;
 
 public class EnemySpawner
 {
@@ -12,18 +14,21 @@ public class EnemySpawner
     private const int SpawnIntervalSeconds = 5;
     private const int MaxAsteroids = 40;
 
+    private PlayerSpawner _playerSpawner;
+
     private IEnemyPool _enemyPool;
 
     private List<IEnemy> _spawnedEnemies = new();
 
     [Inject]
-    public EnemySpawner(IEnemyPool enemyPool)
+    public EnemySpawner(IEnemyPool enemyPool, PlayerSpawner playerSpawner)
     {
         _enemyPool = enemyPool;
+        _playerSpawner = playerSpawner;
         Start();
     }
 
-    public void Start()
+    private void Start()
     {
         SpawnInitial();
         LoopSpawning().Forget();
@@ -49,6 +54,7 @@ public class EnemySpawner
             for (int i = 0; i < canSpawn; i++)
             {
                 SpawnAsteroidAtRandomPosition();
+                SpawnUfoAtRandomPosition();
             }
         }
     }
@@ -59,10 +65,23 @@ public class EnemySpawner
         Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 
         IEnemy asteroid = _enemyPool.Get(EnemyType.Asteroid, randomPos, randomRotation);
-        
+                
         _spawnedEnemies.Add(asteroid);
 
         asteroid.OnEnemyDeath += OnAsteroidDeath;
+    }
+    
+    private void SpawnUfoAtRandomPosition()
+    {
+        Vector2 randomPos = GetRandomSpawnPosition();
+        Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
+
+        IEnemy ufo = _enemyPool.Get(EnemyType.Ufo, randomPos, randomRotation);
+        ((Ufo)ufo).SetTarget(_playerSpawner.Ship);
+            
+        _spawnedEnemies.Add(ufo);
+
+        ufo.OnEnemyDeath += OnAsteroidDeath;
     }
 
     private Vector2 GetRandomSpawnPosition()

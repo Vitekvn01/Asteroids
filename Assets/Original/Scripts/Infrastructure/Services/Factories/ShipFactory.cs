@@ -2,9 +2,6 @@ using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.PlayerShip;
 using Original.Scripts.Core.Weapons;
-using Original.Scripts.Presentation.Behavior;
-using Plugins.Zenject.Source.Main;
-using Plugins.Zenject.Source.Runtime;
 using UnityEngine;
 using Zenject;
 

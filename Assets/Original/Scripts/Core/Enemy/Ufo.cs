@@ -2,6 +2,7 @@ using System;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.PlayerShip;
 using UnityEngine;
 using Zenject;
 
@@ -11,11 +12,11 @@ namespace Original.Scripts.Core.Enemy
     {
         private readonly CustomPhysics _physics;
         
-        private IAsteroidView _view;
+        private IUfoView _view;
 
         private IObjectPool<Projectile> _projectilePool;
 
-        private Transform _targetT;
+        private Ship _target;
 
         private float _speed;
         
@@ -25,7 +26,7 @@ namespace Original.Scripts.Core.Enemy
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Ufo(IAsteroidView view, CustomPhysics physics, IObjectPool<Projectile> projectilePool, float speed)
+        public Ufo(IUfoView view, CustomPhysics physics, IObjectPool<Projectile> projectilePool, float speed)
         {
             _view = view;
             _physics = physics;
@@ -38,11 +39,17 @@ namespace Original.Scripts.Core.Enemy
             if (_isActive)
             {
                 _view.Transform.position = _physics.Position;
+                _view.Transform.rotation = Quaternion.Euler(0f, 0f, _physics.Rotation);
                 
-                /*Vector3 directionToPlayer = (_playerPosition - _view.Transform.position).normalized;*/
-
-                // Устанавливаем скорость в сторону игрока
-                /*_physics.SetVelocity(directionToPlayer * _speed);*/
+                Vector3 directionToPlayer = _view.Transform.up;
+                
+                _physics.SetVelocity(directionToPlayer * _speed);
+                
+                if (directionToPlayer.sqrMagnitude > 0.001f)
+                {
+                    float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+                    _physics.SetRotation(targetAngle);
+                }
             }
         }
         
@@ -50,13 +57,9 @@ namespace Original.Scripts.Core.Enemy
         {
             _view.Transform.position = pos;
             _view.Transform.rotation = rotation;
-                
+            
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.eulerAngles.z);
-            
-            Vector3 direction = _view.Transform.up;
-            _physics.SetVelocity(direction.normalized * _speed);
-            _physics.SetActive(true);
             
             _view.SetActive(true);
             
@@ -69,6 +72,11 @@ namespace Original.Scripts.Core.Enemy
             _physics.SetActive(false);
             _isActive = false;
 
+        }
+
+        public void SetTarget(Ship ship)
+        {
+            _target = ship;
         }
 
         public void SetSpeed(float speeed)
