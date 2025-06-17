@@ -25,7 +25,7 @@ namespace Original.Scripts.Core.PlayerShip
         private IWeapon _primaryWeapon;
         private IWeapon _secondaryWeapon;
 
-        public CustomPhysics Physics => Physics;
+        public CustomPhysics Physics => _physics;
     
         public float MoveSpeed => _moveSpeed;
         public float RotationSpeed => _rotationSpeed;
@@ -42,7 +42,7 @@ namespace Original.Scripts.Core.PlayerShip
         public event Action OnDeathEvent;
     
     
-        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed, float maxSpeed)
+        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed, float maxSpeed, CustomPhysics physics)
         {
             _primaryWeapon = primaryWeapon;
             _secondaryWeapon = secondaryWeapon;
@@ -52,6 +52,8 @@ namespace Original.Scripts.Core.PlayerShip
             _rotationSpeed = rotationSpeed;
             _maxSpeed = maxSpeed;
             _isActive = true;
+
+            _physics = physics;
         }
 
         public void ApplyDamage()

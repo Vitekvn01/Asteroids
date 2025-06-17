@@ -3,6 +3,7 @@ using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.Weapons;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -11,47 +12,51 @@ namespace Original.Scripts.Infrastructure.Services.Factories
 {
     public class EnemyFactory : IEnemyFactory
     {
-        private const float MinSpeed = 1f;
-        private const float MaxSpeed = 5;
-        
         private readonly DiContainer _diContainer;
         private readonly TickableManager _tickableManager;
+        
         private readonly AsteroidBehaviour _asteroidPrefab;
         private readonly UfoBehaviour _ufoBehaviour;
+        
         private readonly ICustomPhysicsFactory _physicsFactory;
-        private readonly IObjectPool<Projectile> _projectilePool;
+        private readonly IWeaponFactory _weaponFactory;
+
+        private readonly IConfigProvider _configLoader;
     
         [Inject]
         public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, 
-            AsteroidBehaviour asteroidPrefab, ICustomPhysicsFactory physicsFactory, IObjectPool<Projectile> projectilePool, UfoBehaviour ufoBehaviour)
+            AsteroidBehaviour asteroidPrefab, ICustomPhysicsFactory physicsFactory, UfoBehaviour ufoBehaviour, IWeaponFactory weaponFactory, IConfigProvider configLoader)
         {
             _diContainer = diContainer;
             _tickableManager = tickableManager;
+            
             _asteroidPrefab = asteroidPrefab;
             _ufoBehaviour = ufoBehaviour;
+            
             _physicsFactory = physicsFactory;
-            _projectilePool = projectilePool;
-     
+            _weaponFactory = weaponFactory;
+            
+            _configLoader = configLoader;
         }
 
         public IEnemy Create(EnemyType enemyType, Vector3 position, float rotation = 0, Transform parent = null)
         {
-            float speed = Random.Range(MinSpeed, MaxSpeed);
-            
             switch (enemyType)
             {
                 case EnemyType.Asteroid:
-                    return CreateAsteroid(position, rotation, speed, parent);
+                    return CreateAsteroid(position, rotation, parent);
                 case EnemyType.Ufo:
-                    return CreateUfo(position, rotation, speed, parent);
+                    return CreateUfo(position, rotation, parent);
                 default:
                     throw new ArgumentException("Unknown weapon type", nameof(enemyType));
             }
             
         }
 
-        private Asteroid CreateAsteroid(Vector3 position, float rotation, float speed, Transform parent)
+        private Asteroid CreateAsteroid(Vector3 position, float rotation, Transform parent)
         {
+
+            
             AsteroidBehaviour createdView =
                 _diContainer.InstantiatePrefabForComponent<AsteroidBehaviour>(_asteroidPrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
@@ -65,7 +70,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
-        
+            
+            float speed = Random.Range(_configLoader.AsteroidConfig.MinSpeed, _configLoader.AsteroidConfig.MaxSpeed);
+            
             Asteroid created = new Asteroid(createdView, physics, speed);
         
             customCollider.SetHandler(created);
@@ -74,7 +81,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             return created;
         }
 
-        private Ufo CreateUfo(Vector3 position, float rotation, float speed, Transform parent)
+        private Ufo CreateUfo(Vector3 position, float rotation, Transform parent)
         {
             UfoBehaviour createdView =
                 _diContainer.InstantiatePrefabForComponent<UfoBehaviour>(_ufoBehaviour.gameObject,
@@ -82,15 +89,25 @@ namespace Original.Scripts.Infrastructure.Services.Factories
 
             bool isTrigger = false;
             bool isActive = true;
-            PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
-            PhysicsLayer collisionMask = PhysicsLayer.Player;
+            PhysicsLayer asteroidLayer = PhysicsLayer.Ufo | PhysicsLayer.Enemy;
+            PhysicsLayer collisionMask = PhysicsLayer.Player | PhysicsLayer.Ufo;
             
             ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
-                createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
-        
-            Ufo created = new Ufo(createdView, physics, _projectilePool, speed);
+                createdView.transform.rotation.eulerAngles.z, 2, 1, customCollider);
+            
+            IWeapon weapon = _weaponFactory.Create(WeaponType.StandardWeapon);
+            
+            float speed = Random.Range(_configLoader.UfoConfig.MinSpeed, _configLoader.UfoConfig.MaxSpeed);
+            float stopRadius =
+                Random.Range(_configLoader.UfoConfig.MinStopRadius, _configLoader.UfoConfig.MaxStopRadius);
+            float fireRadius =
+                Random.Range(_configLoader.UfoConfig.MinFireRadius, _configLoader.UfoConfig.MaxFireRadius);
+            float fireSpread =
+                Random.Range(_configLoader.UfoConfig.MinFireSpreadAngle, _configLoader.UfoConfig.MaxFireSpreadAngle);
+            
+            Ufo created = new Ufo(createdView, physics, weapon, speed, stopRadius, fireRadius, fireSpread);
         
             customCollider.SetHandler(created);
         

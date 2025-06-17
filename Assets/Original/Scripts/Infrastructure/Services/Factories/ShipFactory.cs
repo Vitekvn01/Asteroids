@@ -53,7 +53,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
             IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);
         
-            var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health, _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed, _configLoader.PlayerConfig.MaxSpeed);
+            var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health,
+                _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed, 
+                _configLoader.PlayerConfig.MaxSpeed, customPhysics);
             var movement = new ShipMovement(behaviour, ship, customPhysics);
             var controller = new ShipController(_input, ship, behaviour, movement);
         

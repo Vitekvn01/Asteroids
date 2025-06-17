@@ -4,7 +4,8 @@ public enum PhysicsLayer
     Player = 1 << 0,         // 0001
     Enemy = 1 << 1,          // 0010
     Asteroid = 1 << 2,       // 0100
-    Projectile = 1 << 3,         // 1000
-    Default = 1 << 4,        // 1 0000 — новый универсальный
+    Ufo = 1 << 3,   // 1000
+    Projectile = 1 << 4,    // 1 0000 — новый универсальный     
+    Default = 1 << 5,        
     All = ~0               // Всё, кроме None
 }

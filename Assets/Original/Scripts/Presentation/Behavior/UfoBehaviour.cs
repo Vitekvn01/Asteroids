@@ -6,9 +6,13 @@ using UnityEngine;
 public class UfoBehaviour : MonoBehaviour, IUfoView
 {
     [SerializeField] private float _radiusCollider;
+    
+    [SerializeField] private Transform _shootPoint;
     public Transform Transform => gameObject.transform;
 
     public float RadiusCollider => _radiusCollider;
+
+    public Transform ShootPoint => _shootPoint;
     
     private void OnDrawGizmos()
     {
@@ -19,4 +23,6 @@ public class UfoBehaviour : MonoBehaviour, IUfoView
     {
         gameObject.SetActive(isActive);
     }
+
+
 }

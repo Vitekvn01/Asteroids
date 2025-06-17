@@ -1,0 +1,14 @@
+{
+  "MinSpeed": 5,
+  "MaxSpeed": 12,
+  
+  "MinStopRadius": 2,
+  "MaxStopRadius": 50,
+  
+  "MinFireRadius": 2,
+  "MaxFireRadius": 50,
+  
+  "MinFireSpreadAngle": 15,
+  "MaxFireSpreadAngle": 30
+}
+

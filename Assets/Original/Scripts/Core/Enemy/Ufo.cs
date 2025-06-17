@@ -3,6 +3,7 @@ using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.PlayerShip;
+using Original.Scripts.Core.Weapons;
 using UnityEngine;
 using Zenject;
 
@@ -12,10 +13,16 @@ namespace Original.Scripts.Core.Enemy
     {
         private readonly CustomPhysics _physics;
         
-        private IUfoView _view;
+        private readonly IUfoView _view;
 
-        private IObjectPool<Projectile> _projectilePool;
+        private readonly IWeapon _weapon;
 
+        private readonly float _stopRadius;
+        
+        private readonly float _fireRadius;
+
+        private readonly float _fireSpreadAngle;
+        
         private Ship _target;
 
         private float _speed;
@@ -26,30 +33,50 @@ namespace Original.Scripts.Core.Enemy
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Ufo(IUfoView view, CustomPhysics physics, IObjectPool<Projectile> projectilePool, float speed)
+        public Ufo(IUfoView view, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, float fireRadius, float fireSpreadAngle)
         {
             _view = view;
             _physics = physics;
-            _projectilePool = projectilePool;
+            _weapon = weapon;
             _speed = speed;
+            _stopRadius = stopRadius;
+            _fireRadius = fireRadius;
+            _fireSpreadAngle = fireSpreadAngle;
+            
+            _isActive = true;
         }
         
         public void Tick()
         {
             if (_isActive)
             {
+                Vector3 directionToTarget = (Vector3)_target.Physics.Position - _view.Transform.position;
+                float distance = directionToTarget.magnitude;
+                
+                Vector3 directionNormalized = directionToTarget.normalized;
+
+                float angle = Vector2.SignedAngle(_view.Transform.up, directionNormalized);
+                float newRotation = _view.Transform.eulerAngles.z + angle;
+                
+                _physics.SetRotation(newRotation);
+                
+                if (distance > _stopRadius)
+                {
+                    _physics.AddForce(_view.Transform.up * _speed);
+                }
+                
+                if (distance <= _fireRadius)
+                {
+                    _weapon.Update();
+                    
+                    float randomAngleOffset = UnityEngine.Random.Range(-_fireSpreadAngle / 2f, _fireSpreadAngle / 2f);
+                    Quaternion spreadRotation = Quaternion.Euler(0, 0, _view.Transform.eulerAngles.z + randomAngleOffset);
+
+                    _weapon.TryShoot(_view.ShootPoint.position, spreadRotation, _physics.Velocity.magnitude);
+                }
+                
                 _view.Transform.position = _physics.Position;
                 _view.Transform.rotation = Quaternion.Euler(0f, 0f, _physics.Rotation);
-                
-                Vector3 directionToPlayer = _view.Transform.up;
-                
-                _physics.SetVelocity(directionToPlayer * _speed);
-                
-                if (directionToPlayer.sqrMagnitude > 0.001f)
-                {
-                    float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-                    _physics.SetRotation(targetAngle);
-                }
             }
         }
         
@@ -60,7 +87,7 @@ namespace Original.Scripts.Core.Enemy
             
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.eulerAngles.z);
-            
+            _physics.SetActive(true);
             _view.SetActive(true);
             
             _isActive = true;

@@ -7,8 +7,9 @@ using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.PlayerShip;
+using UnityEngine.PlayerLoop;
 
-public class EnemySpawner
+public class EnemySpawner : IInitializable
 {
     private const int InitialSpawnCount = 20;
     private const int SpawnIntervalSeconds = 5;
@@ -25,6 +26,10 @@ public class EnemySpawner
     {
         _enemyPool = enemyPool;
         _playerSpawner = playerSpawner;
+    }
+    
+    public void Initialize()
+    {
         Start();
     }
 
@@ -96,4 +101,6 @@ public class EnemySpawner
         _spawnedEnemies.Remove(enemy);
         enemy.OnEnemyDeath -= OnAsteroidDeath;
     }
+
+
 }
