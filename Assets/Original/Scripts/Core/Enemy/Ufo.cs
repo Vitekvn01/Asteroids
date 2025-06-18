@@ -1,5 +1,4 @@
 using System;
-using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.PlayerShip;
@@ -29,11 +28,15 @@ namespace Original.Scripts.Core.Enemy
         
         private bool _isActive;
         
+        public CustomPhysics Physics => _physics;
+        
         public bool IsActive => _isActive;
+        
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Ufo(IUfoView view, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, float fireRadius, float fireSpreadAngle)
+        public Ufo(IUfoView view, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, 
+            float fireRadius, float fireSpreadAngle)
         {
             _view = view;
             _physics = physics;

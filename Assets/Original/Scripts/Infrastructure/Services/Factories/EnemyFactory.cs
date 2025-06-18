@@ -1,6 +1,7 @@
 using System;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
+using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Weapons;
@@ -16,6 +17,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly TickableManager _tickableManager;
         
         private readonly AsteroidBehaviour _asteroidPrefab;
+        private readonly AsteroidBehaviour _debrisPrefab;
         private readonly UfoBehaviour _ufoBehaviour;
         
         private readonly ICustomPhysicsFactory _physicsFactory;
@@ -25,12 +27,14 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     
         [Inject]
         public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, 
-            AsteroidBehaviour asteroidPrefab, ICustomPhysicsFactory physicsFactory, UfoBehaviour ufoBehaviour, IWeaponFactory weaponFactory, IConfigProvider configLoader)
+            [Inject(Id = "Asteroid")]AsteroidBehaviour asteroidPrefab, [Inject(Id = "Debris")] AsteroidBehaviour debrisPrefab, ICustomPhysicsFactory physicsFactory,
+            UfoBehaviour ufoBehaviour, IWeaponFactory weaponFactory, IConfigProvider configLoader)
         {
             _diContainer = diContainer;
             _tickableManager = tickableManager;
             
             _asteroidPrefab = asteroidPrefab;
+            _debrisPrefab = debrisPrefab;
             _ufoBehaviour = ufoBehaviour;
             
             _physicsFactory = physicsFactory;
@@ -47,6 +51,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     return CreateAsteroid(position, rotation, parent);
                 case EnemyType.Ufo:
                     return CreateUfo(position, rotation, parent);
+                case EnemyType.Debris:
+                    return CreateDebris(position, rotation, parent);
                 default:
                     throw new ArgumentException("Unknown weapon type", nameof(enemyType));
             }
@@ -55,8 +61,6 @@ namespace Original.Scripts.Infrastructure.Services.Factories
 
         private Asteroid CreateAsteroid(Vector3 position, float rotation, Transform parent)
         {
-
-            
             AsteroidBehaviour createdView =
                 _diContainer.InstantiatePrefabForComponent<AsteroidBehaviour>(_asteroidPrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
@@ -114,5 +118,32 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _tickableManager.Add(created);
             return created;
         }
+        
+        private Debris CreateDebris(Vector3 position, float rotation, Transform parent)
+        {
+            AsteroidBehaviour createdView =
+                _diContainer.InstantiatePrefabForComponent<AsteroidBehaviour>(_debrisPrefab.gameObject,
+                    position, Quaternion.Euler(0, 0, rotation), parent);
+
+            bool isTrigger = false;
+            bool isActive = true;
+            PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
+            PhysicsLayer collisionMask = PhysicsLayer.Player;
+            
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
+        
+            CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
+                createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
+            
+            float speed = 0;
+            
+            Debris created = new Debris(createdView, physics, speed);
+        
+            customCollider.SetHandler(created);
+        
+            _tickableManager.Add(created);
+            return created;
+        }
+
     }
 }

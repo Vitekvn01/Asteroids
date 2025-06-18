@@ -11,7 +11,9 @@ namespace Original.Scripts.Infrastructure.ObjectPool
 {
     public class EnemyPool : IEnemyPool
     {
-        private const int InitialSize = 100;
+        private const int InitialSizeAsteroid = 100;
+        private const int InitialSizeDebris = 100;
+        private const int InitialSizeUfo = 100;
     
         private readonly Transform _parent;
     
@@ -25,12 +27,17 @@ namespace Original.Scripts.Infrastructure.ObjectPool
             _enemyFactory = enemyFactory;
             _parent = parent;
         
-            for (int i = 0; i < InitialSize/2; i++)
+            for (int i = 0; i < InitialSizeAsteroid; i++)
             {
                 AddToPool(EnemyType.Asteroid);
             }
             
-            for (int i = 0; i < InitialSize/2; i++)
+            for (int i = 0; i < InitialSizeDebris; i++)
+            {
+                AddToPool(EnemyType.Debris);
+            }
+            
+            for (int i = 0; i < InitialSizeUfo; i++)
             {
                 AddToPool(EnemyType.Ufo);
             }
@@ -50,9 +57,11 @@ namespace Original.Scripts.Infrastructure.ObjectPool
                 case EnemyType.Asteroid:
                     instance = _enemyFactory.Create(EnemyType.Asteroid, pos, angleZ, _parent);
                     break;
-
                 case EnemyType.Ufo:
                     instance = _enemyFactory.Create(EnemyType.Ufo, pos, angleZ, _parent);;
+                    break;
+                case EnemyType.Debris:
+                    instance = _enemyFactory.Create(EnemyType.Debris, pos, angleZ, _parent);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, $"Unhandled enemy type: {type}");
@@ -83,6 +92,9 @@ namespace Original.Scripts.Infrastructure.ObjectPool
                     break;
                 case EnemyType.Ufo:
                     isMatch = enemy is Ufo;
+                    break;
+                case EnemyType.Debris:
+                    isMatch = enemy is Debris;
                     break;
                 default:
                     throw new ArgumentException("Unknown enemy type", nameof(enemyType));

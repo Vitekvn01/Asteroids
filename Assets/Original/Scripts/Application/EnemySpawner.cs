@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Enemy;
 using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.PlayerShip;
 using UnityEngine.PlayerLoop;
 
@@ -86,7 +87,7 @@ public class EnemySpawner : IInitializable
             
         _spawnedEnemies.Add(ufo);
 
-        ufo.OnEnemyDeath += OnAsteroidDeath;
+        ufo.OnEnemyDeath += OnUFODeath;
     }
 
     private Vector2 GetRandomSpawnPosition()
@@ -98,8 +99,29 @@ public class EnemySpawner : IInitializable
 
     private void OnAsteroidDeath(IEnemy enemy)
     {
+        SpawnDebris(enemy.Physics);
         _spawnedEnemies.Remove(enemy);
         enemy.OnEnemyDeath -= OnAsteroidDeath;
+    }
+    
+    private void OnUFODeath(IEnemy enemy)
+    {
+        _spawnedEnemies.Remove(enemy);
+        enemy.OnEnemyDeath -= OnUFODeath;
+    }
+    
+    private void SpawnDebris(CustomPhysics physics)
+    {
+        int debrisCount = Random.Range(3, 5);
+
+        for (int i = 0; i < debrisCount; i++)
+        {
+            float angleOffset = Random.Range(0, 360);
+            Quaternion rotation = Quaternion.Euler(0, 0, angleOffset);
+
+            IEnemy debris = _enemyPool.Get(EnemyType.Debris, physics.Position, rotation);
+            ((Debris)debris).SetSpeed(physics.Velocity.magnitude);
+        }
     }
 
 
