@@ -1,5 +1,6 @@
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Entity.PlayerShip;
+using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
@@ -9,29 +10,33 @@ namespace Original.Scripts.Core.Entity
 {
     public class Projectile : ITickable, IColliderHandler
     {
+        private const float Lifetime = 1f;
+        
         private readonly CustomPhysics _physics;
     
         private IProjectileView _view;
 
         private float _speed;
         
-        private float _lifetime;
-        
         private float _timer;
 
         private bool _isActive;
 
         public bool IsActive => _isActive;
+        
+        public ProjectileType ProjectileType { get; }
 
-        public Projectile(IProjectileView view, CustomPhysics physics, float speed)
+
+        public Projectile(IProjectileView view, CustomPhysics physics, float speed, ProjectileType type)
         {
             _view = view;
             _physics = physics;
 
             _speed = speed;
+
+            ProjectileType = type;
             
             _timer = 0f;
-            _lifetime = 1f;
 
         }
     
@@ -45,7 +50,7 @@ namespace Original.Scripts.Core.Entity
                 _view.Transform.rotation =  Quaternion.Euler(0, 0, _physics.Rotation);
                 _timer += Time.deltaTime;
         
-                if (_timer > _lifetime)
+                if (_timer > Lifetime)
                 {
                     Deactivate();
                 }

@@ -2,11 +2,13 @@ namespace Original.Scripts.Core.Config
 {
     public class WeaponConfig
     {
-        public int LaserAmmo = 10;
+        public int LaserAmmo;
     
-        public float LaserCooldown = 0.5f;
-        public float LaserRefillTime = 10;
+        public float LaserCooldown;
+        public float LaserRefillTime;
 
-        public float StandardCooldown = 0.2f;
+        public float StandardCooldown;
+
+        public float EnemyCooldown;
     }
 }

@@ -111,7 +111,7 @@ public class LevelInstaller : MonoInstaller
 
     private void BindPools()
     {
-        Container.Bind<IObjectPool<Projectile>>()
+        Container.Bind<IProjectilePool>()
             .To<ProjectilePool>()
             .AsSingle();
 

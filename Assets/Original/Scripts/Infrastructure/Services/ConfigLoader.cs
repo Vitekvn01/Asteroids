@@ -14,6 +14,8 @@ namespace Original.Scripts.Infrastructure.Services
         public AsteroidConfig AsteroidConfig { get; }
         
         public UfoConfig UfoConfig { get; }
+        
+        public RewardConfig RewardConfig { get; }
 
         public ConfigLoader()
         {
@@ -21,6 +23,7 @@ namespace Original.Scripts.Infrastructure.Services
             WeaponConfig = LoadConfig<WeaponConfig>("WeaponConfig");
             AsteroidConfig = LoadConfig<AsteroidConfig>("AsteroidConfig");
             UfoConfig = LoadConfig<UfoConfig>("UfoConfig");
+            RewardConfig = LoadConfig<RewardConfig>("RewardConfig");
         }
 
         public T LoadConfig<T>(string path)

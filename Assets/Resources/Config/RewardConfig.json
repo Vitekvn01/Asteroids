@@ -1,0 +1,7 @@
+{
+  "Rewards": 
+  [ { "EnemyType": 0, "RewardPoints": 10 },
+    { "EnemyType": 1, "RewardPoints": 1 },
+    { "EnemyType": 2, "RewardPoints": 50 }]
+}
+

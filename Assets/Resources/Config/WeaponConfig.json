@@ -3,6 +3,8 @@
   
   "LaserAmmo": 10,
   "LaserRefillTime": 10,
-  "LaserCooldown": 0.5
+  "LaserCooldown": 0.5,
+  
+  "EnemyCooldown": 0.7
 }
 

@@ -11,6 +11,8 @@ namespace Original.Scripts.Core.Interfaces.IService
         public AsteroidConfig AsteroidConfig { get; }
         
         public UfoConfig UfoConfig { get; }
+        
+        public RewardConfig RewardConfig { get; }
         T LoadConfig<T>(string path);
     }
 }

@@ -104,13 +104,13 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 2, 1, customCollider);
             
-            IWeapon weapon = _weaponFactory.Create(WeaponType.StandardWeapon);
+            IWeapon weapon = _weaponFactory.Create(WeaponType.EnemyWeapon);
             
             float speed = Random.Range(_configLoader.UfoConfig.MinSpeed, _configLoader.UfoConfig.MaxSpeed);
             float stopRadius =
                 Random.Range(_configLoader.UfoConfig.MinStopRadius, _configLoader.UfoConfig.MaxStopRadius);
             float fireRadius =
-                Random.Range(_configLoader.UfoConfig.MinFireRadius, _configLoader.UfoConfig.MaxFireRadius);
+                Random.Range(_configLoader.UfoConfig.MaxStopRadius, _configLoader.UfoConfig.MaxFireRadius);
             float fireSpread =
                 Random.Range(_configLoader.UfoConfig.MinFireSpreadAngle, _configLoader.UfoConfig.MaxFireSpreadAngle);
             

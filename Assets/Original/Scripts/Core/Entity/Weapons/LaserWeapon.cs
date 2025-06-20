@@ -1,4 +1,5 @@
 using System;
+using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Original.Scripts.Core.Entity.Weapons
         public event Action OnShootEvent;
 
         public LaserWeapon(int startAmmo, float cooldownTime, float refillTime,
-            IObjectPool<Projectile> projectilePool) : base(cooldownTime, projectilePool)
+            IProjectilePool projectilePool, ProjectileType projectileType) : base(cooldownTime, projectilePool, projectileType )
         {
             _ammo = startAmmo;
             _shootTimer = 0;

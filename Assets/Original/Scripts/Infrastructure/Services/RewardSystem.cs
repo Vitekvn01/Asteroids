@@ -8,16 +8,19 @@ namespace Original.Scripts.Infrastructure.Services
     public class RewardSystem : IRewardSystem
     {
         private readonly IScore _score;
-        private readonly Dictionary<EnemyType, int> _rewardByType = new()
-        {
-            { EnemyType.Asteroid, 10 },
-            { EnemyType.Debris, 1 },
-            { EnemyType.Ufo, 50 }
-        };
-
-        public RewardSystem(IScore score)
+        private readonly Dictionary<EnemyType, int> _rewardByType;
+        public RewardSystem(IScore score, IConfigProvider configLoader)
         {
             _score = score;
+            _rewardByType = new Dictionary<EnemyType, int>();
+
+            foreach (var entry in configLoader.RewardConfig.Rewards)
+            {
+                if (!_rewardByType.ContainsKey(entry.EnemyType))
+                {
+                    _rewardByType.Add(entry.EnemyType, entry.RewardPoints);
+                }
+            }
         }
 
         public void GiveReward(EnemyType type)
