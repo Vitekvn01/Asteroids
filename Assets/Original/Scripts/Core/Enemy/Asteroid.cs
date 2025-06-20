@@ -4,12 +4,13 @@ using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
+using Original.Scripts.Infrastructure.Signals;
 
 namespace Original.Scripts.Core.Enemy
 {
     public class Asteroid : IEnemy, IColliderHandler, ITickable
     {   
+        private readonly SignalBus _signalBus;
         private readonly CustomPhysics _physics;
         
         private readonly IEnemyPool _enemyPool;
@@ -74,6 +75,7 @@ namespace Original.Scripts.Core.Enemy
         public void Death()
         {
             OnEnemyDeath?.Invoke(this);
+            _signalBus.Fire(new Ene(EnemyType.Asteroid));
             Deactivate();
         }
         

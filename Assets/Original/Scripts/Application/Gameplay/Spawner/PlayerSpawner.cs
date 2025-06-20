@@ -3,10 +3,12 @@ using Original.Scripts.Core.PlayerShip;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core
+namespace Original.Scripts.Application.Gameplay.Spawner
 {
    public class PlayerSpawner
    {
+      private readonly Vector2 _spawnPos;
+      private readonly float _angle;
       private readonly IShipFactory _shipFactory;
       private Ship _ship;
 
@@ -16,12 +18,15 @@ namespace Original.Scripts.Core
       public PlayerSpawner(IShipFactory shipFactory)
       {
          _shipFactory = shipFactory;
-         Spawn(new Vector2(0, 0), 100);
+         _spawnPos = new Vector2(0, 0);
+         _ship = _shipFactory.Create(_spawnPos).Ship;
+         _ship.Deactivate();
+         Spawn();
       }
 
-      public void Spawn(Vector2 pos, float rot = 0)
+      public void Spawn()
       {
-         _ship = _shipFactory.Create(pos, rot).Ship;
+         _ship.Activate(_spawnPos, Quaternion.Euler(0,0,_angle));
       }
    }
 }

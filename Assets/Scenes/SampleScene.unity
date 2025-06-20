@@ -247,6 +247,7 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 7426548475131816177, guid: 6fe7b5c7abcc0c649bc330f4892897cb, type: 3}
   _shipPrefab: {fileID: 7791301724432514016, guid: c04ef40560f69ef4395184e4e65e13e8, type: 3}
   _asteroidPrefab: {fileID: 5109635058744562379, guid: 483b71db862d940469b3945d1a60c40e, type: 3}
+  _debrisPrefab: {fileID: 5109635058744562379, guid: 806a8b4e009354a4b99038333184c855, type: 3}
   _ufoBehaviour: {fileID: 3917521021620525838, guid: 0327d47dd96df054c994e518ded923ab, type: 3}
 --- !u!114 &1795379437
 MonoBehaviour:

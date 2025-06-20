@@ -1,3 +1,4 @@
+using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Interfaces;
@@ -122,5 +123,14 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<IConfigProvider>()
             .To<ConfigLoader>()
             .AsSingle();
+    }
+
+    private void BindSignals()
+    {
+        Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
+        
+        Container.Bind<IScore>().To<Score>().AsSingle();
+        
+        Container.BindInterfacesTo<RewardHandler>().AsSingle();
     }
 }

@@ -8,12 +8,7 @@ namespace Original.Scripts.Core
         private float _height;
         public float Width => _width;
         public float Height => _height;
-
-        /*public WorldBounds(float width, float height)
-        {
-            _width = width;
-            _height = height;
-        }*/
+        
         
         public WorldBounds( float width, Camera cam)
         {
@@ -24,17 +19,8 @@ namespace Original.Scripts.Core
             float orthographicSize = _height / 2f; 
             cam.orthographicSize = orthographicSize;
             
-            /*CalculateBoundsFromCamera(cam);*/
         }
         
-        private void CalculateBoundsFromCamera(Camera cam)
-        {
-            float height = 2f * cam.orthographicSize;
-            float width = height * cam.aspect;
-
-            _width = width;
-            _height = height;
-        }
 
         public Vector2 WrapPosition(Vector2 pos)
         {
