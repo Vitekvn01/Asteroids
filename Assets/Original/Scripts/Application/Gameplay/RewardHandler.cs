@@ -2,7 +2,7 @@
 
 using System;
 using Original.Scripts.Core.Interfaces.IService;
-using Original.Scripts.Infrastructure.Signals;
+using Original.Scripts.Core.Signals;
 using Zenject;
 
 public class RewardHandler : IInitializable, IDisposable

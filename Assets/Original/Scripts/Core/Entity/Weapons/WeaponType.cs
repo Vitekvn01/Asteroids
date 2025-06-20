@@ -1,4 +1,4 @@
-namespace Original.Scripts.Core.Weapons
+namespace Original.Scripts.Core.Entity.Weapons
 {
     public enum WeaponType
     {

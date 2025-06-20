@@ -1,9 +1,11 @@
 using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Config;
+using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.Signals;
 using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
@@ -26,6 +28,7 @@ public class LevelInstaller : MonoInstaller
         BindFactories();
         BindGameLogic();
         BindPools();
+        BindSignals();
     }
 
     private void BindPrefabs()
@@ -127,6 +130,10 @@ public class LevelInstaller : MonoInstaller
 
     private void BindSignals()
     {
+        SignalBusInstaller.Install(Container);
+
+        Container.DeclareSignal<EnemyDestroyedSignal>();
+        
         Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
         
         Container.Bind<IScore>().To<Score>().AsSingle();

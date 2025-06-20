@@ -1,4 +1,4 @@
-using Original.Scripts.Core.Weapons;
+using Original.Scripts.Core.Entity.Weapons;
 
 namespace Original.Scripts.Core.Interfaces.IService
 {

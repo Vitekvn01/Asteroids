@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Original.Scripts.Core.Weapons
+namespace Original.Scripts.Core.Entity.Weapons
 {
    public interface IWeapon
    {

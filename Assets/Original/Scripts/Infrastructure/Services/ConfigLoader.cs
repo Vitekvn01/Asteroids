@@ -1,6 +1,5 @@
 using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Interfaces.IService;
-using Original.Scripts.Core.Weapons;
 using UnityEngine;
 
 namespace Original.Scripts.Infrastructure.Services

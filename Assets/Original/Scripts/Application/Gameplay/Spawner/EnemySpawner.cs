@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Original.Scripts.Core;
-using Original.Scripts.Core.Enemy;
+using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Physics;
 using UnityEngine;

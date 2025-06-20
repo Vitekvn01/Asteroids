@@ -4,7 +4,7 @@ using Original.Scripts.Core.Interfaces.IView;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.PlayerShip
+namespace Original.Scripts.Core.Entity.PlayerShip
 {
     public class ShipController : ITickable, IDisposable
     {

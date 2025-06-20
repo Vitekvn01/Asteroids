@@ -1,11 +1,8 @@
 using System;
-using System.Numerics;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Physics;
-using UnityEngine.UIElements;
-using Vector3 = UnityEngine.Vector3;
 
-namespace Original.Scripts.Core.Enemy
+namespace Original.Scripts.Core.Entity.Enemy
 {
     public interface IEnemy : IActivatable 
     {   

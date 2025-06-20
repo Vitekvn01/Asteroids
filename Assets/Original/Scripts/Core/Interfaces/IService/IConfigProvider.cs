@@ -1,5 +1,4 @@
 using Original.Scripts.Core.Config;
-using Original.Scripts.Core.Weapons;
 
 namespace Original.Scripts.Core.Interfaces.IService
 {

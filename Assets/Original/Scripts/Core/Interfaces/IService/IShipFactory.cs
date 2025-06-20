@@ -1,4 +1,4 @@
-using Original.Scripts.Core.PlayerShip;
+using Original.Scripts.Core.Entity.PlayerShip;
 using UnityEngine;
 
 namespace Original.Scripts.Core.Interfaces.IService

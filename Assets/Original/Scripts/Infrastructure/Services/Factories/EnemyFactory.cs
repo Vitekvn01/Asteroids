@@ -1,10 +1,10 @@
 using System;
 using Original.Scripts.Core;
-using Original.Scripts.Core.Enemy;
+using Original.Scripts.Core.Entity.Enemy;
+using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
-using Original.Scripts.Core.Weapons;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -15,6 +15,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     {
         private readonly DiContainer _diContainer;
         private readonly TickableManager _tickableManager;
+        private readonly SignalBus _signalBus;
         
         private readonly AsteroidBehaviour _asteroidPrefab;
         private readonly AsteroidBehaviour _debrisPrefab;
@@ -26,12 +27,13 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly IConfigProvider _configLoader;
     
         [Inject]
-        public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, 
+        public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, SignalBus signalBus, 
             [Inject(Id = "Asteroid")]AsteroidBehaviour asteroidPrefab, [Inject(Id = "Debris")] AsteroidBehaviour debrisPrefab, ICustomPhysicsFactory physicsFactory,
             UfoBehaviour ufoBehaviour, IWeaponFactory weaponFactory, IConfigProvider configLoader)
         {
             _diContainer = diContainer;
             _tickableManager = tickableManager;
+            _signalBus = signalBus;
             
             _asteroidPrefab = asteroidPrefab;
             _debrisPrefab = debrisPrefab;
@@ -41,6 +43,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _weaponFactory = weaponFactory;
             
             _configLoader = configLoader;
+
         }
 
         public IEnemy Create(EnemyType enemyType, Vector3 position, float rotation = 0, Transform parent = null)
@@ -77,7 +80,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             
             float speed = Random.Range(_configLoader.AsteroidConfig.MinSpeed, _configLoader.AsteroidConfig.MaxSpeed);
             
-            Asteroid created = new Asteroid(createdView, physics, speed);
+            Asteroid created = new Asteroid(createdView, _signalBus, physics, speed);
         
             customCollider.SetHandler(created);
         
@@ -111,7 +114,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             float fireSpread =
                 Random.Range(_configLoader.UfoConfig.MinFireSpreadAngle, _configLoader.UfoConfig.MaxFireSpreadAngle);
             
-            Ufo created = new Ufo(createdView, physics, weapon, speed, stopRadius, fireRadius, fireSpread);
+            Ufo created = new Ufo(createdView, _signalBus, physics, weapon, speed, stopRadius, fireRadius, fireSpread);
         
             customCollider.SetHandler(created);
         
@@ -137,7 +140,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             
             float speed = 0;
             
-            Debris created = new Debris(createdView, physics, speed);
+            Debris created = new Debris(createdView, _signalBus, physics, speed);
         
             customCollider.SetHandler(created);
         

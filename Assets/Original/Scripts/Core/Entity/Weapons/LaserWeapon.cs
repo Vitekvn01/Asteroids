@@ -2,7 +2,7 @@ using System;
 using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
 
-namespace Original.Scripts.Core.Weapons
+namespace Original.Scripts.Core.Entity.Weapons
 {
     public class LaserWeapon : StandardWeapon
     {

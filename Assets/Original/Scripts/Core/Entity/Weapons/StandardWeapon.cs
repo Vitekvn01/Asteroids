@@ -3,7 +3,7 @@ using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.Weapons
+namespace Original.Scripts.Core.Entity.Weapons
 {
     public class StandardWeapon : IWeapon
     {

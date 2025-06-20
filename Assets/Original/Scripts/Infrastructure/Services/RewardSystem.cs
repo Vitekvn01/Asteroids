@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Original.Scripts.Core.Enemy;
+using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
 

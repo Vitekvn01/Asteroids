@@ -1,7 +1,8 @@
 using System;
 using Original.Scripts.Core;
+using Original.Scripts.Core.Entity;
+using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IService;
-using Original.Scripts.Core.Weapons;
 using Zenject;
 
 namespace Original.Scripts.Infrastructure.Services.Factories

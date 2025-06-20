@@ -1,4 +1,4 @@
-namespace Original.Scripts.Core.Enemy
+namespace Original.Scripts.Core.Entity.Enemy
 {
     public enum EnemyType
     {

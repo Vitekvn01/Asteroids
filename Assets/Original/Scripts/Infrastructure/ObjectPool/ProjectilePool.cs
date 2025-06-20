@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Original.Scripts.Core;
+using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
 using Zenject;

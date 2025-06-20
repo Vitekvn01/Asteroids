@@ -1,10 +1,10 @@
 using System;
+using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Physics;
-using Original.Scripts.Core.Weapons;
 using UnityEngine;
 
-namespace Original.Scripts.Core.PlayerShip
+namespace Original.Scripts.Core.Entity.PlayerShip
 {
     public class Ship : IColliderHandler, IActivatable
     {

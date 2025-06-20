@@ -1,3 +1,4 @@
+using Original.Scripts.Core.Entity;
 using UnityEngine;
 
 namespace Original.Scripts.Core.Interfaces.IService

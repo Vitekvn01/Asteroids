@@ -1,4 +1,5 @@
 using Original.Scripts.Core;
+using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using UnityEngine;

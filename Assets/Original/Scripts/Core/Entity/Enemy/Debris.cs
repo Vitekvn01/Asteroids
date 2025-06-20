@@ -1,35 +1,34 @@
 using System;
-using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Core.Signals;
 using UnityEngine;
 using Zenject;
-using Original.Scripts.Infrastructure.Signals;
 
-namespace Original.Scripts.Core.Enemy
+namespace Original.Scripts.Core.Entity.Enemy
 {
-    public class Asteroid : IEnemy, IColliderHandler, ITickable
-    {   
+    public class Debris : IEnemy, IColliderHandler, ITickable
+    {
         private readonly SignalBus _signalBus;
-        private readonly CustomPhysics _physics;
         
-        private readonly IEnemyPool _enemyPool;
+        private readonly CustomPhysics _physics;
         
         private IAsteroidView _view;
 
         private float _speed;
         
         private bool _isActive;
-
+        
         public bool IsActive => _isActive;
 
         public CustomPhysics Physics => _physics;
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Asteroid(IAsteroidView view, CustomPhysics physics, float speed)
+        public Debris(IAsteroidView view, SignalBus signalBus, CustomPhysics physics, float speed)
         {
             _view = view;
+            _signalBus = signalBus;
             _physics = physics;
             _speed = speed;
             
@@ -42,7 +41,7 @@ namespace Original.Scripts.Core.Enemy
                 _view.Transform.position = _physics.Position;
             }
         }
-        
+
         public void Activate(Vector3 pos, Quaternion rotation)
         {
             _view.Transform.position = pos;
@@ -51,15 +50,13 @@ namespace Original.Scripts.Core.Enemy
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.eulerAngles.z);
             
-            Vector3 direction = _view.Transform.up;
-            _physics.SetVelocity(direction.normalized * _speed);
             _physics.SetActive(true);
             
             _view.SetActive(true);
             
             _isActive = true;
         }
-        
+
         public void Deactivate()
         {
             _view.SetActive(false);
@@ -67,30 +64,29 @@ namespace Original.Scripts.Core.Enemy
             _isActive = false;
         }
 
-        public void SetSpeed(float speeed)
+        public void SetSpeed(float speedParent)
         {
-            _speed = speeed;
+            _speed = speedParent * 2;
+            Vector2 direction = _view.Transform.up;
+            _physics.SetVelocity(direction * (_speed + speedParent));
         }
         
         public void Death()
         {
             OnEnemyDeath?.Invoke(this);
-            _signalBus.Fire(new Ene(EnemyType.Asteroid));
+            _signalBus.Fire(new EnemyDestroyedSignal(EnemyType.Debris));
             Deactivate();
         }
-        
+
         public void OnTriggerEnter(ICustomCollider other)
         {
-            Debug.Log("asteriod trigger");
+
         }
-        
+
         public void OnCollisionEnter(ICustomCollider other)
         {
-            Debug.Log("asteriod collision");
         }
-        
 
-        
-        
+
     }
 }

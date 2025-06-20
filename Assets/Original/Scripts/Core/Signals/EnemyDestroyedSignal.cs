@@ -1,6 +1,6 @@
-using Original.Scripts.Core.Enemy;
+using Original.Scripts.Core.Entity.Enemy;
 
-namespace Original.Scripts.Infrastructure.Signals
+namespace Original.Scripts.Core.Signals
 {
     public class EnemyDestroyedSignal
     {

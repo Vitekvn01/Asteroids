@@ -1,15 +1,18 @@
 using System;
+using Original.Scripts.Core.Entity.PlayerShip;
+using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
-using Original.Scripts.Core.PlayerShip;
-using Original.Scripts.Core.Weapons;
+using Original.Scripts.Core.Signals;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.Enemy
+namespace Original.Scripts.Core.Entity.Enemy
 {
     public class Ufo : IEnemy, ITickable, IColliderHandler
     {
+        private readonly SignalBus _signalBus;
+        
         private readonly CustomPhysics _physics;
         
         private readonly IUfoView _view;
@@ -35,17 +38,19 @@ namespace Original.Scripts.Core.Enemy
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Ufo(IUfoView view, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, 
+        public Ufo(IUfoView view, SignalBus signalBus, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, 
             float fireRadius, float fireSpreadAngle)
         {
             _view = view;
+            _signalBus = signalBus;
             _physics = physics;
             _weapon = weapon;
             _speed = speed;
             _stopRadius = stopRadius;
             _fireRadius = fireRadius;
             _fireSpreadAngle = fireSpreadAngle;
-            
+
+
             _isActive = true;
         }
         
@@ -117,6 +122,7 @@ namespace Original.Scripts.Core.Enemy
         public void Death()
         {
             OnEnemyDeath?.Invoke(this);
+            _signalBus.Fire(new EnemyDestroyedSignal(EnemyType.Ufo));
             Deactivate();
             Debug.Log("Projectile death");
         }
