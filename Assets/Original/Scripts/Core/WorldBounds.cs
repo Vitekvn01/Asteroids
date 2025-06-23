@@ -21,7 +21,6 @@ namespace Original.Scripts.Core
             
         }
         
-
         public Vector2 WrapPosition(Vector2 pos)
         {
             float x = Mathf.Repeat(pos.x + _width / 2f, _width) - _width / 2f;

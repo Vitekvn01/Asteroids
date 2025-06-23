@@ -1,5 +1,4 @@
 using System;
-using Original.Scripts.Core;
 using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IService;
@@ -13,17 +12,26 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     {
         private readonly DiContainer _diContainer;
         private readonly TickableManager _tickableManager;
-        private readonly ProjectileBehaviour _standardProjectilePrefab;
+  
+        
+        private readonly ProjectileBehaviour _bulletProjectilePrefab;
+        private readonly ProjectileBehaviour _laserProjectilePrefab;
         private readonly ICustomPhysicsFactory _physicsFactory;
+        
+        private readonly IConfigProvider _configProvider;
     
         [Inject]
         public ProjectileFactory(DiContainer diContainer, TickableManager tickableManager, 
-            ProjectileBehaviour standardProjectilePrefab, ICustomPhysicsFactory physicsFactory)
+            [Inject(Id = "BulletProjectile")] ProjectileBehaviour bulletProjectilePrefab,
+            [Inject(Id = "LaserProjectile")] ProjectileBehaviour laserProjectilePrefab,
+            ICustomPhysicsFactory physicsFactory, IConfigProvider configProvider)
         {
             _diContainer = diContainer;
             _tickableManager = tickableManager;
-            _standardProjectilePrefab = standardProjectilePrefab;
+            _bulletProjectilePrefab = bulletProjectilePrefab;
+            _laserProjectilePrefab = laserProjectilePrefab;
             _physicsFactory = physicsFactory;
+            _configProvider = configProvider;
         }
 
         public Projectile Create(ProjectileType projectileType, Vector3 position, float rotation = 0,
@@ -37,7 +45,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     created = CreateBullet(position, rotation, parent);
                     break;
                 case ProjectileType.Laser:
-                    throw new ArgumentException("dont created void type", nameof(projectileType));
+                    created = CreateLaser(position, rotation, parent);
                     break;
                 case ProjectileType.EnemyBullet:
                     created = CreateEnemyBullet(position, rotation, parent);
@@ -52,7 +60,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         public Projectile CreateBullet(Vector3 position, float rotation = 0, Transform parent = null)
         {
             ProjectileBehaviour createdView =
-                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_standardProjectilePrefab.gameObject,
+                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_bulletProjectilePrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = true;
@@ -64,7 +72,30 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-            Projectile created = new Projectile(createdView, physics, 50, ProjectileType.Bullet);
+            Projectile created = new Projectile(createdView, physics, _configProvider.WeaponConfig.BulletProjectileSpeed, ProjectileType.Bullet);
+        
+            customCollider.SetHandler(created);
+        
+            _tickableManager.Add(created);
+            return created;
+        }
+        
+        public Projectile CreateLaser(Vector3 position, float rotation = 0, Transform parent = null)
+        {
+            ProjectileBehaviour createdView =
+                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_laserProjectilePrefab.gameObject,
+                    position, Quaternion.Euler(0, 0, rotation), parent);
+
+            bool isTrigger = true;
+            bool isActive = true;
+            PhysicsLayer layer = PhysicsLayer.Projectile;
+            PhysicsLayer collisionMask = PhysicsLayer.Enemy;
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer, collisionMask);
+        
+            CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
+                createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
+        
+            Projectile created = new LaserProjectile(createdView, physics, _configProvider.WeaponConfig.LaserProjectileSpeed, ProjectileType.Laser);
         
             customCollider.SetHandler(created);
         
@@ -75,7 +106,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         public Projectile CreateEnemyBullet(Vector3 position, float rotation = 0, Transform parent = null)
         {
             ProjectileBehaviour createdView =
-                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_standardProjectilePrefab.gameObject,
+                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_bulletProjectilePrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = true;
@@ -87,7 +118,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-            Projectile created = new Projectile(createdView, physics, 50, ProjectileType.EnemyBullet);
+            Projectile created = new Projectile(createdView, physics, _configProvider.WeaponConfig.EnemyProjectileSpeed, ProjectileType.EnemyBullet);
         
             customCollider.SetHandler(created);
         

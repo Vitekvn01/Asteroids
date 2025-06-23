@@ -33,7 +33,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     created = new LaserWeapon(_configLoader.WeaponConfig.LaserAmmo, _configLoader.WeaponConfig.LaserCooldown, _configLoader.WeaponConfig.LaserRefillTime, _projectilePool, ProjectileType.Laser);
                     break;
                 case WeaponType.EnemyWeapon:
-                    created = new StandardWeapon(_configLoader.WeaponConfig.StandardCooldown, _projectilePool, ProjectileType.EnemyBullet);
+                    created = new StandardWeapon(_configLoader.WeaponConfig.EnemyCooldown, _projectilePool, ProjectileType.EnemyBullet);
                     break;
                 default:
                     throw new ArgumentException("Unknown weapon type", nameof(weaponType));

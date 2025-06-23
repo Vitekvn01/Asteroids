@@ -9,6 +9,7 @@ using Original.Scripts.Core.Signals;
 using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
+using Original.Scripts.Presentation.UI.View;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -16,10 +17,14 @@ using Zenject;
 public class LevelInstaller : MonoInstaller
 {
     [SerializeField] private ProjectileBehaviour _projectilePrefab;
+    [SerializeField] private ProjectileBehaviour _laserProjectilePrefab;
     [SerializeField] private ShipBehaviour _shipPrefab;
     [SerializeField] private AsteroidBehaviour _asteroidPrefab;
     [SerializeField] private AsteroidBehaviour _debrisPrefab;
     [SerializeField] private UfoBehaviour _ufoBehaviour;
+    
+    [SerializeField] private ShipHUDView _shipHUDView;
+    [SerializeField] private ScoreView _scoreView;
     public override void InstallBindings()
     {
         BindConfigs();
@@ -29,7 +34,12 @@ public class LevelInstaller : MonoInstaller
         BindGameLogic();
         BindPools();
         BindSignals();
+        BindHUD();
+        
+        Container.BindInterfacesTo<Game>().AsSingle();
     }
+    
+
 
     private void BindPrefabs()
     {
@@ -38,8 +48,12 @@ public class LevelInstaller : MonoInstaller
             .AsSingle();
 
         Container.Bind<ProjectileBehaviour>()
-            .FromInstance(_projectilePrefab)
-            .AsSingle();
+            .WithId("BulletProjectile")
+            .FromInstance(_projectilePrefab);
+
+        Container.Bind<ProjectileBehaviour>()
+            .WithId("LaserProjectile")
+            .FromInstance(_laserProjectilePrefab);
 
         Container.Bind<AsteroidBehaviour>()
             .WithId("Asteroid")
@@ -83,17 +97,19 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<IEnemyFactory>()
             .To<EnemyFactory>()
             .AsSingle();
+
+        Container.Bind<IUIFactory>()
+            .To<UIFactory>()
+            .AsSingle();
     }
 
     private void BindGameLogic()
     {
         Container.BindInterfacesAndSelfTo<PlayerSpawner>()
-            .AsSingle()
-            .NonLazy();
-        
-        Container.BindInterfacesAndSelfTo<EnemySpawner>()
-            .AsSingle()
-            .NonLazy();
+            .AsSingle();
+
+        Container.Bind<EnemySpawner>()
+            .AsSingle();
 
         Container.Bind<IInput>()
             .To<DesktopInput>()
@@ -139,5 +155,16 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<IScore>().To<Score>().AsSingle();
         
         Container.BindInterfacesTo<RewardHandler>().AsSingle();
+    }
+    
+    private void BindHUD()
+    {
+        Container.Bind<ShipHUDView>()
+            .FromInstance(_shipHUDView)
+            .AsSingle();
+        
+        Container.Bind<ScoreView>()
+            .FromInstance(_scoreView)
+            .AsSingle();
     }
 }

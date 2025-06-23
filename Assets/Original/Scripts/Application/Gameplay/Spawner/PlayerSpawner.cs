@@ -5,28 +5,40 @@ using Zenject;
 
 namespace Original.Scripts.Application.Gameplay.Spawner
 {
-   public class PlayerSpawner
+   public class PlayerSpawner : IInitializable
    {
-      private readonly Vector2 _spawnPos;
-      private readonly float _angle;
       private readonly IShipFactory _shipFactory;
-      private Ship _ship;
+      private readonly IUIFactory _uiFactory;
+      
+      private readonly float _angle;
 
-      public Ship Ship => _ship;
+      private Vector2 _spawnPos;
+      
+      private ShipController _shipController;
+
+      public ShipController ShipController => _shipController;
 
       [Inject]
-      public PlayerSpawner(IShipFactory shipFactory)
+      public PlayerSpawner(IShipFactory shipFactory, IUIFactory uiFactory)
       {
          _shipFactory = shipFactory;
+         _uiFactory = uiFactory;
+      }
+      
+      public void Initialize()
+      {
          _spawnPos = new Vector2(0, 0);
-         _ship = _shipFactory.Create(_spawnPos).Ship;
-         _ship.Deactivate();
-         Spawn();
+         _shipController = _shipFactory.Create(_spawnPos);
+         _shipController.Ship.Deactivate();
+         
+         _uiFactory.CreateShipHud(_shipController);
       }
 
       public void Spawn()
       {
-         _ship.Activate(_spawnPos, Quaternion.Euler(0,0,_angle));
+         _shipController.Ship.Activate(_spawnPos, Quaternion.Euler(0,0,_angle));
       }
+
+
    }
 }

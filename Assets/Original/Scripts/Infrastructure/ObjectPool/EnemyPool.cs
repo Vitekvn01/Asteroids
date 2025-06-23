@@ -83,24 +83,7 @@ namespace Original.Scripts.Infrastructure.ObjectPool
         
         private bool MatchType(IEnemy enemy, EnemyType enemyType)
         {
-            bool isMatch = false;
-            
-            switch (enemyType)
-            {
-                case EnemyType.Asteroid:
-                    isMatch = enemy is Asteroid;
-                    break;
-                case EnemyType.Ufo:
-                    isMatch = enemy is Ufo;
-                    break;
-                case EnemyType.Debris:
-                    isMatch = enemy is Debris;
-                    break;
-                default:
-                    throw new ArgumentException("Unknown enemy type", nameof(enemyType));
-            };
-
-            return isMatch;
+            return enemy.Type == enemyType;
         }
     }
 }

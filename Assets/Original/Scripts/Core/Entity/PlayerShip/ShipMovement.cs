@@ -23,14 +23,17 @@ namespace Original.Scripts.Core.Entity.PlayerShip
     
         public void Move(float moveInput, float rotationInput)
         {
-            float deltaAngle = rotationInput * _ship.RotationSpeed  * Time.deltaTime;
-            _physics.Rotate(deltaAngle);
-        
-
-            Vector2 forward = _shipView.Transform.up;
-            Vector2 force = forward * (moveInput * _ship.MoveSpeed);
-            _physics.AddForce(force);
-        
+            if (_ship.CanControl)
+            {
+                float deltaAngle = rotationInput * _ship.RotationSpeed  * Time.deltaTime;
+                _physics.Rotate(deltaAngle);
+                
+                Vector2 forward = _shipView.Transform.up;
+                Vector2 force = forward * (moveInput * _ship.MoveSpeed);
+                _physics.AddForce(force);
+                
+            }
+            
             _shipView.Transform.position = _physics.Position;
             _shipView.Transform.rotation = Quaternion.Euler(0f, 0f, _physics.Rotation);
 

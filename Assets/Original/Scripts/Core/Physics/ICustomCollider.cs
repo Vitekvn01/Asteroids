@@ -8,6 +8,8 @@ namespace Original.Scripts.Core.Physics
         bool IsTrigger { get; }
         
         float Radius { get; }
+        
+        
         IColliderHandler Handler { get; }
         
         PhysicsLayer Layer { get; }

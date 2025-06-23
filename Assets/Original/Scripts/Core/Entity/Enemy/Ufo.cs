@@ -31,6 +31,7 @@ namespace Original.Scripts.Core.Entity.Enemy
         
         private bool _isActive;
         
+        public EnemyType Type { get; }
         public CustomPhysics Physics => _physics;
         
         public bool IsActive => _isActive;
@@ -39,18 +40,20 @@ namespace Original.Scripts.Core.Entity.Enemy
         public event Action<IEnemy> OnEnemyDeath;
         
         public Ufo(IUfoView view, SignalBus signalBus, CustomPhysics physics, IWeapon weapon, float speed, float stopRadius, 
-            float fireRadius, float fireSpreadAngle)
+            float fireRadius, float fireSpreadAngle, EnemyType type)
         {
             _view = view;
             _signalBus = signalBus;
             _physics = physics;
+            
             _weapon = weapon;
             _speed = speed;
             _stopRadius = stopRadius;
             _fireRadius = fireRadius;
             _fireSpreadAngle = fireSpreadAngle;
-
-
+            
+            Type = type;
+            
             _isActive = true;
         }
         
@@ -122,7 +125,7 @@ namespace Original.Scripts.Core.Entity.Enemy
         public void Death()
         {
             OnEnemyDeath?.Invoke(this);
-            _signalBus.Fire(new EnemyDestroyedSignal(EnemyType.Ufo));
+            _signalBus.Fire(new EnemyDestroyedSignal(Type));
             Deactivate();
             Debug.Log("Projectile death");
         }

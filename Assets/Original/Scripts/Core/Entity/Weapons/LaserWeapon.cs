@@ -14,11 +14,25 @@ namespace Original.Scripts.Core.Entity.Weapons
         private int _ammo;
     
         private float _refillTimer;
-    
+
+        public int CurrentAmmo
+        {
+            get { return _ammo; }
+            
+            private set
+            {
+                _ammo = value;
+                OnChangedAmmoEvemt?.Invoke(_ammo);
+            }
+        }
+        
         public event Action OnShootEvent;
 
+        public event Action<int> OnChangedAmmoEvemt;
+
         public LaserWeapon(int startAmmo, float cooldownTime, float refillTime,
-            IProjectilePool projectilePool, ProjectileType projectileType) : base(cooldownTime, projectilePool, projectileType )
+            IProjectilePool projectilePool, ProjectileType projectileType)
+            : base(cooldownTime, projectilePool, projectileType)
         {
             _ammo = startAmmo;
             _shootTimer = 0;
@@ -26,18 +40,19 @@ namespace Original.Scripts.Core.Entity.Weapons
             _refillTimer = _refillTime;
         }
     
-        public override bool TryShoot(Vector2 position, Quaternion rotation, float parentSpeed = 0)
+        public override bool TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
         {
             bool isCanShoot = false;
 
-            if (_isCooldownOver == true && _ammo > 0)
+            if (_isCooldownOver == true && CurrentAmmo > 0)
             {
-                _ammo--;
+                CurrentAmmo--;
                 OnShootEvent?.Invoke();
                 _shootTimer = _cooldownTime; 
                 isCanShoot = true;
                 Debug.Log("ShootLaserWeapon");
                 _isCooldownOver = false;
+                _projectilePool.Get(ProjectileType, position, rotation).Lunch(speedParent);
             }
 
             return isCanShoot;
@@ -51,7 +66,7 @@ namespace Original.Scripts.Core.Entity.Weapons
 
         private void AddAmmo(int count)
         {
-            _ammo += count;
+            CurrentAmmo += count;
         }
     
         private void UpdateRefillTimer()

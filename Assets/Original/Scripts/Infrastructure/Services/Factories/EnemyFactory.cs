@@ -80,7 +80,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             
             float speed = Random.Range(_configLoader.AsteroidConfig.MinSpeed, _configLoader.AsteroidConfig.MaxSpeed);
             
-            Asteroid created = new Asteroid(createdView, _signalBus, physics, speed);
+            Asteroid created = new Asteroid(createdView, _signalBus, physics, speed, EnemyType.Asteroid);
         
             customCollider.SetHandler(created);
         
@@ -114,7 +114,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             float fireSpread =
                 Random.Range(_configLoader.UfoConfig.MinFireSpreadAngle, _configLoader.UfoConfig.MaxFireSpreadAngle);
             
-            Ufo created = new Ufo(createdView, _signalBus, physics, weapon, speed, stopRadius, fireRadius, fireSpread);
+            Ufo created = new Ufo(createdView, _signalBus, physics, weapon, speed, stopRadius, fireRadius,
+                fireSpread, EnemyType.Ufo);
         
             customCollider.SetHandler(created);
         
@@ -140,7 +141,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             
             float speed = 0;
             
-            Debris created = new Debris(createdView, _signalBus, physics, speed);
+            Debris created = new Debris(createdView, _signalBus, physics, speed, EnemyType.Debris);
         
             customCollider.SetHandler(created);
         

@@ -2,6 +2,8 @@ using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Presentation.UI.Binder;
+using Original.Scripts.Presentation.UI.View;
 using UnityEngine;
 using Zenject;
 
@@ -21,10 +23,12 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     
         private readonly IInput _input;
 
+        private readonly ShipHUDView _shipHUDView;
     
         [Inject]
-        public ShipFactory(DiContainer diContainer, TickableManager tickableManager, IConfigProvider configLoader, ShipBehaviour shipBehaviourPrefab,
-            IWeaponFactory weaponFactory, ICustomPhysicsFactory physicsFactory, IInput input)
+        public ShipFactory(DiContainer diContainer, TickableManager tickableManager,IConfigProvider configLoader,
+            ShipBehaviour shipBehaviourPrefab, IWeaponFactory weaponFactory, ICustomPhysicsFactory physicsFactory,
+            IInput input)
         {
             _tickableManager = tickableManager;
             _diContainer = diContainer;
@@ -33,7 +37,6 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _weaponFactory = weaponFactory;
             _physicsFactory = physicsFactory;
             _input = input;
-
         }
     
         public ShipController Create(Vector2 pos, float rot = 0)
@@ -60,9 +63,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             var controller = new ShipController(_input, ship, behaviour, movement);
         
             customCollider.SetHandler(ship);
-        
+            
             _tickableManager.Add(controller);
-        
+            
             return controller;
         }
     }

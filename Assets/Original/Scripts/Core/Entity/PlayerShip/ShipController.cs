@@ -15,6 +15,7 @@ namespace Original.Scripts.Core.Entity.PlayerShip
         private readonly IInput _input;
 
         public Ship Ship => _ship;
+        public ShipMovement ShipMovement => _shipMovement;
     
         public ShipController(IInput input, Ship ship, IShipView view, ShipMovement shipMovement)
         {
@@ -30,6 +31,8 @@ namespace Original.Scripts.Core.Entity.PlayerShip
         {
             if (_ship.IsActive)
             {
+      
+                    
                 float axisX = _input.GetAxisX();
                 float axisY = _input.GetAxisY();
         

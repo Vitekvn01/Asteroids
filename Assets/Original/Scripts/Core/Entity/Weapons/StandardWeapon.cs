@@ -52,11 +52,13 @@ namespace Original.Scripts.Core.Entity.Weapons
     
         protected virtual void UpdateShootTimer()
         {
-            _shootTimer -= Time.deltaTime;
-
             if (_shootTimer <= 0)
             {
                 _isCooldownOver = true;
+            }
+            else
+            {
+                _shootTimer -= Time.deltaTime;
             }
         }
 

@@ -21,17 +21,19 @@ namespace Original.Scripts.Core.Entity.Enemy
         private bool _isActive;
 
         public bool IsActive => _isActive;
-
+        
+        public EnemyType Type { get; }
         public CustomPhysics Physics => _physics;
         
         public event Action<IEnemy> OnEnemyDeath;
         
-        public Asteroid(IAsteroidView view, SignalBus signalBus, CustomPhysics physics, float speed)
+        public Asteroid(IAsteroidView view, SignalBus signalBus, CustomPhysics physics, float speed, EnemyType type)
         {
             _view = view;
+            _signalBus = signalBus;
             _physics = physics;
             _speed = speed;
-            _signalBus = signalBus;
+            Type = type;
         }
         
         public void Tick()
@@ -74,7 +76,7 @@ namespace Original.Scripts.Core.Entity.Enemy
         public void Death()
         {
             OnEnemyDeath?.Invoke(this);
-            _signalBus.Fire(new EnemyDestroyedSignal(EnemyType.Asteroid));
+            _signalBus.Fire(new EnemyDestroyedSignal(Type));
             Deactivate();
         }
         

@@ -22,12 +22,12 @@ public class ProjectilePool : IProjectilePool
     {
         _projectileFactory = projectileFactory;
         _parent = parent;
-
-        // Предзаполняем пул разными типами пуль, например пули игрока и врага
-        for (int i = 0; i < InitialSize / 2; i++)
+        
+        for (int i = 0; i < InitialSize; i++)
         {
             AddToPool(ProjectileType.Bullet);
             AddToPool(ProjectileType.EnemyBullet);
+            AddToPool(ProjectileType.Laser);
         }
     }
 
@@ -35,8 +35,7 @@ public class ProjectilePool : IProjectilePool
     {
         Vector3 pos = Vector3.zero;
         float angleZ = 0;
-
-        // Создаем пулл через фабрику с типом
+        
         Projectile instance = _projectileFactory.Create(type, pos, angleZ, _parent);
         instance.Deactivate();
 

@@ -21,6 +21,8 @@ namespace Original.Scripts.Core.Entity
         private float _timer;
 
         private bool _isActive;
+        
+        public CustomPhysics Physics => _physics;
 
         public bool IsActive => _isActive;
         
@@ -86,7 +88,7 @@ namespace Original.Scripts.Core.Entity
             _isActive = false;
         }
     
-        public void OnTriggerEnter(ICustomCollider other)
+        public virtual void OnTriggerEnter(ICustomCollider other)
         {
             if (other.Handler is IEnemy enemy)
             {

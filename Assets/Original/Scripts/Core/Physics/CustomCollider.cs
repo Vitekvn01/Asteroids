@@ -1,10 +1,16 @@
+using UnityEngine;
+
 namespace Original.Scripts.Core.Physics
 {
     public class CustomCollider : ICustomCollider
     {
-        public float Radius { get; }
         public bool IsActive { get; }
         public bool IsTrigger { get; }
+        
+        public float Radius { get; }
+        
+        public Vector3 Position { get; private set; }
+        
         public PhysicsLayer Layer { get; private set;}
         
         public PhysicsLayer CollisionMask { get; private set; }
@@ -19,7 +25,6 @@ namespace Original.Scripts.Core.Physics
             IsActive = isActive;
             Layer = layer;
             CollisionMask = collisionMask;
-            
             Handler = handler;
         }
 

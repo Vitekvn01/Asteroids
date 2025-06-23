@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Original.Scripts.Application.Gameplay.Spawner
 {
-    public class EnemySpawner : IInitializable
+    public class EnemySpawner
     {
         private const int InitialSpawnCount = 5;
         private const int SpawnIntervalSeconds = 5;
@@ -32,12 +32,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
             _worldBounds = worldBounds;
         }
 
-        public void Initialize()
-        {
-            Start();
-        }
-
-        private void Start()
+        public void Start()
         {
             if (_isSpawning) return;
             _isSpawning = true;
@@ -97,7 +92,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
             Quaternion rot = Quaternion.identity;
 
             IEnemy ufo = _enemyPool.Get(EnemyType.Ufo, pos, rot);
-            ((Ufo)ufo).SetTarget(_playerSpawner.Ship);
+            ((Ufo)ufo).SetTarget(_playerSpawner.ShipController.Ship);
             _spawnedEnemies.Add(ufo);
             ufo.OnEnemyDeath += OnUFODeath;
         }
