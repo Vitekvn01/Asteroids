@@ -49,10 +49,11 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Player;
             PhysicsLayer collisionMask = PhysicsLayer.Enemy;
-            ICustomCollider customCollider = new CustomCollider(behaviour.RadiusCollider, isTrigger, isActive, layer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(behaviour.RadiusCollider, 
+                isTrigger, isActive, layer, collisionMask);
         
-            CustomPhysics customPhysics = _physicsFactory.Create(pos, behaviour.transform.rotation.eulerAngles.z, 1f, 5f,
-                customCollider);
+            CustomPhysics customPhysics = _physicsFactory
+                .Create(pos, behaviour.transform.rotation.eulerAngles.z, 1f, 5f, customCollider);
         
             IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
             IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);

@@ -3,12 +3,17 @@ using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Presentation.UI.Binder;
 using Original.Scripts.Presentation.UI.View;
 using Original.Scripts.Presentation.UI.ViewModel;
+using UnityEngine;
 using Zenject;
 
 namespace Original.Scripts.Infrastructure.Services.Factories
 {
     public class UIFactory : IUIFactory
     {
+        private readonly DiContainer _diContainer;
+
+        private readonly Canvas _parent;
+        
         private readonly ShipHUDView _shipHUDView;
         private readonly ScoreView _scoreView;
         private readonly StartWindowView _startWindowView; 
@@ -21,9 +26,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly SignalBus _signalBus;
         
         [Inject]
-        public UIFactory(ShipHUDView hudView, ScoreView scoreView, JoystickView joystickView,
+        public UIFactory(DiContainer diContainer, ShipHUDView hudView, ScoreView scoreView, JoystickView joystickView,
             IScore score,  TickableManager tickableManager, DisposableManager disposableManager,
-            StartWindowView startWindowView, SignalBus signalBus)
+            StartWindowView startWindowView, SignalBus signalBus, Canvas parent)
         {
             _shipHUDView = hudView;
             _scoreView = scoreView;
@@ -32,37 +37,47 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _tickableManager = tickableManager;
             _disposableManager = disposableManager;
             _signalBus = signalBus;
+            _parent = parent;
+            _diContainer = diContainer;
             _joystickView = joystickView;
         }
 
         public void CreateShipHud(ShipController shipController)
         {
+            var shipHudView = _diContainer.InstantiatePrefabForComponent<ShipHUDView>(_shipHUDView.gameObject,
+                _parent.gameObject.transform);
+            
             var hudViewModel = new ShipHUDViewModel(shipController);
             _tickableManager.Add(hudViewModel);
             
-            var shipHudBinder = new ShipHUDBinder(_shipHUDView, hudViewModel);
+            var shipHudBinder = new ShipHUDBinder(shipHudView, hudViewModel);
             _disposableManager.Add(shipHudBinder);
         }
         
         public void CreateScoreHud()
         {
+            var scoreView = _diContainer.InstantiatePrefabForComponent<ScoreView>(_scoreView.gameObject
+                ,_parent.gameObject.transform);
             var scoreViewModel = new ScoreViewModel(_score);
-            var scoreBinder = new ScoreViewBinder(_scoreView, scoreViewModel);
+            var scoreBinder = new ScoreViewBinder(scoreView, scoreViewModel);
             _disposableManager.Add(scoreBinder);
         }
 
         public void CreateStartWindow()
         {
-            var loseWindowViewModel = new StartWindowViewModel(_score, _signalBus);
-            var loseWindowBinder = new StartWindowBinder(_startWindowView, loseWindowViewModel);
-            _disposableManager.Add(loseWindowBinder);
+            var startWindowView = _diContainer
+                .InstantiatePrefabForComponent<StartWindowView>(_startWindowView.gameObject,_parent.gameObject.transform);
+            var startWindowViewModel = new StartWindowViewModel(_score, _signalBus);
+            var startWindowBinder = new StartWindowBinder(startWindowView, startWindowViewModel);
+            _disposableManager.Add(startWindowBinder);
         }
 
         public JoystickViewModel CreateJoystick()
         {
+            var joystickView = _diContainer
+                .InstantiatePrefabForComponent<JoystickView>(_joystickView.gameObject, _parent.gameObject.transform);
             var joystickViewModel = new JoystickViewModel();
-            var joystickBinder = new JoystickBinder(_joystickView, joystickViewModel);
-            
+            var joystickBinder = new JoystickBinder(joystickView, joystickViewModel);
             _disposableManager.Add(joystickBinder);
 
             return joystickViewModel;

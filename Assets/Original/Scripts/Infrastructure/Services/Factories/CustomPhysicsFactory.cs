@@ -24,7 +24,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         }
         public CustomPhysics Create(Vector2 pos, float rotation, float drag, float bounce, ICustomCollider customCollider)
         {
-            var created = new CustomPhysics(pos, rotation, drag, bounce, customCollider, _settings,_worldBounds );
+            var created = new CustomPhysics(pos, rotation, drag, bounce, customCollider, _settings, _worldBounds );
             _collisionWord.Register(created);
             _tickableManager.Add(created);
             return created;

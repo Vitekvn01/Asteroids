@@ -23,23 +23,17 @@ public class LevelInstaller : MonoInstaller
     [SerializeField] private AsteroidBehaviour _asteroidPrefab;
     [SerializeField] private AsteroidBehaviour _debrisPrefab;
     [SerializeField] private UfoBehaviour _ufoBehaviour;
-    
-    [SerializeField] private ShipHUDView _shipHUDView;
-    [SerializeField] private ScoreView _scoreView;
-    [SerializeField] private StartWindowView startWindowView;
-    [SerializeField] private JoystickView _joystickView;
+
+
     public override void InstallBindings()
     {
         BindFactories();
-        BindConfigs();
         BindPrefabs();
         BindSettings();
         BindServices();
-
         BindGameLogic();
         BindPools();
         BindSignals();
-        BindHUD();
         
         Container.BindInterfacesTo<Game>().AsSingle();
     }
@@ -62,8 +56,7 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<AsteroidBehaviour>()
             .WithId("Asteroid")
             .FromInstance(_asteroidPrefab);
-
-
+        
         Container.Bind<AsteroidBehaviour>()
             .WithId("Debris")
             .FromInstance(_debrisPrefab);
@@ -115,7 +108,7 @@ public class LevelInstaller : MonoInstaller
             .AsSingle();
 
         Container.Bind<IInput>()
-            .To<MobileInput>()
+            .To<DesktopInput>()
             .AsSingle();
 
         Container.BindInterfacesAndSelfTo<CollisionWord>()
@@ -138,14 +131,7 @@ public class LevelInstaller : MonoInstaller
             .To<EnemyPool>()
             .AsSingle();
     }
-
-
-    private void BindConfigs()
-    {
-        Container.Bind<IConfigProvider>()
-            .To<ConfigLoader>()
-            .AsSingle();
-    }
+    
 
     private void BindSignals()
     {
@@ -160,27 +146,14 @@ public class LevelInstaller : MonoInstaller
 
     }
     
-    private void BindHUD()
-    {
-        Container.Bind<ShipHUDView>()
-            .FromInstance(_shipHUDView)
-            .AsSingle();
-        
-        Container.Bind<ScoreView>()
-            .FromInstance(_scoreView)
-            .AsSingle();
-        
-        Container.Bind<StartWindowView>()
-            .FromInstance(startWindowView)
-            .AsSingle();
 
-        Container.Bind<JoystickView>()
-            .FromInstance(_joystickView)
-            .AsSingle();
-    }
 
     private void BindServices()
     {
+        Container.Bind<IConfigProvider>()
+            .To<ConfigLoader>()
+            .AsSingle();
+        
         Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
         
         Container.Bind<IScore>().To<Score>().AsSingle();
