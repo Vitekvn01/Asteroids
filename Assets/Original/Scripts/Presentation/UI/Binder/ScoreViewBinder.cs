@@ -16,6 +16,11 @@ namespace Original.Scripts.Presentation.UI.Binder
             _viewModel = viewModel;
             _view = view;
 
+            Bind();
+        }
+
+        private void Bind()
+        {
             _viewModel.Score
                 .Subscribe(value => _view.ScoreText.text = $"Score: {value}")
                 .AddTo(_disposables);

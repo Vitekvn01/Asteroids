@@ -9,6 +9,7 @@ using Original.Scripts.Core.Signals;
 using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
+using Original.Scripts.Infrastructure.Services.Input;
 using Original.Scripts.Presentation.UI.View;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -25,14 +26,16 @@ public class LevelInstaller : MonoInstaller
     
     [SerializeField] private ShipHUDView _shipHUDView;
     [SerializeField] private ScoreView _scoreView;
-    [FormerlySerializedAs("_loseWindowView")] [SerializeField] private StartWindowView startWindowView;
+    [SerializeField] private StartWindowView startWindowView;
+    [SerializeField] private JoystickView _joystickView;
     public override void InstallBindings()
     {
+        BindFactories();
         BindConfigs();
         BindPrefabs();
         BindSettings();
         BindServices();
-        BindFactories();
+
         BindGameLogic();
         BindPools();
         BindSignals();
@@ -112,7 +115,7 @@ public class LevelInstaller : MonoInstaller
             .AsSingle();
 
         Container.Bind<IInput>()
-            .To<DesktopInput>()
+            .To<MobileInput>()
             .AsSingle();
 
         Container.BindInterfacesAndSelfTo<CollisionWord>()
@@ -169,6 +172,10 @@ public class LevelInstaller : MonoInstaller
         
         Container.Bind<StartWindowView>()
             .FromInstance(startWindowView)
+            .AsSingle();
+
+        Container.Bind<JoystickView>()
+            .FromInstance(_joystickView)
             .AsSingle();
     }
 

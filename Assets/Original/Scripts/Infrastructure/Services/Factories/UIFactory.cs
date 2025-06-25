@@ -12,6 +12,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly ShipHUDView _shipHUDView;
         private readonly ScoreView _scoreView;
         private readonly StartWindowView _startWindowView; 
+        private readonly JoystickView _joystickView;
+        
         private readonly IScore _score;
         
         private readonly TickableManager _tickableManager;
@@ -19,8 +21,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly SignalBus _signalBus;
         
         [Inject]
-        public UIFactory(ShipHUDView hudView, ScoreView scoreView, IScore score, TickableManager tickableManager,
-            DisposableManager disposableManager, StartWindowView startWindowView, SignalBus signalBus)
+        public UIFactory(ShipHUDView hudView, ScoreView scoreView, JoystickView joystickView,
+            IScore score,  TickableManager tickableManager, DisposableManager disposableManager,
+            StartWindowView startWindowView, SignalBus signalBus)
         {
             _shipHUDView = hudView;
             _scoreView = scoreView;
@@ -29,7 +32,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _tickableManager = tickableManager;
             _disposableManager = disposableManager;
             _signalBus = signalBus;
-  
+            _joystickView = joystickView;
         }
 
         public void CreateShipHud(ShipController shipController)
@@ -53,6 +56,16 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             var loseWindowViewModel = new StartWindowViewModel(_score, _signalBus);
             var loseWindowBinder = new StartWindowBinder(_startWindowView, loseWindowViewModel);
             _disposableManager.Add(loseWindowBinder);
+        }
+
+        public JoystickViewModel CreateJoystick()
+        {
+            var joystickViewModel = new JoystickViewModel();
+            var joystickBinder = new JoystickBinder(_joystickView, joystickViewModel);
+            
+            _disposableManager.Add(joystickBinder);
+
+            return joystickViewModel;
         }
     }
 }
