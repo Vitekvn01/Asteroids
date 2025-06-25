@@ -1,8 +1,10 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
 
@@ -13,12 +15,15 @@ namespace Original.Scripts.Core.Entity.PlayerShip
         private const int MaxRemoveHealth = 1;
         
         private readonly CustomPhysics _physics;
+        private readonly IShipView _shipView;
+
+        private readonly int MaxHealth;
         
         private int _health;
         
         private float _moveSpeed;
         private float _rotationSpeed;
-        private float _maxSpeed = 100;
+        private float _maxSpeed;
 
         private bool _isActive;
         private bool _isInvincible;
@@ -47,18 +52,21 @@ namespace Original.Scripts.Core.Entity.PlayerShip
         public event Action<int> OnChangedHealthEvent;
         public event Action OnDeathEvent;
         
-        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, int health, float moveSpeed, float rotationSpeed, float maxSpeed, CustomPhysics physics)
+        public Ship(IWeapon primaryWeapon, IWeapon secondaryWeapon, CustomPhysics physics, IShipView shipView, 
+            PlayerConfig playerConfig)
         {
             _primaryWeapon = primaryWeapon;
             _secondaryWeapon = secondaryWeapon;
-
-            _health = health;
-            _moveSpeed = moveSpeed;
-            _rotationSpeed = rotationSpeed;
-            _maxSpeed = maxSpeed;
+            
+            MaxHealth = playerConfig.Health;
+            _health = playerConfig.Health;
+            _moveSpeed = playerConfig.MoveSpeed;
+            _rotationSpeed = playerConfig.RotationSpeed;
+            _maxSpeed = playerConfig.MaxSpeed;
             _isActive = true;
 
             _physics = physics;
+            _shipView = shipView;
         }
 
         public void ApplyDamage()
@@ -69,6 +77,7 @@ namespace Original.Scripts.Core.Entity.PlayerShip
             {
                 _health = 0;
                 OnDeathEvent?.Invoke();
+                Deactivate();
             }
         
             OnChangedHealthEvent?.Invoke(_health);
@@ -102,18 +111,31 @@ namespace Original.Scripts.Core.Entity.PlayerShip
 
         public void Activate(Vector3 pos, Quaternion rotation)
         {
-            
+  
+            _shipView.Transform.position = pos;
+            _shipView.Transform.rotation = rotation;
+            _physics.SetPosition(pos);
+            _physics.SetRotation(rotation.z);
+            ResetHealth();
+            _shipView.SetActive(true);
+            _isActive = true;
         }
+
 
         public void Deactivate()
         {
-            
+            _isActive = false;
+            _shipView.SetActive(false);
+        }
+        
+        private void ResetHealth()
+        {
+            _health = MaxHealth;
+            OnChangedHealthEvent?.Invoke(_health);
         }
 
         private async UniTaskVoid BecomeInvincibleAsync(float duration)
         {
-            
-            Debug.Log("BecomeInvincibleAsync start");
             _isInvincible = true;
             _canControl = false;
             
@@ -122,7 +144,6 @@ namespace Original.Scripts.Core.Entity.PlayerShip
 
             await UniTask.Delay(TimeSpan.FromSeconds(duration));
             
-            Debug.Log("BecomeInvincibleAsync finish");
             _isInvincible = false;
             _canControl = true;
             

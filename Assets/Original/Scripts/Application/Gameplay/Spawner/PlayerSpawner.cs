@@ -19,19 +19,19 @@ namespace Original.Scripts.Application.Gameplay.Spawner
       public ShipController ShipController => _shipController;
 
       [Inject]
-      public PlayerSpawner(IShipFactory shipFactory, IUIFactory uiFactory)
+      public PlayerSpawner(IShipFactory shipFactory)
       {
          _shipFactory = shipFactory;
-         _uiFactory = uiFactory;
+
+         
+         _spawnPos = new Vector2(0, 0);
+         _shipController = _shipFactory.Create(_spawnPos);
+         _shipController.Ship.Deactivate();
       }
       
       public void Initialize()
       {
-         _spawnPos = new Vector2(0, 0);
-         _shipController = _shipFactory.Create(_spawnPos);
-         _shipController.Ship.Deactivate();
-         
-         _uiFactory.CreateShipHud(_shipController);
+
       }
 
       public void Spawn()

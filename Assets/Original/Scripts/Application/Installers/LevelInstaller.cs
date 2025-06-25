@@ -25,11 +25,13 @@ public class LevelInstaller : MonoInstaller
     
     [SerializeField] private ShipHUDView _shipHUDView;
     [SerializeField] private ScoreView _scoreView;
+    [FormerlySerializedAs("_loseWindowView")] [SerializeField] private StartWindowView startWindowView;
     public override void InstallBindings()
     {
         BindConfigs();
         BindPrefabs();
         BindSettings();
+        BindServices();
         BindFactories();
         BindGameLogic();
         BindPools();
@@ -44,8 +46,7 @@ public class LevelInstaller : MonoInstaller
     private void BindPrefabs()
     {
         Container.Bind<ShipBehaviour>()
-            .FromInstance(_shipPrefab)
-            .AsSingle();
+            .FromInstance(_shipPrefab);
 
         Container.Bind<ProjectileBehaviour>()
             .WithId("BulletProjectile")
@@ -65,8 +66,7 @@ public class LevelInstaller : MonoInstaller
             .FromInstance(_debrisPrefab);
         
         Container.Bind<UfoBehaviour>()
-            .FromInstance(_ufoBehaviour)
-            .AsSingle();
+            .FromInstance(_ufoBehaviour);
     }
 
     private void BindSettings()
@@ -150,11 +150,11 @@ public class LevelInstaller : MonoInstaller
 
         Container.DeclareSignal<EnemyDestroyedSignal>();
         
-        Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
+        Container.DeclareSignal<PlayerDeadSignal>();
         
-        Container.Bind<IScore>().To<Score>().AsSingle();
+        Container.DeclareSignal<StartGameSignal>();
         
-        Container.BindInterfacesTo<RewardHandler>().AsSingle();
+
     }
     
     private void BindHUD()
@@ -166,5 +166,18 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<ScoreView>()
             .FromInstance(_scoreView)
             .AsSingle();
+        
+        Container.Bind<StartWindowView>()
+            .FromInstance(startWindowView)
+            .AsSingle();
+    }
+
+    private void BindServices()
+    {
+        Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
+        
+        Container.Bind<IScore>().To<Score>().AsSingle();
+        
+        Container.BindInterfacesTo<RewardHandler>().AsSingle();
     }
 }

@@ -13,7 +13,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     {
         private readonly DiContainer _diContainer;
         private readonly TickableManager _tickableManager;
-    
+        private readonly SignalBus _signalBus;
+        
         private readonly IConfigProvider _configLoader;
 
         private readonly ShipBehaviour _shipBehaviourPrefab;
@@ -22,13 +23,12 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly ICustomPhysicsFactory _physicsFactory;
     
         private readonly IInput _input;
-
-        private readonly ShipHUDView _shipHUDView;
+ 
     
         [Inject]
-        public ShipFactory(DiContainer diContainer, TickableManager tickableManager,IConfigProvider configLoader,
-            ShipBehaviour shipBehaviourPrefab, IWeaponFactory weaponFactory, ICustomPhysicsFactory physicsFactory,
-            IInput input)
+        public ShipFactory(DiContainer diContainer, TickableManager tickableManager, SignalBus signalBus,
+            IConfigProvider configLoader, ShipBehaviour shipBehaviourPrefab, IWeaponFactory weaponFactory,
+            ICustomPhysicsFactory physicsFactory, IInput input)
         {
             _tickableManager = tickableManager;
             _diContainer = diContainer;
@@ -37,6 +37,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _weaponFactory = weaponFactory;
             _physicsFactory = physicsFactory;
             _input = input;
+            _signalBus = signalBus;
         }
     
         public ShipController Create(Vector2 pos, float rot = 0)
@@ -56,11 +57,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             IWeapon standardWeapon = _weaponFactory.Create(WeaponType.StandardWeapon);
             IWeapon laserWeapon = _weaponFactory.Create(WeaponType.LaserWeapon);
         
-            var ship = new Ship( standardWeapon, laserWeapon, _configLoader.PlayerConfig.Health,
-                _configLoader.PlayerConfig.MoveSpeed, _configLoader.PlayerConfig.RotationSpeed, 
-                _configLoader.PlayerConfig.MaxSpeed, customPhysics);
+            var ship = new Ship( standardWeapon, laserWeapon, customPhysics, behaviour, _configLoader.PlayerConfig);
             var movement = new ShipMovement(behaviour, ship, customPhysics);
-            var controller = new ShipController(_input, ship, behaviour, movement);
+            var controller = new ShipController(_input, ship, behaviour, movement, _signalBus);
         
             customCollider.SetHandler(ship);
             

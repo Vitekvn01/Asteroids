@@ -5,14 +5,29 @@ namespace Original.Scripts.Infrastructure.Services
 {
     public class Score : IScore
     {
-        public int Count { get; private set; }
+        public int MaxScore { get; private set; }
+        public int CurrentCount { get; private set; }
 
         public event Action<int> OnChangedScoreEvent;
         
+        public event Action<int> OnChangedMaxScoreEvent;
+        
         public void AddCount(int count)
         {
-            Count += count;
-            OnChangedScoreEvent?.Invoke(Count);
+            CurrentCount += count;
+            OnChangedScoreEvent?.Invoke(CurrentCount);
+
+            if (CurrentCount > MaxScore)
+            {
+                MaxScore = CurrentCount;
+                OnChangedMaxScoreEvent?.Invoke(MaxScore);
+            }
+        }
+
+        public void ResetCurrentScore()
+        {
+            CurrentCount = 0;
+            OnChangedScoreEvent?.Invoke(CurrentCount);
         }
     }
 }

@@ -7,5 +7,7 @@ namespace Original.Scripts.Core.Interfaces.IService
         public void CreateShipHud(ShipController shipController);
 
         public void CreateScoreHud();
+
+        public void CreateStartWindow();
     }
 }
