@@ -35,10 +35,11 @@ public class Game : IInitializable
     {
         _signalBus.Subscribe<StartGameSignal>(OnStartGameSignal);
         _signalBus.Subscribe<PlayerDeadSignal>(OnPlayerDeadSignal);
+        
         _uiFactory.CreateStartWindow();
         _uiFactory.CreateScoreHud();
         _uiFactory.CreateShipHud(_playerSpawner.ShipController);
-
+        _uiFactory.CreateMobileInput();
     }
     
     public void PauseGame()

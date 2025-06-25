@@ -1,7 +1,5 @@
 using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core;
-using Original.Scripts.Core.Config;
-using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
@@ -10,9 +8,7 @@ using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
 using Original.Scripts.Infrastructure.Services.Input;
-using Original.Scripts.Presentation.UI.View;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 public class LevelInstaller : MonoInstaller
@@ -107,9 +103,7 @@ public class LevelInstaller : MonoInstaller
         Container.Bind<EnemySpawner>()
             .AsSingle();
 
-        Container.Bind<IInput>()
-            .To<DesktopInput>()
-            .AsSingle();
+
 
         Container.BindInterfacesAndSelfTo<CollisionWord>()
             .AsSingle();
@@ -142,8 +136,10 @@ public class LevelInstaller : MonoInstaller
         Container.DeclareSignal<PlayerDeadSignal>();
         
         Container.DeclareSignal<StartGameSignal>();
-        
 
+        Container.DeclareSignal<JoystickDirectionSignal>();
+        
+        Container.DeclareSignal<ShootButtonSignal>();
     }
     
 
@@ -154,10 +150,19 @@ public class LevelInstaller : MonoInstaller
             .To<ConfigLoader>()
             .AsSingle();
         
-        Container.Bind<IRewardSystem>().To<RewardSystem>().AsSingle();
+        Container.Bind<IInput>()
+            .To<MobileInput>()
+            .AsSingle();
         
-        Container.Bind<IScore>().To<Score>().AsSingle();
+        Container.Bind<IRewardSystem>().
+            To<RewardSystem>()
+            .AsSingle();
         
-        Container.BindInterfacesTo<RewardHandler>().AsSingle();
+        Container.Bind<IScore>()
+            .To<Score>()
+            .AsSingle();
+        
+        Container.BindInterfacesTo<RewardHandler>()
+            .AsSingle();
     }
 }

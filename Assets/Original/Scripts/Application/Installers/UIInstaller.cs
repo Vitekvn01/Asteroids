@@ -1,5 +1,4 @@
 using Original.Scripts.Presentation.UI.View;
-using Original.Scripts.Presentation.UI.ViewModel;
 using UnityEngine;
 using Zenject;
 
@@ -9,9 +8,10 @@ public class UIInstaller : MonoInstaller
     
     [SerializeField] private ShipHUDView _shipHUDView;
     [SerializeField] private ScoreView _scoreView;
-    [SerializeField] private StartWindowView startWindowView;
+    [SerializeField] private StartWindowView _startWindowView;
     [SerializeField] private JoystickView _joystickView;
-    
+    [SerializeField] private FireButtonView _fireButtonPrimary;
+    [SerializeField] private FireButtonView _fireButtonSecondary;
     public override void InstallBindings()
     {
         BindUIPrefabs();
@@ -29,10 +29,19 @@ public class UIInstaller : MonoInstaller
             .FromInstance(_scoreView);
 
         Container.Bind<StartWindowView>()
-            .FromInstance(startWindowView);
+            .FromInstance(_startWindowView);
 
         Container.Bind<JoystickView>()
             .FromInstance(_joystickView);
+
+        Container.Bind<FireButtonView>()
+            .WithId("Primary")
+            .FromInstance(_fireButtonPrimary);
+        
+        Container.Bind<FireButtonView>()
+            .WithId("Secondary")
+            .FromInstance(_fireButtonSecondary);
+        
     }
     
 }

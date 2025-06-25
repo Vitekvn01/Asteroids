@@ -1,24 +1,53 @@
+using Original.Scripts.Core;
 using Original.Scripts.Core.Interfaces.IService;
+using Original.Scripts.Core.Signals;
 using Original.Scripts.Infrastructure.Services.Factories;
 using Original.Scripts.Presentation.UI.ViewModel;
+using UnityEngine;
 using Zenject;
+using UniRx;
 
 namespace Original.Scripts.Infrastructure.Services.Input
 {
     public class MobileInput : IInput
     {
-        private readonly JoystickViewModel _joystick;
+        private Vector2 _direction;
+        private readonly SignalBus _signalBus;
         
-        [Inject]
-        public MobileInput(UIFactory uiFactory)
+        private bool _firePrimaryPressed;
+        private bool _fireSecondaryPressed;
+        
+        public MobileInput(SignalBus signalBus)
         {
-            _joystick = uiFactory.CreateJoystick();
+            _signalBus = signalBus;
+
+            _signalBus.Subscribe<JoystickDirectionSignal>(OnJoystickDirectionChanged);
+            _signalBus.Subscribe<ShootButtonSignal>(OnShootButtonSignal);
         }
 
-        public float GetAxisX() => _joystick.Direction.Value.x;
-        public float GetAxisY() => _joystick.Direction.Value.y;
+        private void OnJoystickDirectionChanged(JoystickDirectionSignal signal)
+        {
+            _direction = signal.Direction;
+        }
+        
+        private void OnShootButtonSignal(ShootButtonSignal signal)
+        {
+            if (signal.Type == ShootType.Primary)
+                _firePrimaryPressed = signal.IsPressed;
+            else if (signal.Type == ShootType.Secondary)
+                _fireSecondaryPressed = signal.IsPressed;
+        }
 
-        public bool CheckPressedFirePrimary() => false;
-        public bool CheckPressedFireSecondary() => false;
+        public float GetAxisX() => _direction.x;
+        public float GetAxisY() => _direction.y;
+
+        public bool CheckPressedFirePrimary() => _firePrimaryPressed;
+        public bool CheckPressedFireSecondary() => _fireSecondaryPressed;
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<JoystickDirectionSignal>(OnJoystickDirectionChanged);
+            _signalBus.Unsubscribe<ShootButtonSignal>(OnShootButtonSignal);
+        }
     }
 }

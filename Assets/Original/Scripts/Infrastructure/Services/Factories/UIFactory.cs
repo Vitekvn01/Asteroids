@@ -1,3 +1,4 @@
+using Original.Scripts.Core;
 using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Presentation.UI.Binder;
@@ -18,6 +19,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly ScoreView _scoreView;
         private readonly StartWindowView _startWindowView; 
         private readonly JoystickView _joystickView;
+        private readonly FireButtonView _fireButtonPrimaryView;
+        private readonly FireButtonView _fireButtonSecondaryView;
         
         private readonly IScore _score;
         
@@ -28,18 +31,24 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         [Inject]
         public UIFactory(DiContainer diContainer, ShipHUDView hudView, ScoreView scoreView, JoystickView joystickView,
             IScore score,  TickableManager tickableManager, DisposableManager disposableManager,
-            StartWindowView startWindowView, SignalBus signalBus, Canvas parent)
+            StartWindowView startWindowView, SignalBus signalBus, Canvas parent, 
+            [Inject(Id = "Primary")] FireButtonView fireButtonPrimaryView,
+            [Inject(Id = "Secondary")] FireButtonView fireButtonSecondaryView)
         {
             _shipHUDView = hudView;
             _scoreView = scoreView;
             _startWindowView = startWindowView;
+            _joystickView = joystickView;
+            
             _score = score;
             _tickableManager = tickableManager;
             _disposableManager = disposableManager;
             _signalBus = signalBus;
             _parent = parent;
+             _fireButtonPrimaryView = fireButtonPrimaryView;
+            _fireButtonSecondaryView = fireButtonSecondaryView;
+
             _diContainer = diContainer;
-            _joystickView = joystickView;
         }
 
         public void CreateShipHud(ShipController shipController)
@@ -72,15 +81,46 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             _disposableManager.Add(startWindowBinder);
         }
 
-        public JoystickViewModel CreateJoystick()
+        public void CreateMobileInput()
+        {
+            CreateJoystick();
+            CreateFireButtonPrimary();
+            CreateFireButtonSecondary();
+        }
+
+        private void CreateJoystick()
         {
             var joystickView = _diContainer
                 .InstantiatePrefabForComponent<JoystickView>(_joystickView.gameObject, _parent.gameObject.transform);
-            var joystickViewModel = new JoystickViewModel();
+            var joystickViewModel = new JoystickViewModel(_signalBus);
             var joystickBinder = new JoystickBinder(joystickView, joystickViewModel);
             _disposableManager.Add(joystickBinder);
+            
+            joystickView.gameObject.SetActive(true);
+        }
+        
+        private void CreateFireButtonPrimary()
+        {
+            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonView>(
+                _fireButtonPrimaryView.gameObject, _parent.gameObject.transform);
 
-            return joystickViewModel;
+            var fireButtonViewModel = new FireButtonViewModel(_signalBus);
+            var fireButtonBinder = new FireButtonBinder(fireButtonView, fireButtonViewModel);
+            _disposableManager.Add(fireButtonBinder);
+
+            fireButtonView.gameObject.SetActive(true);
+        }
+
+        private void CreateFireButtonSecondary()
+        {
+            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonView>(
+                _fireButtonSecondaryView.gameObject, _parent.gameObject.transform);
+
+            var fireButtonViewModel = new FireButtonViewModel(_signalBus);
+            var fireButtonBinder = new FireButtonBinder(fireButtonView, fireButtonViewModel);
+            _disposableManager.Add(fireButtonBinder);
+
+            fireButtonView.gameObject.SetActive(true);
         }
     }
 }

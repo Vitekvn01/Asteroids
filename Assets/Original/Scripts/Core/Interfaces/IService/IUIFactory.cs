@@ -9,5 +9,7 @@ namespace Original.Scripts.Core.Interfaces.IService
         public void CreateScoreHud();
 
         public void CreateStartWindow();
+
+        public void CreateMobileInput();
     }
 }
