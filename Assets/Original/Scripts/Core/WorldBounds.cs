@@ -1,24 +1,25 @@
+using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
+using Zenject;
 
 namespace Original.Scripts.Core
 {
     public class WorldBounds
     {
-        private float _width;
-        private float _height;
+        private readonly float _width;
+        private readonly float _height;
         public float Width => _width;
         public float Height => _height;
         
-        
-        public WorldBounds( float width, Camera cam)
+        [Inject]
+        public WorldBounds(Camera mainCamera, IConfigProvider configProvider)
         {
-            _width = width;
+            _width = configProvider.WorldConfig.Width;
   
-            _height = width / cam.aspect;
+            _height = _width / mainCamera.aspect;
             
             float orthographicSize = _height / 2f; 
-            cam.orthographicSize = orthographicSize;
-            
+            mainCamera.orthographicSize = orthographicSize;
         }
         
         public Vector2 WrapPosition(Vector2 pos)

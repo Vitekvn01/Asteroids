@@ -1,6 +1,7 @@
 using Original.Scripts.Core;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Signals;
+using Original.Scripts.Core.Signals.inputSignal;
 using Original.Scripts.Infrastructure.Services.Factories;
 using Original.Scripts.Presentation.UI.ViewModel;
 using UnityEngine;

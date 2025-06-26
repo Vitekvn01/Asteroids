@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97f1521840d349e43a801948b820ce1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 519420031}
   _projectilePrefab: {fileID: 7426548475131816177, guid: 6fe7b5c7abcc0c649bc330f4892897cb, type: 3}
   _laserProjectilePrefab: {fileID: 7426548475131816177, guid: c1518dcc89ae9d143b6d2e7380475878, type: 3}
   _shipPrefab: {fileID: 7791301724432514016, guid: c04ef40560f69ef4395184e4e65e13e8, type: 3}

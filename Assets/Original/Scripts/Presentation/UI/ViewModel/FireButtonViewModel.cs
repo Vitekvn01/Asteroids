@@ -1,5 +1,6 @@
 using Original.Scripts.Core;
 using Original.Scripts.Core.Signals;
+using Original.Scripts.Core.Signals.inputSignal;
 using Zenject;
 
 namespace Original.Scripts.Presentation.UI.ViewModel

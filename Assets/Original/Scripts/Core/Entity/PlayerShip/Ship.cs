@@ -12,39 +12,32 @@ namespace Original.Scripts.Core.Entity.PlayerShip
 {
     public class Ship : IColliderHandler, IActivatable
     {
+        private const int DurationInvincible = 3;
         private const int MaxRemoveHealth = 1;
         
         private readonly CustomPhysics _physics;
         private readonly IShipView _shipView;
-
-        private readonly int MaxHealth;
+        
+        private readonly int _maxHealth;
+        private readonly float _moveSpeed;
+        private readonly float _rotationSpeed;
+        private readonly float _maxSpeed;
         
         private int _health;
         
-        private float _moveSpeed;
-        private float _rotationSpeed;
-        private float _maxSpeed;
-
         private bool _isActive;
-        private bool _isInvincible;
-
         private bool _canControl = true;
     
         private IWeapon _primaryWeapon;
         private IWeapon _secondaryWeapon;
 
         public CustomPhysics Physics => _physics;
-
         public int Health => _health;
         public float MoveSpeed => _moveSpeed;
         public float RotationSpeed => _rotationSpeed;
-
         public float MaxSpeed => _maxSpeed;
-
         public bool IsActive => _isActive;
-
         public bool CanControl => _canControl;
-    
         public IWeapon PrimaryWeapon => _primaryWeapon;
         public IWeapon SecondaryWeapon => _secondaryWeapon;
     
@@ -58,7 +51,7 @@ namespace Original.Scripts.Core.Entity.PlayerShip
             _primaryWeapon = primaryWeapon;
             _secondaryWeapon = secondaryWeapon;
             
-            MaxHealth = playerConfig.Health;
+            _maxHealth = playerConfig.Health;
             _health = playerConfig.Health;
             _moveSpeed = playerConfig.MoveSpeed;
             _rotationSpeed = playerConfig.RotationSpeed;
@@ -91,8 +84,6 @@ namespace Original.Scripts.Core.Entity.PlayerShip
                 _secondaryWeapon.Update();
             }
         }
-        
-
 
         public void OnTriggerEnter(ICustomCollider other)
         {
@@ -104,18 +95,19 @@ namespace Original.Scripts.Core.Entity.PlayerShip
              if (other.Handler is IEnemy)
              {
                  ApplyDamage();
-                 BecomeInvincibleAsync(3f).Forget();
+                 TimeInvincible(DurationInvincible).Forget();
              }
         }
 
 
         public void Activate(Vector3 pos, Quaternion rotation)
         {
-  
+            _shipView.SetActiveDefenceEffect(false);
             _shipView.Transform.position = pos;
             _shipView.Transform.rotation = rotation;
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.z);
+            _physics.SetVelocity(new Vector2(0,0));
             ResetHealth();
             _shipView.SetActive(true);
             _isActive = true;
@@ -130,25 +122,30 @@ namespace Original.Scripts.Core.Entity.PlayerShip
         
         private void ResetHealth()
         {
-            _health = MaxHealth;
+            _health = _maxHealth;
             OnChangedHealthEvent?.Invoke(_health);
         }
 
-        private async UniTaskVoid BecomeInvincibleAsync(float duration)
+        private async UniTaskVoid TimeInvincible(float duration)
         {
-            _isInvincible = true;
-            _canControl = false;
+            if (_isActive)
+            {
+                _canControl = false;
             
-            _physics.Collider.SetLayer(0);
-            _physics.Collider.SetCollisionMask(0);
+                _shipView.SetActiveDefenceEffect(true);
+            
+                _physics.Collider.SetLayer(0);
+                _physics.Collider.SetCollisionMask(0);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(duration));
+                await UniTask.Delay(TimeSpan.FromSeconds(duration));
+                
+                _canControl = true;
+                        
+                _shipView.SetActiveDefenceEffect(false);
             
-            _isInvincible = false;
-            _canControl = true;
-            
-            _physics.Collider.SetLayer(PhysicsLayer.Player);
-            _physics.Collider.SetCollisionMask(PhysicsLayer.Enemy);
+                _physics.Collider.SetLayer(PhysicsLayer.Player);
+                _physics.Collider.SetCollisionMask(PhysicsLayer.Enemy);
+            }
         }
         
 

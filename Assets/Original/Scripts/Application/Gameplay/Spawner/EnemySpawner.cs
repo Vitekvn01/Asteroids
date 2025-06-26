@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
@@ -12,10 +13,10 @@ namespace Original.Scripts.Application.Gameplay.Spawner
 {
     public class EnemySpawner
     {
-        private const int InitialSpawnCount = 5;
-        private const int SpawnIntervalSeconds = 5;
-        private const int MaxEnemies = 40;
-        private const float UfoSpawnChance = 0.3f;
+        private readonly int _initialSpawnCount;
+        private readonly int _spawnIntervalSeconds;
+        private readonly int _maxEnemies ;
+        private readonly float _ufoSpawnChance;
     
         private readonly PlayerSpawner _playerSpawner;
         private readonly IEnemyPool _enemyPool;
@@ -25,11 +26,16 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         private bool _isSpawning;
 
         [Inject]
-        public EnemySpawner(IEnemyPool enemyPool, PlayerSpawner playerSpawner, WorldBounds worldBounds)
+        public EnemySpawner(IEnemyPool enemyPool, PlayerSpawner playerSpawner, WorldBounds worldBounds, IConfigProvider configProvider)
         {
             _enemyPool = enemyPool;
             _playerSpawner = playerSpawner;
             _worldBounds = worldBounds;
+
+            _initialSpawnCount = configProvider.WorldConfig.InitialSpawnCount;
+            _spawnIntervalSeconds = configProvider.WorldConfig.SpawnIntervalSeconds;
+            _maxEnemies = configProvider.WorldConfig.MaxEnemies;
+            _ufoSpawnChance = configProvider.WorldConfig.UfoSpawnChance;
         }
 
         public void Start()
@@ -47,7 +53,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
 
         private void SpawnInitial()
         {
-            for (int i = 0; i < InitialSpawnCount; i++)
+            for (int i = 0; i < _initialSpawnCount; i++)
                 SpawnAsteroidAtEdge();
         }
 
@@ -57,9 +63,9 @@ namespace Original.Scripts.Application.Gameplay.Spawner
             {
                 int currentCount = _spawnedEnemies.Count(e => e.IsActive);
 
-                if (currentCount < MaxEnemies)
+                if (currentCount < _maxEnemies)
                 {
-                    if (Random.value < UfoSpawnChance)
+                    if (Random.value < _ufoSpawnChance)
                     {
                         SpawnUfoAtEdge();
                     }
@@ -70,7 +76,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         
                 }
 
-                await UniTask.Delay(SpawnIntervalSeconds * 1000); // Задержка перед следующим спавном
+                await UniTask.Delay(_spawnIntervalSeconds * 1000);
             }
         }
 

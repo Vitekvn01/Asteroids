@@ -1,12 +1,11 @@
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Entity.PlayerShip;
-using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;
 using Zenject;
 
-namespace Original.Scripts.Core.Entity
+namespace Original.Scripts.Core.Entity.Projectiles
 {
     public class Projectile : ITickable, IColliderHandler
     {

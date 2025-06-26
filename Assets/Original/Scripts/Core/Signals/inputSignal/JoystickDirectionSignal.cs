@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Original.Scripts.Core.Signals
+namespace Original.Scripts.Core.Signals.inputSignal
 {
     public class JoystickDirectionSignal
     {

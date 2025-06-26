@@ -8,13 +8,12 @@ public class ShipBehaviour : MonoBehaviour, IShipView
     [SerializeField] private float _radiusCollider;
     
     [SerializeField] private Transform _shootPoint;
-    
+
+    [SerializeField] private GameObject _defenceEffect;
     public float RadiusCollider { get; }
 
     public Transform Transform => gameObject.transform;
     public Transform ShootPoint => _shootPoint;
-
-    public event Action OnDestroyEvent;
     
     private void OnDestroy()
     {
@@ -26,6 +25,14 @@ public class ShipBehaviour : MonoBehaviour, IShipView
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, _radiusCollider);
     }
+    public void SetActiveDefenceEffect(bool isActive)
+    {
+        _defenceEffect.gameObject.SetActive(isActive);
+    }
+
+    public event Action OnDestroyEvent;
+    
+
     
     public void SetActive(bool isActive)
     {

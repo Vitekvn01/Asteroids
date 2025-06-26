@@ -1,3 +1,6 @@
-public class StartGameSignal
+namespace Original.Scripts.Core.Signals
 {
+    public class StartGameSignal
+    {
+    }
 }
