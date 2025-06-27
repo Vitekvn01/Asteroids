@@ -1,3 +1,4 @@
+using System;
 using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Signals;
@@ -6,20 +7,18 @@ using Zenject;
 
 namespace Original.Scripts.Application.Gameplay
 {
-    public class Game : IInitializable
+    public class Game : MonoBehaviour, IInitializable
     {
-        private readonly SignalBus _signalBus;
+        private SignalBus _signalBus;
 
-        private readonly IScore _score;
-        private readonly PlayerSpawner _playerSpawner;
-        private readonly EnemySpawner _enemySpawner;
+        private IScore _score;
+        private PlayerSpawner _playerSpawner;
+        private EnemySpawner _enemySpawner;
     
-        private readonly IUIFactory _uiFactory; 
-    
-        private bool _isRunning;
+        private IUIFactory _uiFactory; 
 
         [Inject]
-        public Game(IScore score, PlayerSpawner playerSpawner, EnemySpawner enemySpawner, IUIFactory uiFactory,
+        public void Construct(IScore score, PlayerSpawner playerSpawner, EnemySpawner enemySpawner, IUIFactory uiFactory,
             SignalBus signalBus)
         {
             _signalBus = signalBus;
@@ -27,15 +26,13 @@ namespace Original.Scripts.Application.Gameplay
             _playerSpawner = playerSpawner;
             _enemySpawner = enemySpawner;
             _uiFactory = uiFactory;
-
-        }
-    
-    
-        public void Initialize()
-        {
+            
             _signalBus.Subscribe<StartGameSignal>(OnStartGameSignal);
             _signalBus.Subscribe<PlayerDeadSignal>(OnPlayerDeadSignal);
+        }
         
+        public void Initialize()
+        {
             _uiFactory.CreateStartWindow();
             _uiFactory.CreateScoreHud();
             _uiFactory.CreateShipHud(_playerSpawner.ShipController);
@@ -46,6 +43,12 @@ namespace Original.Scripts.Application.Gameplay
             }
         }
 
+        private void OnDestroy()
+        {
+            _signalBus.Unsubscribe<StartGameSignal>(OnStartGameSignal);
+            _signalBus.Unsubscribe<PlayerDeadSignal>(OnPlayerDeadSignal);
+        }
+        
         private void OnStartGameSignal()
         {
             _playerSpawner.Spawn();

@@ -39,8 +39,12 @@ namespace Original.Scripts.Application.Installers
             BindGameLogic();
             BindPools();
             BindSignals();
-        
-            Container.BindInterfacesTo<Game>().AsSingle();
+            BindInput();
+
+            Container.BindInterfacesTo<Game>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .NonLazy();
         }
     
 
@@ -153,7 +157,22 @@ namespace Original.Scripts.Application.Installers
             Container.Bind<IConfigProvider>()
                 .To<ConfigLoader>()
                 .AsSingle();
-            
+
+
+            Container.Bind<IRewardSystem>().
+                To<RewardSystem>()
+                .AsSingle();
+        
+            Container.Bind<IScore>()
+                .To<Score>()
+                .AsSingle();
+        
+            Container.BindInterfacesTo<RewardHandler>()
+                .AsSingle();
+        }
+
+        private void BindInput()
+        {
             if (UnityEngine.Application.platform == RuntimePlatform.Android)
             {
                 Container.Bind<IInput>()
@@ -174,18 +193,6 @@ namespace Original.Scripts.Application.Installers
                     .To<XboxInput>()
                     .AsSingle();
             }
-   
-        
-            Container.Bind<IRewardSystem>().
-                To<RewardSystem>()
-                .AsSingle();
-        
-            Container.Bind<IScore>()
-                .To<Score>()
-                .AsSingle();
-        
-            Container.BindInterfacesTo<RewardHandler>()
-                .AsSingle();
         }
     }
 }
