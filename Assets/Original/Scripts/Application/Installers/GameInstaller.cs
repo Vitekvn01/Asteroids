@@ -9,7 +9,7 @@ using Original.Scripts.Core.Signals.inputSignal;
 using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
-using Original.Scripts.Infrastructure.Services.Input;
+using Original.Scripts.Infrastructure.Services.Inputs;
 using UnityEngine;
 using Zenject;
 
@@ -115,8 +115,6 @@ namespace Original.Scripts.Application.Installers
             Container.BindInterfacesAndSelfTo<CollisionWord>()
                 .AsSingle();
 
-            Camera main = Camera.main;
-
             Container.Bind<WorldBounds>()
                 .AsSingle();
         }
@@ -163,11 +161,17 @@ namespace Original.Scripts.Application.Installers
                     .AsSingle();
             }
             
-            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor 
-                || UnityEngine.Application.platform == RuntimePlatform.XboxOne)
+            if (UnityEngine.Application.platform == RuntimePlatform.WindowsEditor)
             {
                 Container.Bind<IInput>()
                     .To<DesktopInput>()
+                    .AsSingle();
+            }
+
+            if (UnityEngine.Application.platform == RuntimePlatform.XboxOne)
+            {
+                Container.Bind<IInput>()
+                    .To<XboxInput>()
                     .AsSingle();
             }
    

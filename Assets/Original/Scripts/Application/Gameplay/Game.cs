@@ -19,13 +19,15 @@ namespace Original.Scripts.Application.Gameplay
         private bool _isRunning;
 
         [Inject]
-        public Game(IScore score, PlayerSpawner playerSpawner, EnemySpawner enemySpawner, IUIFactory uiFactory, SignalBus signalBus)
+        public Game(IScore score, PlayerSpawner playerSpawner, EnemySpawner enemySpawner, IUIFactory uiFactory,
+            SignalBus signalBus)
         {
+            _signalBus = signalBus;
             _score = score;
             _playerSpawner = playerSpawner;
             _enemySpawner = enemySpawner;
             _uiFactory = uiFactory;
-            _signalBus = signalBus;
+
         }
     
     
@@ -43,17 +45,6 @@ namespace Original.Scripts.Application.Gameplay
                 _uiFactory.CreateMobileInput();
             }
         }
-    
-        public void PauseGame()
-        {
-            Time.timeScale = 0;
-        }
-
-        public void ResumeGame()
-        {
-            Time.timeScale = 1;
-        }
-    
 
         private void OnStartGameSignal()
         {
