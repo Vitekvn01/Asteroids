@@ -6,19 +6,16 @@ namespace Original.Scripts.Core.Physics
     {
         public bool IsActive { get; }
         public bool IsTrigger { get; }
-        
         public float Radius { get; }
-        
-        public Vector3 Position { get; private set; }
         
         public PhysicsLayer Layer { get; private set;}
         
         public PhysicsLayer CollisionMask { get; private set; }
         public IColliderHandler Handler { get; private set; }
         
-
-        
-        public CustomCollider(float radius, bool isTrigger = false, bool isActive = true, PhysicsLayer layer = PhysicsLayer.Default, PhysicsLayer collisionMask = PhysicsLayer.All, IColliderHandler handler = null )
+        public CustomCollider(float radius, bool isTrigger = false, bool isActive = true,
+            PhysicsLayer layer = PhysicsLayer.Default, PhysicsLayer collisionMask = PhysicsLayer.All,
+            IColliderHandler handler = null)
         {
             Radius = radius;
             IsTrigger = isTrigger;

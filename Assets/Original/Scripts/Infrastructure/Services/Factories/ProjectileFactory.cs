@@ -72,7 +72,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-            Projectile created = new Projectile(createdView, physics, _configProvider.WeaponConfig.BulletProjectileSpeed, ProjectileType.Bullet);
+            Projectile created = new Projectile(createdView, physics,
+                _configProvider.WeaponConfig.BulletProjectileSpeed, _configProvider.WeaponConfig.BulletLifetime,
+                ProjectileType.Bullet);
         
             customCollider.SetHandler(created);
         
@@ -90,12 +92,15 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Projectile;
             PhysicsLayer collisionMask = PhysicsLayer.Enemy;
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer,
+                collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-            Projectile created = new LaserProjectile(createdView, physics, _configProvider.WeaponConfig.LaserProjectileSpeed, ProjectileType.Laser);
+            Projectile created = new LaserProjectile(createdView, physics,
+                _configProvider.WeaponConfig.LaserProjectileSpeed,
+                _configProvider.WeaponConfig.LaserLifetime, ProjectileType.Laser);
         
             customCollider.SetHandler(created);
         
@@ -118,7 +123,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
         
-            Projectile created = new Projectile(createdView, physics, _configProvider.WeaponConfig.EnemyProjectileSpeed, ProjectileType.EnemyBullet);
+            Projectile created = new Projectile(createdView, physics, _configProvider.WeaponConfig.EnemyProjectileSpeed,
+                _configProvider.WeaponConfig.EnemyBulletLifetime,  ProjectileType.EnemyBullet);
         
             customCollider.SetHandler(created);
         

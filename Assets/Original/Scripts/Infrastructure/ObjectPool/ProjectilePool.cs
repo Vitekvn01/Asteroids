@@ -51,7 +51,7 @@ namespace Original.Scripts.Infrastructure.ObjectPool
     
         private bool MatchType(Projectile projectile, ProjectileType type)
         {
-            return projectile.ProjectileType == type;
+            return projectile.Type == type;
         }
     }
 }

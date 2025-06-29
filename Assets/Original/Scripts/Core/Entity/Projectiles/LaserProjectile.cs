@@ -6,8 +6,8 @@ namespace Original.Scripts.Core.Entity.Projectiles
 {
     public class LaserProjectile : Projectile
     {
-        public LaserProjectile(IProjectileView view, CustomPhysics physics, float speed, ProjectileType type)
-            : base(view, physics, speed, type)
+        public LaserProjectile(IProjectileView view, CustomPhysics physics, float speed, float lifetime,
+            ProjectileType type) : base(view, physics, speed, lifetime, type)
         {
         }
 

@@ -40,10 +40,12 @@ namespace Original.Scripts.Application.Gameplay.Spawner
 
         public void Start()
         {
-            if (_isSpawning) return;
-            _isSpawning = true;
-            SpawnInitial();
-            LoopSpawning().Forget();
+            if (!_isSpawning)
+            {
+                _isSpawning = true;
+                SpawnInitial();
+                LoopSpawning().Forget();
+            }
         }
     
         public void Stop()
@@ -54,7 +56,9 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         private void SpawnInitial()
         {
             for (int i = 0; i < _initialSpawnCount; i++)
+            {
                 SpawnAsteroidAtEdge();
+            }
         }
 
         private async UniTaskVoid LoopSpawning()

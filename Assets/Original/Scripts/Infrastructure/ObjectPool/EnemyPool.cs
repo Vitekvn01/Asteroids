@@ -69,6 +69,7 @@ namespace Original.Scripts.Infrastructure.ObjectPool
             
             instance.Deactivate();
             _pool.Add(instance);
+            Debug.Log($"AddToPool + {InitialSizeUfo}" + instance.Type);
             return instance;
         }
 

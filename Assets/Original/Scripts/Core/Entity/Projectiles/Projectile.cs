@@ -9,13 +9,12 @@ namespace Original.Scripts.Core.Entity.Projectiles
 {
     public class Projectile : ITickable, IColliderHandler
     {
-        private const float Lifetime = 1f;
+        private readonly float _lifetime;
+        private readonly float _speed;
         
         private readonly CustomPhysics _physics;
     
         private IProjectileView _view;
-
-        private float _speed;
         
         private float _timer;
 
@@ -25,18 +24,20 @@ namespace Original.Scripts.Core.Entity.Projectiles
 
         public bool IsActive => _isActive;
         
-        public ProjectileType ProjectileType { get; }
+        public ProjectileType Type { get; }
 
 
-        public Projectile(IProjectileView view, CustomPhysics physics, float speed, ProjectileType type)
+        public Projectile(IProjectileView view, CustomPhysics physics, float speed, float lifetime, ProjectileType type)
         {
             _view = view;
             _physics = physics;
-
+            
+            _lifetime = lifetime;
             _speed = speed;
 
-            ProjectileType = type;
-            
+            Type = type;
+      
+
             _timer = 0f;
 
         }
@@ -51,7 +52,7 @@ namespace Original.Scripts.Core.Entity.Projectiles
                 _view.Transform.rotation =  Quaternion.Euler(0, 0, _physics.Rotation);
                 _timer += Time.deltaTime;
         
-                if (_timer > Lifetime)
+                if (_timer > _lifetime)
                 {
                     Deactivate();
                 }
@@ -94,9 +95,12 @@ namespace Original.Scripts.Core.Entity.Projectiles
                 enemy.Death();
             }
             
-            if (other.Handler is Ship ship)
+            if (Type == ProjectileType.EnemyBullet)
             {
-                Debug.Log("projetcile ship trigger");
+                if (other.Handler is Ship ship)
+                {
+                    ship.ApplyDamage();
+                }
             }
             
             Deactivate();

@@ -1,13 +1,16 @@
 {
-  "StandardCooldown": 0.2,
+  "BulletLifetime": 0.5,
+  "BulletWeaponCooldown": 0.2,
   "BulletProjectileSpeed": 50,
-  
+
+  "LaserLifetime": 0.5,
   "LaserAmmo": 10,
   "LaserRefillTime": 10,
-  "LaserCooldown": 3,
+  "LaserWeaponCooldown": 3,
   "LaserProjectileSpeed": 80,
-  
-  "EnemyCooldown": 0.7,
+
+  "EnemyBulletLifetime": 0.5,
+  "EnemyFireCooldown": 0.7,
   "EnemyProjectileSpeed": 45
 }
 
