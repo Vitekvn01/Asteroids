@@ -1,12 +1,9 @@
 {
-    "name": "Infrastructure",
+    "name": "Ads",
     "rootNamespace": "",
     "references": [
-        "Core",
-        "Presentation",
-        "Zenject",
-        "UniRx",
-        "Ads"
+        "GUID:485782e064d84cc4086b3d08864ac247",
+        "Ads.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,14 +1,10 @@
 {
-    "name": "Infrastructure",
+    "name": "Ads.Editor",
     "rootNamespace": "",
-    "references": [
-        "Core",
-        "Presentation",
-        "Zenject",
-        "UniRx",
-        "Ads"
+    "references": [],
+    "includePlatforms": [
+        "Editor"
     ],
-    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
