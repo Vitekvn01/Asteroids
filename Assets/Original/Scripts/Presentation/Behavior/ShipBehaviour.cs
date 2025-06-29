@@ -10,7 +10,7 @@ public class ShipBehaviour : MonoBehaviour, IShipView
     [SerializeField] private Transform _shootPoint;
 
     [SerializeField] private GameObject _defenceEffect;
-    public float RadiusCollider { get; }
+    public float RadiusCollider => _radiusCollider;
 
     public Transform Transform => gameObject.transform;
     public Transform ShootPoint => _shootPoint;

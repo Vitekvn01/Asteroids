@@ -154,11 +154,13 @@ namespace Original.Scripts.Application.Installers
 
         private void BindServices()
         {
+            Container.BindInterfacesTo<ManualFixedTickManager>()
+                .AsSingle();
+            
             Container.Bind<IConfigProvider>()
                 .To<ConfigLoader>()
                 .AsSingle();
-
-
+            
             Container.Bind<IRewardSystem>().
                 To<RewardSystem>()
                 .AsSingle();

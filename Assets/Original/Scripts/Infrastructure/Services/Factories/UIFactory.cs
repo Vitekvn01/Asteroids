@@ -1,4 +1,3 @@
-using Original.Scripts.Core;
 using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Presentation.UI.Binder;

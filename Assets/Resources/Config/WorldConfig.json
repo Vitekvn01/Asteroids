@@ -1,8 +1,9 @@
 {
-  "Width": 50,
-  "MaxEnemies":30,
+  "Width": 60,
+  "MaxEnemies":25,
   "SpawnIntervalSeconds" : 5,
   "InitialSpawnCount" : 5,
-  "UfoSpawnChance": 0.3
+  "UfoSpawnChance": 0.3,
+  "DebrisSpawnCount": 2
 }
 

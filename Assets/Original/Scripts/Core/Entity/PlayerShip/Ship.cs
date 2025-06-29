@@ -4,6 +4,7 @@ using Original.Scripts.Core.Config;
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using UnityEngine;

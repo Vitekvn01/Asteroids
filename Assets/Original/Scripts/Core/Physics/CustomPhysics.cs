@@ -1,9 +1,10 @@
+using Original.Scripts.Core.Interfaces.IPhysics;
 using UnityEngine;
 using Zenject;
 
 namespace Original.Scripts.Core.Physics
 {
-    public class CustomPhysics : ITickable
+    public class CustomPhysics : IFixedTickable
     {
         private readonly PhysicsSettings _physicsSettings;
         private readonly WorldBounds _worldBounds;
@@ -48,7 +49,7 @@ namespace Original.Scripts.Core.Physics
             _isActive = true;
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             if (_isActive)
             {

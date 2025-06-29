@@ -1,8 +1,7 @@
 using System;
-using Original.Scripts.Core;
 using Original.Scripts.Core.Entity.Enemy;
 using Original.Scripts.Core.Entity.Weapons;
-using Original.Scripts.Core.Interfaces;
+using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using UnityEngine;

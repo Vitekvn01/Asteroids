@@ -3,12 +3,12 @@
   "MaxSpeed": 12,
   
   "MinStopRadius": 2,
-  "MaxStopRadius": 50,
+  "MaxStopRadius": 30,
   
-  "MinFireRadius": 2,
-  "MaxFireRadius": 50,
+  "MinFireRadius": 1,
+  "MaxFireRadius": 40,
   
   "MinFireSpreadAngle": 15,
-  "MaxFireSpreadAngle": 30
+  "MaxFireSpreadAngle": 40
 }
 

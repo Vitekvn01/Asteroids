@@ -1,4 +1,5 @@
 using System;
+using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Signals;

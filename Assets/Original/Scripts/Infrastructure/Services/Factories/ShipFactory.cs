@@ -1,9 +1,8 @@
 using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Entity.Weapons;
+using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
-using Original.Scripts.Presentation.UI.Binder;
-using Original.Scripts.Presentation.UI.View;
 using UnityEngine;
 using Zenject;
 

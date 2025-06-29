@@ -1,6 +1,7 @@
 using System;
 using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Entity.Weapons;
+using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Signals;

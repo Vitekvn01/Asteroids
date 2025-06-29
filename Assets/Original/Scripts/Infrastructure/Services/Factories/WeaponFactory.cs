@@ -1,6 +1,4 @@
 using System;
-using Original.Scripts.Core;
-using Original.Scripts.Core.Entity;
 using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IService;

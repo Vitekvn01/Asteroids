@@ -1,6 +1,6 @@
-using UnityEngine;
+using Original.Scripts.Core.Physics;
 
-namespace Original.Scripts.Core.Physics
+namespace Original.Scripts.Core.Interfaces.IPhysics
 {
     public interface IColliderHandler
     {

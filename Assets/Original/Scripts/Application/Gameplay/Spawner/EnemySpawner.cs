@@ -16,7 +16,9 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         private readonly int _initialSpawnCount;
         private readonly int _spawnIntervalSeconds;
         private readonly int _maxEnemies ;
+        private readonly int _debrisSpawnCount;
         private readonly float _ufoSpawnChance;
+
     
         private readonly PlayerSpawner _playerSpawner;
         private readonly IEnemyPool _enemyPool;
@@ -26,7 +28,8 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         private bool _isSpawning;
 
         [Inject]
-        public EnemySpawner(IEnemyPool enemyPool, PlayerSpawner playerSpawner, WorldBounds worldBounds, IConfigProvider configProvider)
+        public EnemySpawner(IEnemyPool enemyPool, PlayerSpawner playerSpawner, WorldBounds worldBounds,
+            IConfigProvider configProvider)
         {
             _enemyPool = enemyPool;
             _playerSpawner = playerSpawner;
@@ -35,6 +38,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
             _initialSpawnCount = configProvider.WorldConfig.InitialSpawnCount;
             _spawnIntervalSeconds = configProvider.WorldConfig.SpawnIntervalSeconds;
             _maxEnemies = configProvider.WorldConfig.MaxEnemies;
+            _debrisSpawnCount = configProvider.WorldConfig.DebrisSpawnCount;
             _ufoSpawnChance = configProvider.WorldConfig.UfoSpawnChance;
         }
 
@@ -151,7 +155,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
 
         private void SpawnDebris(CustomPhysics physics)
         {
-            int count = Random.Range(3, 6);
+            int count = _debrisSpawnCount;
             for (int i = 0; i < count; i++)
             {
                 float angle = Random.Range(0f, 360f);

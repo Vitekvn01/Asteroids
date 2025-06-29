@@ -7,6 +7,8 @@ namespace Original.Scripts.Core.Config
         public int InitialSpawnCount;
         public int SpawnIntervalSeconds;
         public int MaxEnemies;
+        public int DebrisSpawnCount;
         public float UfoSpawnChance ;
+
     }
 }
