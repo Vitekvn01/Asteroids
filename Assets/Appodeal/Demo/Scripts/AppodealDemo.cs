@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 namespace AppodealAds.Demo.Scripts
 {
+    using Appodeal = Unity.Api.Appodeal;
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "ParameterHidesMember")]
     public class AppodealDemo : MonoBehaviour, IAppodealInitializationListener, IInAppPurchaseValidationListener,

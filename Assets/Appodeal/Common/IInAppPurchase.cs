@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using AppodealAds.Unity.Api;
+using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity.Common
 {
+    using Appodeal = Api.Appodeal;
+
     public interface IInAppPurchaseBase
     {
         string getPrice();

@@ -28,7 +28,7 @@ namespace AppodealAds.Unity.Common
         void setTabletBanners(bool value);
         void setBannerRotation(int leftBannerRotation, int rightBannerRotation);
         void setTesting(bool test);
-        void setLogLevel(Appodeal.LogLevel level);
+        void setLogLevel(AppodealAds.Unity.Api.Appodeal.LogLevel level);
         void setChildDirectedTreatment(bool value);
         List<string> getNetworks(int adType);
         void disableNetwork(string network);

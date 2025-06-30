@@ -7,6 +7,8 @@ using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity.Android
 {
+    using Appodeal = Api.Appodeal;
+
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class AndroidPlayStoreInAppPurchaseBuilder : IPlayStoreInAppPurchaseBuilder
     {

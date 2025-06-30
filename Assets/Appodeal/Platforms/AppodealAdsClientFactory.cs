@@ -3,6 +3,8 @@ using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity
 {
+    using Appodeal = Api.Appodeal;
+
     internal static class AppodealAdsClientFactory
     {
         internal static IAppodealAdsClient GetAppodealAdsClient()

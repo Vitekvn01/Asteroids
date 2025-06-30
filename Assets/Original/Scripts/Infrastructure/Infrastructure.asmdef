@@ -6,7 +6,8 @@
         "Presentation",
         "Zenject",
         "UniRx",
-        "Ads"
+        "Ads",
+        "Appodeal"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

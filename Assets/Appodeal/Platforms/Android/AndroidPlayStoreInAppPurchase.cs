@@ -6,6 +6,8 @@ using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity.Android
 {
+    using Appodeal = Api.Appodeal;
+
     public class AndroidPlayStoreInAppPurchase : IPlayStoreInAppPurchase
     {
         public IPlayStoreInAppPurchase NativeInAppPurchase { get; }

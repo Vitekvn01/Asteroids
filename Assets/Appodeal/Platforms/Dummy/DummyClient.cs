@@ -6,6 +6,8 @@ using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity.Dummy
 {
+    using Appodeal = Api.Appodeal;
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class DummyClient : IAppodealAdsClient

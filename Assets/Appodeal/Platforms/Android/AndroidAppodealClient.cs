@@ -9,6 +9,8 @@ using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity.Android
 {
+    using Appodeal = Api.Appodeal;
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AndroidAppodealClient : IAppodealAdsClient
     {
