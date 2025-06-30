@@ -171,6 +171,10 @@ namespace Original.Scripts.Application.Installers
         
             Container.BindInterfacesTo<RewardHandler>()
                 .AsSingle();
+
+            Container.Bind<IAdsService>()
+                .To<AdsService>()
+                .AsSingle();
         }
 
         private void BindInput()

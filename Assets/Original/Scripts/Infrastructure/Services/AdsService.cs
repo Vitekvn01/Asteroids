@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Original.Scripts.Infrastructure.Services
 {
-    public class AdsController : IAdsController, IInterstitialAdListener, IAppodealInitializationListener
+    public class AdsService : IAdsService, IInterstitialAdListener, IAppodealInitializationListener
     {
         private const string AppKey = "1c1e57cb3cdae0b3afde949eafc56230ea3132a142e0b6cb";
     
-        public AdsController()
+        public AdsService()
         {
             int adTypes = Appodeal.INTERSTITIAL;
 

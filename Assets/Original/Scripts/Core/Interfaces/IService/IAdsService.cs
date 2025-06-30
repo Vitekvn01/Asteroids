@@ -1,6 +1,6 @@
 namespace Original.Scripts.Core.Interfaces.IService
 {
-    public interface IAdsController
+    public interface IAdsService
     {
         public void ShowInterstitial();
     }
