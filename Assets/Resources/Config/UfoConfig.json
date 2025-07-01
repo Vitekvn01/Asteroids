@@ -8,7 +8,7 @@
   "MinFireRadius": 1,
   "MaxFireRadius": 40,
   
-  "MinFireSpreadAngle": 15,
-  "MaxFireSpreadAngle": 40
+  "MinFireSpreadAngle": 30,
+  "MaxFireSpreadAngle": 90
 }
 

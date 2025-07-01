@@ -6,6 +6,8 @@ using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
 using Original.Scripts.Core.Signals;
 using Original.Scripts.Core.Signals.inputSignal;
+using Original.Scripts.Infrastructure;
+using Original.Scripts.Infrastructure.Mock;
 using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
@@ -172,9 +174,21 @@ namespace Original.Scripts.Application.Installers
             Container.BindInterfacesTo<RewardHandler>()
                 .AsSingle();
 
-            Container.Bind<IAdsService>()
-                .To<AdsService>()
+#if UNITY_EDITOR
+            Container.Bind<IAdsStrategy>()
+                .To<MockAdsService>()
                 .AsSingle();
+#else
+             Container.Bind<IAdsStrategy>()
+                 .To<AdsService>()
+                 .AsSingle();
+#endif
+
+#if UNITY_EDITOR
+            Container.BindInterfacesTo<MockAnalyticsService>().AsSingle();
+#else
+            Container.BindInterfacesTo<AnalyticsService>().AsSingle();
+#endif
         }
 
         private void BindInput()

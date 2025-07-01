@@ -1,6 +1,7 @@
 using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Signals;
+using Original.Scripts.Infrastructure;
 using UnityEngine;
 using Zenject;
 
@@ -15,11 +16,12 @@ namespace Original.Scripts.Application.Gameplay
         private EnemySpawner _enemySpawner;
         
         private IUIFactory _uiFactory;
-        private IAdsService _adsService;
-        
+        private IAdsStrategy _adsService;
+        private IAnalyticsStrategy _analytics;
+
         [Inject]
         public void Construct(IScore score, PlayerSpawner playerSpawner, EnemySpawner enemySpawner,
-            IUIFactory uiFactory, IAdsService adsService, SignalBus signalBus)
+            IUIFactory uiFactory, IAdsStrategy adsService, IAnalyticsStrategy analytics,  SignalBus signalBus)
         {
             _signalBus = signalBus;
             _score = score;
@@ -27,6 +29,7 @@ namespace Original.Scripts.Application.Gameplay
             _enemySpawner = enemySpawner;
             _uiFactory = uiFactory;
             _adsService = adsService;
+            _analytics = analytics;
             
             _signalBus.Subscribe<StartGameSignal>(OnStartGameSignal);
             _signalBus.Subscribe<PlayerDeadSignal>(OnPlayerDeadSignal);
@@ -46,6 +49,7 @@ namespace Original.Scripts.Application.Gameplay
 
         public void Start()
         {
+            _analytics.LogGameLoaded();
             _adsService.ShowInterstitial();
         }
 
@@ -60,12 +64,14 @@ namespace Original.Scripts.Application.Gameplay
             _playerSpawner.Spawn();
             _enemySpawner.Start();
             _score.ResetCurrentScore();
+            
         }
 
         private void OnPlayerDeadSignal()
         {
             _enemySpawner.Stop();
             _adsService.ShowInterstitial();
+            _analytics.LogPlayerDied(_score.CurrentScore);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Original.Scripts.Infrastructure.Services
             if (_rewardByType.TryGetValue(type, out int reward))
             {
                 _score.AddCount(reward);
-                Debug.Log($"Rewarded {reward} for {type}. Total score: {_score.CurrentCount}");
+                Debug.Log($"Rewarded {reward} for {type}. Total score: {_score.CurrentScore}");
             }
             else
             {

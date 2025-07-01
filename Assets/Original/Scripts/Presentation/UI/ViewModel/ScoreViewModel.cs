@@ -18,7 +18,7 @@ namespace Original.Scripts.Presentation.UI.ViewModel
             _score = score;
             _score.OnChangedScoreEvent += OnChangedScore;
             _score.OnChangedMaxScoreEvent += OnChangedMaxScore;
-            Score.Value = _score.CurrentCount;
+            Score.Value = _score.CurrentScore;
             MaxScore.Value = _score.MaxScore;
         }
 

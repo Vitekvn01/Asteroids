@@ -28,7 +28,7 @@ namespace Original.Scripts.Presentation.UI.ViewModel
             _score.OnChangedScoreEvent += OnScoreChanged;
             _score.OnChangedMaxScoreEvent += OnMaxScoreChanged;
 
-            Score.Value = _score.CurrentCount;
+            Score.Value = _score.CurrentScore;
             MaxScore.Value = _score.MaxScore;
 
             _signalBus.Subscribe<PlayerDeadSignal>(OnPlayerDead);

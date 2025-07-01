@@ -6,7 +6,7 @@ namespace Original.Scripts.Infrastructure.Services
     public class Score : IScore
     {
         public int MaxScore { get; private set; }
-        public int CurrentCount { get; private set; }
+        public int CurrentScore { get; private set; }
 
         public event Action<int> OnChangedScoreEvent;
         
@@ -14,20 +14,20 @@ namespace Original.Scripts.Infrastructure.Services
         
         public void AddCount(int count)
         {
-            CurrentCount += count;
-            OnChangedScoreEvent?.Invoke(CurrentCount);
+            CurrentScore += count;
+            OnChangedScoreEvent?.Invoke(CurrentScore);
 
-            if (CurrentCount > MaxScore)
+            if (CurrentScore > MaxScore)
             {
-                MaxScore = CurrentCount;
+                MaxScore = CurrentScore;
                 OnChangedMaxScoreEvent?.Invoke(MaxScore);
             }
         }
 
         public void ResetCurrentScore()
         {
-            CurrentCount = 0;
-            OnChangedScoreEvent?.Invoke(CurrentCount);
+            CurrentScore = 0;
+            OnChangedScoreEvent?.Invoke(CurrentScore);
         }
     }
 }
