@@ -9,7 +9,7 @@
   "LaserWeaponCooldown": 3,
   "LaserProjectileSpeed": 80,
 
-  "EnemyBulletLifetime": 0.8,
+  "EnemyBulletLifetime": 1,
   "EnemyFireCooldown": 0.7,
   "EnemyProjectileSpeed": 30
 }
