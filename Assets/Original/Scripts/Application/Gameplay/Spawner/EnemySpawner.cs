@@ -3,6 +3,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using Original.Scripts.Core;
 using Original.Scripts.Core.Entity.Enemy;
+using Original.Scripts.Core.Entity.Enemy.Ufo;
 using Original.Scripts.Core.Interfaces;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;

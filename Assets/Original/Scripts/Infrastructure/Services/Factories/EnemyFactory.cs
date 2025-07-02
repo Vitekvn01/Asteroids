@@ -1,5 +1,6 @@
 using System;
 using Original.Scripts.Core.Entity.Enemy;
+using Original.Scripts.Core.Entity.Enemy.Ufo;
 using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
@@ -106,14 +107,12 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             IWeapon weapon = _weaponFactory.Create(WeaponType.EnemyWeapon);
             
             float speed = Random.Range(_configLoader.UfoConfig.MinSpeed, _configLoader.UfoConfig.MaxSpeed);
-            float stopRadius =
-                Random.Range(_configLoader.UfoConfig.MinStopRadius, _configLoader.UfoConfig.MaxStopRadius);
             float fireRadius =
-                Random.Range(_configLoader.UfoConfig.MaxStopRadius, _configLoader.UfoConfig.MaxFireRadius);
+                Random.Range(_configLoader.UfoConfig.MinFireRadius, _configLoader.UfoConfig.MaxFireRadius);
             float fireSpread =
                 Random.Range(_configLoader.UfoConfig.MinFireSpreadAngle, _configLoader.UfoConfig.MaxFireSpreadAngle);
             
-            Ufo created = new Ufo(createdView, _signalBus, physics, weapon, speed, stopRadius, fireRadius,
+            Ufo created = new Ufo(createdView, _signalBus, physics, weapon, speed, fireRadius,
                 fireSpread, EnemyType.Ufo);
         
             customCollider.SetHandler(created);
