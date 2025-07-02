@@ -67,3 +67,5 @@ SerializedBuildInfo/*
 Assets/StreamingAssets/build_info
 UserSettings/**
 MemoryCaptures/**
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.bundle
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_10_1.so
