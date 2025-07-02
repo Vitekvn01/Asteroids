@@ -7,7 +7,7 @@ namespace Original.Scripts.Infrastructure.Mock
     {
         public void ShowInterstitial()
         {
-            Debug.Log("[MockAds] ShowInterstitial (mock)");
+            Debug.Log("[MockAds] ShowInterstitial");
         }
     }
 }

@@ -32,12 +32,9 @@ namespace Original.Scripts.Core.Entity.Projectiles
         {
             _view = view;
             _physics = physics;
-            
             _lifetime = lifetime;
             _speed = speed;
-
             Type = type;
-      
 
             _timer = 0f;
 

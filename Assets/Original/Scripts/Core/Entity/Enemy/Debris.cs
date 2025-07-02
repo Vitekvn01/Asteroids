@@ -51,7 +51,6 @@ namespace Original.Scripts.Core.Entity.Enemy
                 
             _physics.SetPosition(pos);
             _physics.SetRotation(rotation.eulerAngles.z);
-            
             _physics.SetActive(true);
             
             _view.SetActive(true);
