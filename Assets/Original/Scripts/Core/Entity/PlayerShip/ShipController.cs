@@ -2,7 +2,6 @@ using System;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Interfaces.IView;
 using Original.Scripts.Core.Signals;
-using UnityEngine;
 using Zenject;
 
 namespace Original.Scripts.Core.Entity.PlayerShip
@@ -10,50 +9,53 @@ namespace Original.Scripts.Core.Entity.PlayerShip
     public class ShipController : ITickable, IDisposable
     {
         private readonly IInput _input;
-        
-        private readonly IShipView _shipView;
-        private readonly Ship _ship;
-        private readonly ShipMovement _shipMovement;
+
+        public IShipView ShipView { get; }
+        public Ship Ship { get; }
+        public ShipMovement ShipMovement { get; }
 
         private readonly SignalBus _signalBus; 
-        
-
-
-        public Ship Ship => _ship;
-        public ShipMovement ShipMovement => _shipMovement;
     
         public ShipController(IInput input, Ship ship, IShipView view, ShipMovement shipMovement, SignalBus signalBus)
         {
             _input = input;
         
-            _shipView = view;
-            _ship = ship;
-            _shipMovement = shipMovement;
+            ShipView = view;
+            Ship = ship;
+            ShipMovement = shipMovement;
             _signalBus = signalBus;
 
-            _ship.OnDeathEvent += OnDeathEvent;
+            Ship.OnDeathEvent += OnDeathEvent;
         }
         public void Tick()
         {
-            if (_ship.IsActive)
+            if (Ship.IsActive)
             {
                 float axisX = _input.GetAxisX();
                 float axisY = _input.GetAxisY();
         
-                _shipMovement.Move(axisY, -axisX);
-        
-                _ship.Update();
+                Movement(axisY, axisX);
+                Fire();
+            }
+        }
 
-                if (_input.CheckPressedFireSecondary())
-                {
-                    Debug.DrawRay(_shipView.ShootPoint.position, _shipView.ShootPoint.up);
-                    _ship.PrimaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation, _shipMovement.Physics.Velocity.magnitude);
-                }
+        private void Movement(float axisY, float axisX)
+        {
+            ShipMovement.Move(axisY, -axisX);
 
-                if (_input.CheckPressedFirePrimary())
-                {
-                    _ship.SecondaryWeapon.TryShoot(_shipView.ShootPoint.position,_shipView.ShootPoint.rotation, _shipMovement.Physics.Velocity.magnitude);
-                }
+            Ship.Update();
+        }
+
+        private void Fire()
+        {
+            if (_input.CheckPressedFireSecondary())
+            {
+                Ship.PrimaryWeapon.TryShoot(ShipView.ShootPoint.position,ShipView.ShootPoint.rotation, ShipMovement.Physics.Velocity.magnitude);
+            }
+
+            if (_input.CheckPressedFirePrimary())
+            {
+                Ship.SecondaryWeapon.TryShoot(ShipView.ShootPoint.position,ShipView.ShootPoint.rotation, ShipMovement.Physics.Velocity.magnitude);
             }
         }
 
@@ -64,7 +66,7 @@ namespace Original.Scripts.Core.Entity.PlayerShip
     
         public void Dispose()
         {
-            _ship.OnDeathEvent -= OnDeathEvent;
+            Ship.OnDeathEvent -= OnDeathEvent;
         }
     }
 }

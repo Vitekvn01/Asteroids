@@ -87,7 +87,6 @@ namespace Original.Scripts.Core.Physics
             var colA = a.Collider;
             var colB = b.Collider;
 
-            // Если один объект не хочет сталкиваться с другим по маске — пропускаем
             bool aWantsB = (colA.CollisionMask & colB.Layer) != 0;
             bool bWantsA = (colB.CollisionMask & colA.Layer) != 0;
 

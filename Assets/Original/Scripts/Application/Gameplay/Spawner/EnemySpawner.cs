@@ -56,6 +56,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
         public void Stop()
         {
             _isSpawning = false;
+            ClearSpawnedEnemy();
         }
 
         private void SpawnInitial()
@@ -167,6 +168,14 @@ namespace Original.Scripts.Application.Gameplay.Spawner
 
                 _spawnedEnemies.Add(debris);
                 debris.OnEnemyDeath += OnDebrisDeath;
+            }
+        }
+
+        private void ClearSpawnedEnemy()
+        {
+            foreach (var enemy in _spawnedEnemies)
+            {
+                enemy.Deactivate();
             }
         }
     }

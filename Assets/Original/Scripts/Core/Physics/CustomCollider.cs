@@ -1,5 +1,4 @@
 using Original.Scripts.Core.Interfaces.IPhysics;
-using UnityEngine;
 
 namespace Original.Scripts.Core.Physics
 {

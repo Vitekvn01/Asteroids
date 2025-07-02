@@ -1,7 +1,6 @@
 using Original.Scripts.Application.Gameplay.Spawner;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Signals;
-using Original.Scripts.Infrastructure;
 using UnityEngine;
 using Zenject;
 
