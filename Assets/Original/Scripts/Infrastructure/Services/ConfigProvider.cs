@@ -14,12 +14,12 @@ namespace Original.Scripts.Infrastructure.Services
 
         public ConfigProvider(IConfigLoader loader)
         {
-            PlayerConfig = loader.LoadConfig<PlayerConfig>(nameof(PlayerConfig));
-            WeaponConfig = loader.LoadConfig<WeaponConfig>(nameof(WeaponConfig));
-            AsteroidConfig = loader.LoadConfig<AsteroidConfig>(nameof(AsteroidConfig));
-            UfoConfig = loader.LoadConfig<UfoConfig>(nameof(UfoConfig));
-            RewardConfig = loader.LoadConfig<RewardConfig>(nameof(RewardConfig));
-            WorldConfig = loader.LoadConfig<WorldConfig>(nameof(WorldConfig));
+            PlayerConfig = loader.LoadConfig<PlayerConfig>(nameof(Core.Config.PlayerConfig));
+            WeaponConfig = loader.LoadConfig<WeaponConfig>(nameof(Core.Config.WeaponConfig));
+            AsteroidConfig = loader.LoadConfig<AsteroidConfig>(nameof(Core.Config.AsteroidConfig));
+            UfoConfig = loader.LoadConfig<UfoConfig>(nameof(Core.Config.UfoConfig));
+            RewardConfig = loader.LoadConfig<RewardConfig>(nameof(Core.Config.RewardConfig));
+            WorldConfig = loader.LoadConfig<WorldConfig>(nameof(Core.Config.WorldConfig));
         }
 
     }
