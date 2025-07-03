@@ -3,6 +3,7 @@ using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Presentation.Behavior;
 using UnityEngine;
 using Zenject;
 

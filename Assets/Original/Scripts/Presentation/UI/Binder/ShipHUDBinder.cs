@@ -1,5 +1,6 @@
 using System;
 using Original.Scripts.Presentation.UI.View;
+using Original.Scripts.Presentation.UI.ViewModel;
 using UniRx;
 
 namespace Original.Scripts.Presentation.UI.Binder
