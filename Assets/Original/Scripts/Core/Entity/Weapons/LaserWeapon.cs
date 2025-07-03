@@ -42,7 +42,7 @@ namespace Original.Scripts.Core.Entity.Weapons
     
         public override void TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
         {
-            if (_isCooldownOver == true && CurrentAmmo > 0)
+            if (_isCooldownOver && CurrentAmmo > 0)
             {
                 CurrentAmmo--;
                 OnShootEvent?.Invoke();

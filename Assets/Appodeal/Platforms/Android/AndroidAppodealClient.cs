@@ -1,11 +1,10 @@
 #if UNITY_ANDROID
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using UnityEngine;
-using AppodealAds.Unity.Api;
+using System.Linq;
 using AppodealAds.Unity.Common;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Android
 {

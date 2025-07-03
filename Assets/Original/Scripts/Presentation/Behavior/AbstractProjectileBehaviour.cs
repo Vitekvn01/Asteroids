@@ -9,6 +9,11 @@ namespace Original.Scripts.Presentation.Behavior
         public Transform Transform => gameObject.transform;
         public float RadiusCollider => _radiusCollider;
         
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, _radiusCollider);
+        }
         public void SetActive(bool isActive)
         {
             gameObject.SetActive(isActive);

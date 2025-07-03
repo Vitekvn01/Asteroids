@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Original.Scripts.Core.Interfaces.IView;
 using UnityEngine;
 

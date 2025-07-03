@@ -1,14 +1,13 @@
-﻿using UnityEditor;
-using UnityEngine;
-using System.Reflection;
-using System;
-using System.Collections.Generic;
-using System.Xml;
-using System.Text.RegularExpressions;
-using System.IO;
+﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Xml;
+using UnityEditor;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Editor.Utils
 {

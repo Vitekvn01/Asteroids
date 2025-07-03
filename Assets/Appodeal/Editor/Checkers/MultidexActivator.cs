@@ -1,13 +1,13 @@
-﻿using System.Text.RegularExpressions;
-using UnityEngine;
-using UnityEditor;
-using System.IO;
-using System;
-using System.Xml;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Debug = System.Diagnostics.Debug;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Xml;
 using AppodealAds.Unity.Editor.Utils;
+using UnityEditor;
+using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 
 namespace AppodealAds.Unity.Editor.Checkers

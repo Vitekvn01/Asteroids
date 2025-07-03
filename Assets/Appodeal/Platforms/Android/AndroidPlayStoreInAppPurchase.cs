@@ -1,8 +1,7 @@
 #if UNITY_ANDROID
 using System;
-using UnityEngine;
-using AppodealAds.Unity.Api;
 using AppodealAds.Unity.Common;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Android
 {

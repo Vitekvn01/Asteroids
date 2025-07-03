@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using AppodealAds.Unity.Common;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Dummy
 {

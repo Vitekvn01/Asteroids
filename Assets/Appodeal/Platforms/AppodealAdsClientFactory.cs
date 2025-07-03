@@ -1,5 +1,4 @@
-﻿using AppodealAds.Unity.Api;
-using AppodealAds.Unity.Common;
+﻿using AppodealAds.Unity.Common;
 
 namespace AppodealAds.Unity
 {

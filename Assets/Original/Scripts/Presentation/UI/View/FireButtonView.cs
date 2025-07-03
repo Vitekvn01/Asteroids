@@ -3,7 +3,6 @@ using Original.Scripts.Core;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace Original.Scripts.Presentation.UI.View
 {

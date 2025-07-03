@@ -1,10 +1,7 @@
 using System;
-using Original.Scripts.Core.Interfaces.IService;
-using Original.Scripts.Core.Signals;
 using Original.Scripts.Presentation.UI.View;
 using Original.Scripts.Presentation.UI.ViewModel;
 using UniRx;
-using Zenject;
 
 namespace Original.Scripts.Presentation.UI.Binder
 {

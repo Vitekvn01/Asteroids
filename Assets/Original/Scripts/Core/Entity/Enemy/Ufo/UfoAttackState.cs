@@ -16,7 +16,8 @@ namespace Original.Scripts.Core.Entity.Enemy.Ufo
 
         public void Enter()
         {
-            
+            Vector2 velocitySpeed = new Vector2(0,0);
+            _ufo.Physics.SetVelocity(velocitySpeed);
         }
 
         public void Update()

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using AppodealAds.Unity.Editor.Utils;
 using UnityEditor;
 using UnityEngine;
-using AppodealAds.Unity.Editor.Utils;
 
 namespace AppodealAds.Unity.Editor.InternalResources
 {

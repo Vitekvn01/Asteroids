@@ -1,4 +1,3 @@
-using Original.Scripts.Core.Signals;
 using Original.Scripts.Core.Signals.inputSignal;
 using UniRx;
 using UnityEngine;

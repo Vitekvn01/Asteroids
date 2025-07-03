@@ -1,4 +1,3 @@
-using Original.Scripts.Core.Entity.Projectiles;
 using UnityEngine;
 
 namespace Original.Scripts.Core.Entity.Weapons

@@ -1,9 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UniRx;
-using UnityEngine.Serialization;
 
 namespace Original.Scripts.Presentation.UI.View
 {

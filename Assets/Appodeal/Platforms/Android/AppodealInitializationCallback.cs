@@ -1,7 +1,7 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using AppodealAds.Unity.Common;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Android
 {

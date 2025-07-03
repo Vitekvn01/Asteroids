@@ -1,4 +1,3 @@
-using System;
 using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IService;
 using UnityEngine;
@@ -33,7 +32,6 @@ namespace Original.Scripts.Core.Entity.Weapons
         
         public virtual void TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
         {
-
             if (_isCooldownOver)
             {
                 _shootTimer = _cooldownTime;
@@ -42,7 +40,7 @@ namespace Original.Scripts.Core.Entity.Weapons
             }
         }
     
-        protected void UpdateShootTimer()
+        private void UpdateShootTimer()
         {
             if (_shootTimer <= 0)
             {
