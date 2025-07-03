@@ -24,8 +24,17 @@ namespace Original.Scripts.Presentation.UI.Binder
             _viewModel.Score
                 .Subscribe(value => _view.ScoreText.text = $"Score: {value}")
                 .AddTo(_disposables);
+            
             _viewModel.MaxScore
                 .Subscribe(value => _view.MaxScoreText.text = $"Record: {value}")
+                .AddTo(_disposables);
+            
+            _viewModel.PlayerDead
+                .Subscribe(_ => _view.Hide())
+                .AddTo(_disposables);
+            
+            _viewModel.OnStartPlay
+                .Subscribe(_ => _view.Show())
                 .AddTo(_disposables);
         }
 

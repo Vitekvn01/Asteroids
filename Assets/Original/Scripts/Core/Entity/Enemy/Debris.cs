@@ -81,7 +81,6 @@ namespace Original.Scripts.Core.Entity.Enemy
 
         public void OnTriggerEnter(ICustomCollider other)
         {
-
         }
 
         public void OnCollisionEnter(ICustomCollider other)

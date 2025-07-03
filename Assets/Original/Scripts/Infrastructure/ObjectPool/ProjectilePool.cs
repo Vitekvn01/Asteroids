@@ -17,10 +17,12 @@ namespace Original.Scripts.Infrastructure.ObjectPool
         private readonly List<Projectile> _pool = new();
 
         [Inject]
-        public ProjectilePool(IProjectileFactory projectileFactory, Transform parent = null)
+        public ProjectilePool(IProjectileFactory projectileFactory)
         {
             _projectileFactory = projectileFactory;
-            _parent = parent;
+            
+            var parentObj = new GameObject("ProjectilePool");
+            _parent = parentObj.transform;
         
             for (int i = 0; i < InitialSize; i++)
             {
@@ -29,8 +31,16 @@ namespace Original.Scripts.Infrastructure.ObjectPool
                 AddToPool(ProjectileType.Laser);
             }
         }
-
-        public Projectile AddToPool(ProjectileType type)
+        
+        public Projectile Get(ProjectileType type, Vector3 pos, Quaternion rotation)
+        {
+            var instance = _pool.FirstOrDefault
+                (p => !p.IsActive && MatchType(p, type)) ?? AddToPool(type);
+            instance.Activate(pos, rotation);
+            return instance;
+        }
+        
+        private Projectile AddToPool(ProjectileType type)
         {
             Vector3 pos = Vector3.zero;
             float angleZ = 0;
@@ -39,13 +49,6 @@ namespace Original.Scripts.Infrastructure.ObjectPool
             instance.Deactivate();
 
             _pool.Add(instance);
-            return instance;
-        }
-
-        public Projectile Get(ProjectileType type, Vector3 pos, Quaternion rotation)
-        {
-            var instance = _pool.FirstOrDefault(p => !p.IsActive && MatchType(p, type)) ?? AddToPool(type);
-            instance.Activate(pos, rotation);
             return instance;
         }
     

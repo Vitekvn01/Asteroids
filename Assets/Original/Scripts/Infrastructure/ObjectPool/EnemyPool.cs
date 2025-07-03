@@ -22,10 +22,12 @@ namespace Original.Scripts.Infrastructure.ObjectPool
         private readonly List<IEnemy> _pool = new();
         
         [Inject]
-        public EnemyPool(IEnemyFactory enemyFactory, Transform parent = null) 
+        public EnemyPool(IEnemyFactory enemyFactory) 
         {
             _enemyFactory = enemyFactory;
-            _parent = parent;
+            
+             var parentObj = new GameObject("EnemyPool");
+             _parent = parentObj.transform;
         
             for (int i = 0; i < InitialSizeAsteroid; i++)
             {
@@ -43,9 +45,17 @@ namespace Original.Scripts.Infrastructure.ObjectPool
             }
 
         }
-
         
-        public IEnemy AddToPool(EnemyType type)
+        public IEnemy Get(EnemyType enemyType, Vector3 pos, Quaternion rotation)
+        {
+            var instance = _pool.FirstOrDefault
+                (enemy => !enemy.IsActive && MatchType(enemy, enemyType)) ?? AddToPool(enemyType);
+            
+            instance.Activate(pos, rotation);
+            return instance;
+        }
+        
+        private IEnemy AddToPool(EnemyType type)
         {   
             Vector3 pos = new Vector3(0, 0, 0);
             float angleZ = 0;
@@ -70,15 +80,6 @@ namespace Original.Scripts.Infrastructure.ObjectPool
             instance.Deactivate();
             _pool.Add(instance);
             Debug.Log($"AddToPool + {InitialSizeUfo}" + instance.Type);
-            return instance;
-        }
-
-        public IEnemy Get(EnemyType enemyType, Vector3 pos, Quaternion rotation)
-        {
-            var instance = _pool.FirstOrDefault(enemy
-                => !enemy.IsActive && MatchType(enemy, enemyType)) ?? AddToPool(enemyType);
-            
-            instance.Activate(pos, rotation);
             return instance;
         }
         

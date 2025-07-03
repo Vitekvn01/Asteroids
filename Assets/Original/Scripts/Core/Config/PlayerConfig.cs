@@ -1,6 +1,8 @@
+using System;
+
 namespace Original.Scripts.Core.Config
 {
-    [System.Serializable]
+    [Serializable]
     public class PlayerConfig
     {
         public int Health;

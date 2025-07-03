@@ -12,8 +12,8 @@ namespace Original.Scripts.Application.Installers
         [SerializeField] private ScoreView _scoreView;
         [SerializeField] private StartWindowView _startWindowView;
         [SerializeField] private JoystickView _joystickView;
-        [SerializeField] private FireButtonView _fireButtonPrimary;
-        [SerializeField] private FireButtonView _fireButtonSecondary;
+        [SerializeField] private FireButtonPrimaryView _fireButtonPrimary;
+        [SerializeField] private FireButtonSecondaryView _fireButtonSecondary;
         public override void InstallBindings()
         {
             BindUIPrefabs();
@@ -36,12 +36,10 @@ namespace Original.Scripts.Application.Installers
             Container.Bind<JoystickView>()
                 .FromInstance(_joystickView);
 
-            Container.Bind<FireButtonView>()
-                .WithId("Primary")
+            Container.Bind<FireButtonPrimaryView>()
                 .FromInstance(_fireButtonPrimary);
         
-            Container.Bind<FireButtonView>()
-                .WithId("Secondary")
+            Container.Bind<FireButtonSecondaryView>()
                 .FromInstance(_fireButtonSecondary);
         
         }

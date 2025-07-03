@@ -1,5 +1,8 @@
+using System;
+
 namespace Original.Scripts.Core.Config
 {
+    [Serializable]
     public class WeaponConfig
     {
         public float BulletLifetime;

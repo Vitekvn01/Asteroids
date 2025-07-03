@@ -18,8 +18,8 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         private readonly ScoreView _scoreView;
         private readonly StartWindowView _startWindowView; 
         private readonly JoystickView _joystickView;
-        private readonly FireButtonView _fireButtonPrimaryView;
-        private readonly FireButtonView _fireButtonSecondaryView;
+        private readonly FireButtonPrimaryView _fireButtonPrimaryView;
+        private readonly FireButtonSecondaryView _fireButtonSecondaryView;
         
         private readonly IScore _score;
         
@@ -31,8 +31,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         public UIFactory(DiContainer diContainer, ShipHUDView hudView, ScoreView scoreView, JoystickView joystickView,
             IScore score,  TickableManager tickableManager, DisposableManager disposableManager,
             StartWindowView startWindowView, SignalBus signalBus, Canvas parent, 
-            [Inject(Id = "Primary")] FireButtonView fireButtonPrimaryView,
-            [Inject(Id = "Secondary")] FireButtonView fireButtonSecondaryView)
+            FireButtonPrimaryView fireButtonPrimaryView, FireButtonSecondaryView fireButtonSecondaryView)
         {
             _shipHUDView = hudView;
             _scoreView = scoreView;
@@ -55,7 +54,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
             var shipHudView = _diContainer.InstantiatePrefabForComponent<ShipHUDView>(_shipHUDView.gameObject,
                 _parent.gameObject.transform);
             
-            var hudViewModel = new ShipHUDViewModel(shipController);
+            var hudViewModel = new ShipHUDViewModel(_signalBus, shipController);
             _tickableManager.Add(hudViewModel);
             
             var shipHudBinder = new ShipHUDBinder(shipHudView, hudViewModel);
@@ -66,7 +65,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         {
             var scoreView = _diContainer.InstantiatePrefabForComponent<ScoreView>(_scoreView.gameObject
                 ,_parent.gameObject.transform);
-            var scoreViewModel = new ScoreViewModel(_score);
+            var scoreViewModel = new ScoreViewModel(_signalBus, _score);
             var scoreBinder = new ScoreViewBinder(scoreView, scoreViewModel);
             _disposableManager.Add(scoreBinder);
         }
@@ -100,7 +99,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         
         private void CreateFireButtonPrimary()
         {
-            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonView>(
+            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonPrimaryView>(
                 _fireButtonPrimaryView.gameObject, _parent.gameObject.transform);
 
             var fireButtonViewModel = new FireButtonViewModel(_signalBus);
@@ -112,7 +111,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
 
         private void CreateFireButtonSecondary()
         {
-            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonView>(
+            var fireButtonView = _diContainer.InstantiatePrefabForComponent<FireButtonSecondaryView>(
                 _fireButtonSecondaryView.gameObject, _parent.gameObject.transform);
 
             var fireButtonViewModel = new FireButtonViewModel(_signalBus);

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6201053630029282792}
   - component: {fileID: 7062569559522175495}
-  - component: {fileID: 5109635058744562379}
+  - component: {fileID: -3669246029598813549}
   m_Layer: 0
   m_Name: Debris
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5109635058744562379
+--- !u!114 &-3669246029598813549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 490035347366493243}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb4e4b2a3ea3b834b815c0f8dcc9430f, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d0632c52a84d4f8f7398af7e5ec34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _radiusCollider: 0.6

@@ -10,6 +10,6 @@ namespace Original.Scripts.Core.Interfaces.IService
         public UfoConfig UfoConfig { get; }
         public WorldConfig WorldConfig { get; }
         public RewardConfig RewardConfig { get; }
-        T LoadConfig<T>(string path);
+        
     }
 }

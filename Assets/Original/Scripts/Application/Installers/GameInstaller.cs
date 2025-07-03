@@ -11,6 +11,7 @@ using Original.Scripts.Infrastructure.ObjectPool;
 using Original.Scripts.Infrastructure.Services;
 using Original.Scripts.Infrastructure.Services.Factories;
 using Original.Scripts.Infrastructure.Services.Inputs;
+using Original.Scripts.Presentation.Behavior;
 using UnityEngine;
 using Zenject;
 
@@ -21,10 +22,10 @@ namespace Original.Scripts.Application.Installers
         [SerializeField] private Camera _mainCamera;
         
         [SerializeField] private ProjectileBehaviour _projectilePrefab;
-        [SerializeField] private ProjectileBehaviour _laserProjectilePrefab;
+        [SerializeField] private LaserProjectileBehavior _laserProjectilePrefab;
         [SerializeField] private ShipBehaviour _shipPrefab;
         [SerializeField] private AsteroidBehaviour _asteroidPrefab;
-        [SerializeField] private AsteroidBehaviour _debrisPrefab;
+        [SerializeField] private DebrisBehaviour _debrisPrefab;
         [SerializeField] private UfoBehaviour _ufoBehaviour;
 
 
@@ -56,19 +57,15 @@ namespace Original.Scripts.Application.Installers
                 .FromInstance(_shipPrefab);
 
             Container.Bind<ProjectileBehaviour>()
-                .WithId("BulletProjectile")
                 .FromInstance(_projectilePrefab);
 
-            Container.Bind<ProjectileBehaviour>()
-                .WithId("LaserProjectile")
+            Container.Bind<LaserProjectileBehavior>()
                 .FromInstance(_laserProjectilePrefab);
 
             Container.Bind<AsteroidBehaviour>()
-                .WithId("Asteroid")
                 .FromInstance(_asteroidPrefab);
         
-            Container.Bind<AsteroidBehaviour>()
-                .WithId("Debris")
+            Container.Bind<DebrisBehaviour>()
                 .FromInstance(_debrisPrefab);
         
             Container.Bind<UfoBehaviour>()
@@ -78,8 +75,7 @@ namespace Original.Scripts.Application.Installers
         private void BindSettings()
         {
             Container.Bind<PhysicsSettings>()
-                .AsSingle()
-                .WithArguments( 100f);
+                .AsSingle();
         }
 
         private void BindFactories()
@@ -111,7 +107,7 @@ namespace Original.Scripts.Application.Installers
 
         private void BindGameLogic()
         {
-            Container.BindInterfacesAndSelfTo<PlayerSpawner>()
+            Container.Bind<PlayerSpawner>()
                 .AsSingle();
 
             Container.Bind<EnemySpawner>()
@@ -158,8 +154,12 @@ namespace Original.Scripts.Application.Installers
             Container.BindInterfacesTo<ManualFixedTickManager>()
                 .AsSingle();
             
-            Container.Bind<IConfigProvider>()
+            Container.Bind<IConfigLoader>()
                 .To<ConfigLoader>()
+                .AsSingle();
+            
+            Container.Bind<IConfigProvider>()
+                .To<ConfigProvider>()
                 .AsSingle();
             
             Container.Bind<IRewardSystem>().

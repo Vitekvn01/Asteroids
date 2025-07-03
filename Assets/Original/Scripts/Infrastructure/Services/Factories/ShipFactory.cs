@@ -45,11 +45,10 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                 pos, Quaternion.Euler(0,0, rot), null);
 
             bool isTrigger = false;
-            bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Player;
             PhysicsLayer collisionMask = PhysicsLayer.Enemy;
             ICustomCollider customCollider = new CustomCollider(behaviour.RadiusCollider, 
-                isTrigger, isActive, layer, collisionMask);
+                isTrigger, layer, collisionMask);
         
             CustomPhysics customPhysics = _physicsFactory
                 .Create(pos, behaviour.transform.rotation.eulerAngles.z, 1f, 5f, customCollider);

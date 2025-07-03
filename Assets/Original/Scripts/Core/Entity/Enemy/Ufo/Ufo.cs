@@ -116,7 +116,6 @@ namespace Original.Scripts.Core.Entity.Enemy.Ufo
             OnEnemyDeath?.Invoke(this);
             _signalBus.Fire(new EnemyDestroyedSignal(Type));
             Deactivate();
-            Debug.Log("Projectile death");
         }
         
         public void OnTriggerEnter(ICustomCollider other)

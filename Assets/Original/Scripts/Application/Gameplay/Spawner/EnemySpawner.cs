@@ -164,7 +164,7 @@ namespace Original.Scripts.Application.Gameplay.Spawner
                 Quaternion rot = Quaternion.Euler(0, 0, angle);
 
                 IEnemy debris = _enemyPool.Get(EnemyType.Debris, physics.Position, rot);
-                ((Debris)debris).SetSpeed(physics.Velocity.magnitude);
+                debris.SetSpeed(physics.Velocity.magnitude);
 
                 _spawnedEnemies.Add(debris);
                 debris.OnEnemyDeath += OnDebrisDeath;

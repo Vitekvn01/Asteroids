@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace Original.Scripts.Presentation.UI.View
 {
-    public class FireButtonView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public abstract class FireButtonView : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         [SerializeField] private ShootType _type;
 

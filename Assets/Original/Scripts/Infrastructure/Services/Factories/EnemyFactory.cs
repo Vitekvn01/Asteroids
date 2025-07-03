@@ -5,6 +5,7 @@ using Original.Scripts.Core.Entity.Weapons;
 using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Presentation.Behavior;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -28,7 +29,7 @@ namespace Original.Scripts.Infrastructure.Services.Factories
     
         [Inject]
         public EnemyFactory(DiContainer diContainer, TickableManager tickableManager, SignalBus signalBus, 
-            [Inject(Id = "Asteroid")]AsteroidBehaviour asteroidPrefab, [Inject(Id = "Debris")] AsteroidBehaviour debrisPrefab, ICustomPhysicsFactory physicsFactory,
+            AsteroidBehaviour asteroidPrefab, DebrisBehaviour debrisPrefab, ICustomPhysicsFactory physicsFactory,
             UfoBehaviour ufoBehaviour, IWeaponFactory weaponFactory, IConfigProvider configLoader)
         {
             _diContainer = diContainer;
@@ -69,11 +70,11 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = false;
-            bool isActive = true;
             PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
             PhysicsLayer collisionMask = PhysicsLayer.Player;
             
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger,
+                asteroidLayer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);
@@ -95,11 +96,11 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = false;
-            bool isActive = true;
             PhysicsLayer asteroidLayer = PhysicsLayer.Ufo | PhysicsLayer.Enemy;
             PhysicsLayer collisionMask = PhysicsLayer.Player | PhysicsLayer.Ufo;
             
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger,
+                asteroidLayer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 2, 1, customCollider);
@@ -123,16 +124,16 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         
         private Debris CreateDebris(Vector3 position, float rotation, Transform parent)
         {
-            AsteroidBehaviour createdView =
-                _diContainer.InstantiatePrefabForComponent<AsteroidBehaviour>(_debrisPrefab.gameObject,
+            DebrisBehaviour createdView =
+                _diContainer.InstantiatePrefabForComponent<DebrisBehaviour>(_debrisPrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = false;
-            bool isActive = true;
             PhysicsLayer asteroidLayer = PhysicsLayer.Enemy;
             PhysicsLayer collisionMask = PhysicsLayer.Player;
             
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, asteroidLayer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger,
+                asteroidLayer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 1, customCollider);

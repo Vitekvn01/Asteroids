@@ -4,11 +4,9 @@ namespace Original.Scripts.Core.Interfaces.IPhysics
 {
     public interface ICustomCollider
     {
-        bool IsActive { get; }
         bool IsTrigger { get; }
         
         float Radius { get; }
-        
         
         IColliderHandler Handler { get; }
         

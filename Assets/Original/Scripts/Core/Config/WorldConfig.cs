@@ -1,5 +1,8 @@
+using System;
+
 namespace Original.Scripts.Core.Config
 {
+    [Serializable]
     public class WorldConfig
     {
         public float Width;

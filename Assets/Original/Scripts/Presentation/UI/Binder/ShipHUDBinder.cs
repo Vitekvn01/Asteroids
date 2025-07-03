@@ -43,6 +43,14 @@ namespace Original.Scripts.Presentation.UI.Binder
             _viewModel.LaserCooldown
                 .Subscribe(cd => _view.LaserCooldownText.text = $"Cooldown: {cd:0.0}s")
                 .AddTo(_disposables);
+            
+            _viewModel.PlayerDead
+                .Subscribe(_ => _view.Hide())
+                .AddTo(_disposables);
+            
+            _viewModel.OnStartPlay
+                .Subscribe(_ => _view.Show())
+                .AddTo(_disposables);
         }
 
         public void Dispose()

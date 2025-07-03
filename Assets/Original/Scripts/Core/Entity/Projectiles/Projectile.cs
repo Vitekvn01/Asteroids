@@ -44,8 +44,6 @@ namespace Original.Scripts.Core.Entity.Projectiles
         {
             if (_isActive)
             {
-                Debug.DrawRay(_view.Transform.position, _physics.Velocity.normalized * 10, Color.red);
-                Debug.DrawRay(_view.Transform.position, _view.Transform.up * 10, Color.green);
                 _view.Transform.position = _physics.Position;
                 _view.Transform.rotation =  Quaternion.Euler(0, 0, _physics.Rotation);
                 _timer += Time.deltaTime;
@@ -102,12 +100,10 @@ namespace Original.Scripts.Core.Entity.Projectiles
             }
             
             Deactivate();
-            Debug.Log("projetcile trigger");
         }
 
         public void OnCollisionEnter(ICustomCollider other)
         {
-            Debug.Log("projetcile collision");
         }
     
     }

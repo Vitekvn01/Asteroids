@@ -3,6 +3,7 @@ using Original.Scripts.Core.Entity.Projectiles;
 using Original.Scripts.Core.Interfaces.IPhysics;
 using Original.Scripts.Core.Interfaces.IService;
 using Original.Scripts.Core.Physics;
+using Original.Scripts.Presentation.Behavior;
 using UnityEngine;
 using Zenject;
 
@@ -15,15 +16,14 @@ namespace Original.Scripts.Infrastructure.Services.Factories
   
         
         private readonly ProjectileBehaviour _bulletProjectilePrefab;
-        private readonly ProjectileBehaviour _laserProjectilePrefab;
+        private readonly LaserProjectileBehavior _laserProjectilePrefab;
         private readonly ICustomPhysicsFactory _physicsFactory;
         
         private readonly IConfigProvider _configProvider;
     
         [Inject]
         public ProjectileFactory(DiContainer diContainer, TickableManager tickableManager, 
-            [Inject(Id = "BulletProjectile")] ProjectileBehaviour bulletProjectilePrefab,
-            [Inject(Id = "LaserProjectile")] ProjectileBehaviour laserProjectilePrefab,
+            ProjectileBehaviour bulletProjectilePrefab, LaserProjectileBehavior laserProjectilePrefab,
             ICustomPhysicsFactory physicsFactory, IConfigProvider configProvider)
         {
             _diContainer = diContainer;
@@ -64,10 +64,10 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = true;
-            bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Projectile;
             PhysicsLayer collisionMask = PhysicsLayer.Enemy | PhysicsLayer.Player;
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, layer,
+                collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);
@@ -84,15 +84,14 @@ namespace Original.Scripts.Infrastructure.Services.Factories
         
         public Projectile CreateLaser(Vector3 position, float rotation = 0, Transform parent = null)
         {
-            ProjectileBehaviour createdView =
-                _diContainer.InstantiatePrefabForComponent<ProjectileBehaviour>(_laserProjectilePrefab.gameObject,
+            LaserProjectileBehavior createdView =
+                _diContainer.InstantiatePrefabForComponent<LaserProjectileBehavior>(_laserProjectilePrefab.gameObject,
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = true;
-            bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Projectile;
             PhysicsLayer collisionMask = PhysicsLayer.Enemy;
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer,
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, layer,
                 collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
@@ -115,10 +114,9 @@ namespace Original.Scripts.Infrastructure.Services.Factories
                     position, Quaternion.Euler(0, 0, rotation), parent);
 
             bool isTrigger = true;
-            bool isActive = true;
             PhysicsLayer layer = PhysicsLayer.Projectile;
             PhysicsLayer collisionMask = PhysicsLayer.Player;
-            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, isActive, layer, collisionMask);
+            ICustomCollider customCollider = new CustomCollider(createdView.RadiusCollider, isTrigger, layer, collisionMask);
         
             CustomPhysics physics = _physicsFactory.Create(createdView.transform.position,
                 createdView.transform.rotation.eulerAngles.z, 0, 0, customCollider);

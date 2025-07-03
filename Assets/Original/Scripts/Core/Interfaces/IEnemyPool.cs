@@ -6,6 +6,5 @@ namespace Original.Scripts.Core.Interfaces
     public interface IEnemyPool
     {
         IEnemy Get(EnemyType type, Vector3 position, Quaternion rotation);
-        IEnemy AddToPool(EnemyType type);
     }
 }

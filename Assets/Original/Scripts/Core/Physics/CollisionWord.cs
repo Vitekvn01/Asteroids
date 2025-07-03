@@ -8,20 +8,11 @@ namespace Original.Scripts.Core.Physics
     {
         private readonly List<CustomPhysics> _bodies = new();
 
-        private readonly PhysicsSettings _physicsSettings;
-    
-        [Inject]
-        public CollisionWord(PhysicsSettings physicsSettings)
-        {
-            _physicsSettings = physicsSettings;
-        }
-
         public void Register(CustomPhysics body) => _bodies.Add(body);
         public void Unregister(CustomPhysics body) => _bodies.Remove(body);
     
         public void FixedTick()
         {
-            Debug.Log("FixedTick");
             ResolveAll();
         }
         private void ResolveAll()
@@ -41,56 +32,56 @@ namespace Original.Scripts.Core.Physics
             }
         }
 
-        private void ResolveCollision(CustomPhysics a, CustomPhysics b)
+        private void ResolveCollision(CustomPhysics sender, CustomPhysics receiver)
         {
-            float dist = Vector2.Distance(a.Position, b.Position);
+            float dist = Vector2.Distance(sender.Position, receiver.Position);
         
-            float minDist = a.Collider.Radius + b.Collider.Radius;
+            float minDist = sender.Collider.Radius + receiver.Collider.Radius;
         
             if (dist <= minDist)
             {
-                if (a.Collider.IsTrigger || b.Collider.IsTrigger)
+                if (sender.Collider.IsTrigger || receiver.Collider.IsTrigger)
                 {
-                    if (a.Collider.IsTrigger)
+                    if (sender.Collider.IsTrigger)
                     {
-                        a.Collider.OnTriggerEnter(b.Collider);
+                        sender.Collider.OnTriggerEnter(receiver.Collider);
                     }
                 
-                    if (b.Collider.IsTrigger)
+                    if (receiver.Collider.IsTrigger)
                     {
-                        b.Collider.OnTriggerEnter(a.Collider);
+                        receiver.Collider.OnTriggerEnter(sender.Collider);
                     }
                 }
                 else
                 {
-                    Vector2 delta = a.Position - b.Position;
+                    Vector2 delta = sender.Position - receiver.Position;
                     Vector2 normal = delta.normalized;
                     float penetration = minDist - dist;
                 
-                    a.Collider.OnCollisionEnter(b.Collider);
-                    b.Collider.OnCollisionEnter(a.Collider);
+                    sender.Collider.OnCollisionEnter(receiver.Collider);
+                    receiver.Collider.OnCollisionEnter(sender.Collider);
                 
                 
                     Vector2 correction = normal * (penetration / 2f);
-                    a.SetPosition(a.Position + correction);
-                    b.SetPosition(b.Position - correction);
+                    sender.SetPosition(sender.Position + correction);
+                    receiver.SetPosition(receiver.Position - correction);
                 
-                    a.SetVelocity(Vector2.Reflect(a.Velocity, normal) * a.Bounce);
-                    b.SetVelocity(Vector2.Reflect(b.Velocity, -normal) * b.Bounce);
+                    sender.SetVelocity(Vector2.Reflect(sender.Velocity, normal) * sender.Bounce);
+                    receiver.SetVelocity(Vector2.Reflect(receiver.Velocity, -normal) * receiver.Bounce);
                 }
             }
 
         }
         
-        private bool CanCollide(CustomPhysics a, CustomPhysics b)
+        private bool CanCollide(CustomPhysics sender, CustomPhysics receiver)
         {
-            var colA = a.Collider;
-            var colB = b.Collider;
+            var senderCollider = sender.Collider;
+            var receiverCollider = receiver.Collider;
 
-            bool aWantsB = (colA.CollisionMask & colB.Layer) != 0;
-            bool bWantsA = (colB.CollisionMask & colA.Layer) != 0;
+            bool senderWantsReceiver = (senderCollider.CollisionMask & receiverCollider.Layer) != 0;
+            bool receiverWantsSender = (receiverCollider.CollisionMask & senderCollider.Layer) != 0;
 
-            return aWantsB || bWantsA;
+            return senderWantsReceiver || receiverWantsSender;
         }
  
     }

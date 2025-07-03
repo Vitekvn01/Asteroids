@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Original.Scripts.Application.Gameplay.Spawner
 {
-   public class PlayerSpawner : IInitializable
+   public class PlayerSpawner
    {
       private readonly IShipFactory _shipFactory;
       private readonly IUIFactory _uiFactory;
@@ -28,12 +28,6 @@ namespace Original.Scripts.Application.Gameplay.Spawner
          _shipController = _shipFactory.Create(_spawnPos);
          _shipController.Ship.Deactivate();
       }
-      
-      public void Initialize()
-      {
-
-      }
-
       public void Spawn()
       {
          _shipController.Ship.Activate(_spawnPos, Quaternion.Euler(0,0,_angle));

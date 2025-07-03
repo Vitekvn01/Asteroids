@@ -1,16 +1,23 @@
 using System;
 using Original.Scripts.Core.Entity.PlayerShip;
 using Original.Scripts.Core.Entity.Weapons;
+using Original.Scripts.Core.Signals;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
 public class ShipHUDViewModel : ITickable, IDisposable
 {
+    private readonly SignalBus _signalBus;
+    
     private readonly Ship _ship;
     private readonly ShipMovement _movement;
     private readonly LaserWeapon _laserWeapon;
     
+    private readonly Subject<Unit> _onStartPlay = new();
+    private readonly Subject<Unit> _onPlayerDead = new();
+    public IObservable<Unit> OnStartPlay => _onStartPlay;
+    public IObservable<Unit> PlayerDead => _onPlayerDead;
     public ReactiveProperty<int> Health { get; } = new();
     public ReactiveProperty<int> LaserAmmo { get; } = new();
     public ReactiveProperty<float> Rotation { get; } = new();
@@ -21,24 +28,25 @@ public class ShipHUDViewModel : ITickable, IDisposable
 
     private readonly CompositeDisposable _disposables = new();
 
-    public ShipHUDViewModel(ShipController shipController)
+    public ShipHUDViewModel(SignalBus signalBus, ShipController shipController)
     {
+        _signalBus = signalBus;
         _ship = shipController.Ship;
         _movement = shipController.ShipMovement;
         
         _laserWeapon = _ship.SecondaryWeapon as LaserWeapon;
+        
         if (_laserWeapon != null)
         {
             LaserAmmo.Value = _laserWeapon.CurrentAmmo;
             _laserWeapon.OnChangedAmmoEvemt += OnChangedAmmo;
         }
-        else
-        {
-            
-        }
         
         Health.Value = _ship.Health;
         _ship.OnChangedHealthEvent += OnChangedHealth;
+        
+        _signalBus.Subscribe<PlayerDeadSignal>(OnPlayerDead);
+        _signalBus.Subscribe<StartGameSignal>(OnStartGame);
     }
 
     public void Tick()
@@ -83,5 +91,15 @@ public class ShipHUDViewModel : ITickable, IDisposable
     private void OnChangedAmmo(int newAmmo)
     {
         LaserAmmo.Value = newAmmo;
+    }
+    
+    private void OnStartGame(StartGameSignal signal)
+    {
+        _onStartPlay.OnNext(Unit.Default);
+    }
+    
+    private void OnPlayerDead(PlayerDeadSignal signal)
+    {
+        _onPlayerDead.OnNext(Unit.Default);
     }
 }

@@ -68,9 +68,9 @@ namespace Original.Scripts.Core.Entity.Enemy
             _isActive = false;
         }
 
-        public void SetSpeed(float speeed)
+        public void SetSpeed(float speed)
         {
-            _speed = speeed;
+            _speed = speed;
         }
         
         public void Death()
@@ -82,16 +82,10 @@ namespace Original.Scripts.Core.Entity.Enemy
         
         public void OnTriggerEnter(ICustomCollider other)
         {
-            Debug.Log("asteriod trigger");
         }
         
         public void OnCollisionEnter(ICustomCollider other)
         {
-            Debug.Log("asteriod collision");
         }
-        
-
-        
-        
     }
 }

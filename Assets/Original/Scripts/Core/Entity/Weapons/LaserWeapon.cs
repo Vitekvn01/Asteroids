@@ -40,22 +40,17 @@ namespace Original.Scripts.Core.Entity.Weapons
             _refillTimer = _refillTime;
         }
     
-        public override bool TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
+        public override void TryShoot(Vector2 position, Quaternion rotation, float speedParent = 0)
         {
-            bool isCanShoot = false;
-
             if (_isCooldownOver == true && CurrentAmmo > 0)
             {
                 CurrentAmmo--;
                 OnShootEvent?.Invoke();
                 _shootTimer = _cooldownTime; 
-                isCanShoot = true;
-                Debug.Log("ShootLaserWeapon");
                 _isCooldownOver = false;
-                _projectilePool.Get(ProjectileType, position, rotation).Lunch(speedParent);
+                _projectilePool.Get(_projectileType, position, rotation).Lunch(speedParent);
             }
-
-            return isCanShoot;
+            
         }
 
         public override void Update()

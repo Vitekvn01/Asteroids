@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7557443794648127512}
   - component: {fileID: 8590257272927076867}
   - component: {fileID: 7057858058936263484}
-  - component: {fileID: 7834472177002184097}
+  - component: {fileID: 4175447071862621703}
   m_Layer: 5
   m_Name: FireButtonPrimary
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7834472177002184097
+--- !u!114 &4175447071862621703
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1733679221986436657}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b505c888a3548598c586a479848899a, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e652596de740dcb28cb07a0c8e327e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _type: 0

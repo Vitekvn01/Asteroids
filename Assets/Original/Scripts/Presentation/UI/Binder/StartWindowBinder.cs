@@ -31,10 +31,7 @@ namespace Original.Scripts.Presentation.UI.Binder
                 .AddTo(_disposables);
             
             _viewModel.PlayerDead
-                .Subscribe(_ =>
-                {
-                    _view.Show();
-                })
+                .Subscribe(_ =>_view.Show())
                 .AddTo(_disposables);
 
             _viewModel.StartClicked
