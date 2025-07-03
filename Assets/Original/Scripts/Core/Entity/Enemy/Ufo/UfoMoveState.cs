@@ -15,26 +15,42 @@ namespace Original.Scripts.Core.Entity.Enemy.Ufo
             _stateMachine = stateMachine;
         }
 
-        public void Enter() {}
+        public void Enter()
+        {
+            if (_ufo.Target == null)
+            {
+                _stateMachine.ChangeState(_stateMachine.UfoIdleState);
+            }
+        }
 
         public void Update()
         {
-            _ufo.RotateToTarget();
-            
-            Vector3 directionToTarget = (Vector3)_ufo.Target.Physics.Position - _ufo.View.Transform.position;
-            float distance = directionToTarget.magnitude;
-            
-            _ufo.Physics.AddForce(_ufo.View.Transform.up * _ufo.Speed);
-
-            if (distance <= _ufo.FireRadius)
+            if (_ufo.Target != null)
             {
-                _stateMachine.ChangeState(_stateMachine.UfoAttackState);
+                _ufo.RotateToTarget();
+            
+                Vector3 directionToTarget = (Vector3)_ufo.Target.Physics.Position - _ufo.View.Transform.position;
+                float distance = directionToTarget.magnitude;
+            
+                _ufo.Physics.AddForce(_ufo.View.Transform.up * _ufo.Speed);
+
+                if (distance <= _ufo.FireRadius)
+                {
+                    _stateMachine.ChangeState(_stateMachine.UfoAttackState);
+                }
+            }
+            else
+            {
+                _stateMachine.ChangeState(_stateMachine.UfoIdleState);
             }
         }
 
         public void Exit()
         {
-            
+            if (_ufo.Target == null)
+            {
+                _stateMachine.ChangeState(_stateMachine.UfoIdleState);
+            }
         }
     }
 }
