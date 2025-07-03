@@ -3,7 +3,7 @@
   "MaxSpeed": 12,
   
   "MinFireRadius":10,
-  "MaxFireRadius": 40,
+  "MaxFireRadius": 25,
   
   "MinFireSpreadAngle": 30,
   "MaxFireSpreadAngle": 90

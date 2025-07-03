@@ -309,7 +309,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 866266495}
-  - {fileID: 745965269}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -317,81 +316,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &745965268
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 745965269}
-  - component: {fileID: 745965271}
-  - component: {fileID: 745965270}
-  m_Layer: 5
-  m_Name: BackgroundHDR
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &745965269
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745965268}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 666686031}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &745965270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745965268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 393638578c6917c44b598bba65d3b8af, type: 2}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4d424ed5f948e0744a7c7c102358b057, type: 3}
-  m_Type: 2
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 0.38
---- !u!222 &745965271
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 745965268}
-  m_CullTransparentMesh: 1
 --- !u!1 &866266494
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,7 +382,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.29
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &866266497
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -604,7 +528,7 @@ MonoBehaviour:
   _laserProjectilePrefab: {fileID: 7862968102896477674, guid: c1518dcc89ae9d143b6d2e7380475878, type: 3}
   _shipPrefab: {fileID: 7791301724432514016, guid: c04ef40560f69ef4395184e4e65e13e8, type: 3}
   _asteroidPrefab: {fileID: 5109635058744562379, guid: 483b71db862d940469b3945d1a60c40e, type: 3}
-  _debrisPrefab: {fileID: 5109635058744562379, guid: 806a8b4e009354a4b99038333184c855, type: 3}
+  _debrisPrefab: {fileID: -3669246029598813549, guid: 806a8b4e009354a4b99038333184c855, type: 3}
   _ufoBehaviour: {fileID: 3917521021620525838, guid: 0327d47dd96df054c994e518ded923ab, type: 3}
 --- !u!114 &1795379437
 MonoBehaviour:
@@ -671,8 +595,8 @@ MonoBehaviour:
   _scoreView: {fileID: 5521808097635000664, guid: b890679303288ad4cb210fa435381830, type: 3}
   _startWindowView: {fileID: 7916541528457351972, guid: 910d872add45a044c9210aedfbbfa8d4, type: 3}
   _joystickView: {fileID: 1400872639009610810, guid: 784aa2648b6743541ac070777443a671, type: 3}
-  _fireButtonPrimary: {fileID: 7834472177002184097, guid: ffc94a703ce3c61479a16ba5f954d15b, type: 3}
-  _fireButtonSecondary: {fileID: 4197807717897919376, guid: cbaf9393b00ae61468198dcb184277db, type: 3}
+  _fireButtonPrimary: {fileID: 0}
+  _fireButtonSecondary: {fileID: 0}
 --- !u!1 &1870843535
 GameObject:
   m_ObjectHideFlags: 0
